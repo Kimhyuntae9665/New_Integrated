@@ -9,6 +9,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 
 export default function LoginView() {
+    // !use state를 통해 컴포넌트 에서 바뀌는 값 관리
+    // ! 눈 알 누르면 password <=> text 로 바뀐다 
     const [showPassword,setshowPassword] = useState<boolean>(false);
     return (
         <Box sx={{ pr: "120px", pl: "120px" }}>
