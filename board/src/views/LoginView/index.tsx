@@ -14,7 +14,7 @@ export default function LoginView() {
         <Box sx={{ pr: "120px", pl: "120px" }}>
             <Grid container spacing={2}>
                 <Grid item lg={7} sm={12}>
-                    <Box sx={{ display: 'flex', height: '100%', flexDirection: 'column', alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', height: '100%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <ContentPasteTwoToneIcon sx={{ fontSize: 40 }} />
                         <Typography variant="h4">환영합니다.</Typography>
                         <Typography variant="h4">HOONS BOARD 입니다</Typography>
