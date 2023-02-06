@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Document</title>
+
+    <style>
+        body{
+            width : 100%;
+            height: 500px;
+            font-size: 4.5em;
+            text-align:left;
+            color: purple;
+        }
+
+        .row1{
+            width:70%;
+            height: 120px;
+            border: 3px solid black;
+            margin: 1px;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .row2{
+            width:70%;
+            height: 120px;
+            border: 3px solid black;
+            margin: 2px;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .row3{
+            width:70%;
+            height: 120px;
+            border: 3px solid black;
+            margin: 2px;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .row4{
+            width:70%;
+            height: 120px;
+            border: 3px solid black;
+            margin: 2px;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .row5{
+            width:70%;
+            height: 120px;
+            border: 3px solid black;
+            margin: 2px;
+            display: flex;
+            box-sizing: border-box;
+        }
+        .row1-item1,.row2-item1,.row3-item1,.row4-item1,.row5-item1{
+            width: 200px;
+            
+            text-align: center;
+            border-right:  solid black;
+            padding:2px;
+            
+        }
+
+        .row1-item2,.row2-item2,.row3-item2,.row4-item2,.row5-item2{
+            width: 200px;
+            text-align: center;
+            padding:2px;
+            
+        }
+
+        .row1-item1:hover,.row1-item2:hover,.row2-item1:hover,.row2-item2:hover,.row3-item1:hover,.row3-item2:hover,.row4-item1:hover,.row4-item2:hover,.row5-item1:hover,.row5-item2:hover{
+            height: 100px;
+            background-color:darkkhaki;
+        }
+
+        .dropbtn {
+            width: 5%;
+            height: 100px;
+            background-color: white;
+            color: purple;
+            padding: 16px;
+            font-size: 16px;
+            border: 3px solid black;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+
+        .dropdown-content a {
+            color: black;
+            padding: 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color:yellowgreen}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        .dropdown:hover .dropbtn {
+            
+            background-color: #3e8e41;
+        }
+
+    </style>
+</head>
+<body>
+    <div class ="dropdown">
+        <button class="dropbtn"><a>1</a></button>
+        <div class ="dropdown-content">
+
+            <div class ="row1">
+            
+            
+                <div class = "row1-item1"><a href ="https://www.google.co.kr/">1</a></div> 
+                <div class = "row1-item2"><a href ="https://www.naver.com/">2</a></div>
+            
+            </div>
+    
+            <div class ="row2">
+                
+                
+                <div class = "row2-item1"><a href ="https://www.pusan.ac.kr/kor/Main.do">3</a></div> 
+                <div class = "row2-item2"><a href ="https://www.naver.com/">4</a></div>
+            
+            </div>
+    
+            <div class ="row3">
+                
+                
+                <div class = "row3-item1"><a href ="https://www.google.co.kr/">5</a></div> 
+                <div class = "row3-item2"><a href ="https://www.pusan.ac.kr/kor/Main.do">6</a></div>
+            
+            </div>
+    
+            <div class ="row4">
+                
+                
+                <div class = "row4-item1"><a href ="https://www.google.co.kr/">7</a></div> 
+                <div class = "row4-item2"><a href ="https://www.naver.com/">8</a></div>
+            
+            </div>
+    
+            <div class ="row5">
+                
+                
+                <div class = "row5-item1"><a href ="https://www.pusan.ac.kr/kor/Main.do">9</a></div> 
+                <div class = "row5-item2"><a href ="https://www.naver.com/">10</a></div>
+            
+            </div>
+            
+        </div>
+    </div>
+    
+</body>
+</html>
