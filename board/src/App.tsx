@@ -1,13 +1,13 @@
 
 import './App.css';
-import LoginView from './views/LoginView';
+import AuthenticationView from './views/AuthenticationView';
 import NavigationBar from './views/NavigationBar';
 
 function App() {
   return (
     <>
       <NavigationBar/>
-      <LoginView />
+      <AuthenticationView/>
     </>
     
   );
