@@ -66,6 +66,7 @@ function SecondPage(){
     return(
       <Box>
         <TextField sx={{mt:'40px'}} fullWidth label='닉네임*' variant='standard' value={nickName} onChange={(event)=>setnickName(event.target.value)}/>
+                                                                                                    {/* 원래 nickName의 값이 바뀌면(event) setnickName 함수가 바뀌는 데로 nickName변수의 값을 바꿔준다  */}
         <TextField sx={{mt:'40px'}} fullWidth label='휴대폰 번호*' variant='standard' value={telNumber} onChange={(event)=>settelNumber(event.target.value)}/>
 
         <FormControl fullWidth variant='standard' sx={{mt:'40px'}}>
