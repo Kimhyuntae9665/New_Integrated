@@ -1,2 +1,5 @@
 // ? 스토어 관리 
-export const tmp = "";
+import useSignUpStore from './sign_up.store';
+
+// 내 보낼떄는 중괄호에 묶어서 내보낸다 
+export {    useSignUpStore  };

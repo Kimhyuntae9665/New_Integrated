@@ -5,12 +5,17 @@ import { useState } from 'react'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 
+// ! export default 아닌 그냥 export는 {}꼭 해줘야한다 
+import { useSignUpStore } from 'src/stores';
+
 interface Props {
     setLoginView: Dispatch<React.SetStateAction<boolean>>;
 }
 
 
 export default function LoginCardView({ setLoginView }: Props) {
+   
+    
 
     const [showPassword, setshowPassword] = useState<boolean>(false);
 

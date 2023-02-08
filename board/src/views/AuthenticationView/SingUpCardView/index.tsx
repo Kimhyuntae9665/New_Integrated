@@ -2,13 +2,17 @@ import {Box, Button, Typography,TextField,FormControl,InputLabel,Input,InputAdor
 import { Dispatch, SetStateAction, useState } from 'react'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import { useSignUpStore } from 'src/stores';
+
 
 function FirstPage(){
+    const{setEmail,setpassword,setpasswordCheck} = useSignUpStore();
+
     const [showPassword,setshowPassword] = useState<boolean>(false);
     const [showPasswordCheck,setshowPasswordCheck] = useState<boolean>(false);
     return(
         <Box>
-            <TextField sx={{mt:'40px'}} fullWidth label='이메일 주소*' variant='standard'/>
+            <TextField sx={{mt:'40px'}} fullWidth label='이메일 주소*' variant='standard' onChange={(event)=> setEmail(event.target.value)}/>
             <FormControl fullWidth variant="standard" sx={{ mt: '40px' }}>
                     <InputLabel>비밀번호*</InputLabel>
                     <Input
@@ -23,6 +27,7 @@ function FirstPage(){
                                 </IconButton>
                             </InputAdornment>
                         }
+                        onChange={(event)=>setpassword(event.target.value)}
                     />
                 </FormControl>
 
@@ -40,6 +45,7 @@ function FirstPage(){
                                 </IconButton>
                             </InputAdornment>
                         }
+                        onChange={(event)=>setpasswordCheck(event.target.value)}
                     />
                 </FormControl>
         </Box>
@@ -61,6 +67,9 @@ interface Props{
 export default function SignUpCardView({setLoginView}:Props) {
 
     const [page,setPage] = useState<number>(1);
+
+    const {} = useSignUpStore();
+
     const onNextButtonHandler = ()=>{
         //todo : 이메일 /비밀번호/비밀번호 확인 검증 
         // todo : 검증이 실패하면 return 
