@@ -48,6 +48,9 @@ export default function LoginCardView({ setLoginView }: Props) {
             <Box>
                 <Button sx={{ mb: '20px' }} fullWidth variant="contained" size='large'>로그인</Button>
                 <Typography textAlign={'center'}>신규 사용자 이신가요?
+                                                                        {/* LoginCardView함수에서 매개변수로 받았던 setLoginView를 클릭하면 false로 바뀐다 ==> 
+                                                                        원래 가장 먼저 불렸던 AuthenticView 연결되어있던 AuthenticView에서 LoginView가 false로 바뀌면서 LoginCardView에서 SignInCardView 함수로 바뀐다 
+                                                                        함수가 바뀌므로 화면이 전환된다 */}
                     <Typography component={'span'} fontWeight={900} onClick={() => setLoginView(false)}> 회원가입</Typography>
                 </Typography>
 

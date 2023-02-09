@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { red } from '@mui/material/colors';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,9 +61,9 @@ export default function NavigationBar() {
           
           <Typography
             variant="h6"
-            noWrap
+            noWrap   //^noWrap: 이 속성은 텍스트가 컨테이너의 너비를 초과하는 경우 텍스트가 여러 줄로 줄 바꿈되지 않도록 합니다.
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}//^라이브러리를 사용하여 컴포넌트의 스타일을 설정하는 스타일링 속성입니다
           >
             Hoons Board
             

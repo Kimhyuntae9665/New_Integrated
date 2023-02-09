@@ -48,7 +48,8 @@ export default function AuthenticationView() {
                         {/*             소괄호 잊지말자  */}
                         
 
-                                                                                                    {/*매개변수로 setLoginView={setLoginView}를 받은거   */}
+                                     {/*LoginCardView 의 매개변수로 setLoginView={setLoginView}를 받은거   */}
+                         {/* loginView 의 초기값이 true이기 때문에 LoginCardView의 함수가 호출되어 Default 값으로 로그인 창이 보이는거  */}
                         {loginView ?  (<LoginCardView setLoginView={setLoginView} />):(<SignUpCardView setLoginView={setLoginView}/>)}
                         
 

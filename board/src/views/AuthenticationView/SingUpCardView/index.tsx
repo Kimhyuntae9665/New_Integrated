@@ -66,7 +66,7 @@ function SecondPage(){
     return(
       <Box>
         <TextField sx={{mt:'40px'}} fullWidth label='닉네임*' variant='standard' value={nickName} onChange={(event)=>setnickName(event.target.value)}/>
-                                                                                                    {/* 원래 nickName의 값이 바뀌면(event) setnickName 함수가 바뀌는 데로 nickName변수의 값을 바꿔준다  */}
+                                                                                                    {/* 원래의 nickName의 값이 바뀌면(event) setnickName 함수가 바뀌는 데로 nickName변수의 값을 바꿔준다  */}
         <TextField sx={{mt:'40px'}} fullWidth label='휴대폰 번호*' variant='standard' value={telNumber} onChange={(event)=>settelNumber(event.target.value)}/>
 
         <FormControl fullWidth variant='standard' sx={{mt:'40px'}}>
@@ -85,9 +85,13 @@ function SecondPage(){
             
             />
         </FormControl>
-
+                                                                                                        {/*원래의 값인 addressDetail의 값이 ''빈값이 바뀌면(onChange) onChange가 바로 발동 
+                                                                                                        setaddressDetail(매개변수)에 매개변수로 들어온 
+                                                                                                        event.target.value로 addressDetail이 바뀐다   */}
         <TextField sx={{mt:'40px'}} fullWidth label='상세주소*' variant='standard' value={addressDetail} onChange={(event)=>setaddressDetail(event.target.value)}/>
-            
+                                                                                                     {/* onChange={(event)=>setaddressDetail(event.target.value)}: 텍스트 입력 필드의 값이 변경될 때마다 호출되는 콜백 함수입니다.
+                                                                                                      이벤트 개체를 인수로 받은 다음 event.target.value 속성을 사용하여 텍스트 입력 필드의 현재 값을 가져옵니다. 
+                                                                                                      마지막으로 setAddressDetail 함수가 event.target.value 인수와 함께 호출되어 텍스트 입력 필드의 새 값으로 구성 요소의 상태를 업데이트합니다. */}
       </Box>  
     );
 }
@@ -113,7 +117,9 @@ export default function SignUpCardView({setLoginView}:Props) {
         // ? 2. 해당 변수의 길이 == 0 ;
         if(!email || !password || !passwordCheck){
             alert('모든 값을 입력하세요');
+           
             return;
+             //^ onNextButtonHandler를 호출했던 곳으로 돌아간다 
         }
         if(password!==passwordCheck){
             alert('비밀번호가 서로 다릅니다 ')
