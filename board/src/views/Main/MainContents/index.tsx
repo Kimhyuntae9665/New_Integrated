@@ -2,6 +2,7 @@
 import React from 'react'
 import {Box,Grid,Typography,Pagination} from '@mui/material'
 import BoardListItem from 'src/components/BoardListItem'
+
 export default function MainContents() {
   
     return (
@@ -15,7 +16,7 @@ export default function MainContents() {
                 <Grid item sm={12} md={8}>
                     <BoardListItem/>
                 </Grid>
-                <Grid item sm={12} md={4}></Grid>
+                <Grid item sm={12} md={4}><BoardListItem/></Grid>
             </Grid>
         </Box>
         {/* content를 중앙 정렬 하는 방법  */}

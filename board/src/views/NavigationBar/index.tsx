@@ -49,7 +49,7 @@ export default function NavigationBar() {
               <SearchIcon />
               {/* SearchIcon이 클릭이 가능하게 된다  */}
             </IconButton>
-            {/* path.name이 /auth이면 로그인 버튼 나오게  */}
+            {/* path.name이 /auth이면 로그인 버튼 나오게  논리 연산자 사용해 준다 */}
             {path.pathname!=='/auth'&&(<Button variant='contained' color='secondary' onClick={()=>navigator('/auth')}>로그인</Button>)}
             {/*버튼의 variant의 contained를 하면 색상이 가득 찬 버튼 만들기  */}
             {/* 버튼 클릭했을 때 url 창에 주소 추가해 이동 할려면 (/auth) ==> (Linkto +) useNavigate() 사용  */}
