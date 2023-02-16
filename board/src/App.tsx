@@ -1,6 +1,6 @@
 import './App.css';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import AuthenticationView from './views/AuthenticationView';
 import NavigationBar from './views/NavigationBar';
@@ -17,6 +17,9 @@ import Footer from './views/Footer';
 //? 7. 'boardUpdate' path 작성 : '/board/update/:boardNumber'
 
 function App() {
+
+  const path = useLocation();
+
   return (
     <>
       <NavigationBar />
@@ -31,7 +34,8 @@ function App() {
           <Route path='update/:boardNumber' element={(<></>)} />
         </Route>
       </Routes>
-      <Footer />
+      {path.pathname !=='/auth' && (<Footer />) }
+      
     </>
   );
 }

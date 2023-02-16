@@ -75,7 +75,7 @@ export default function MainContents() {
                     </Stack>
                 </Grid>
                 <Grid item sm={12} md={4}>
-                    <PopularCard/>
+                    <PopularCard title="인기 검색어"/>
                 </Grid>
             </Grid>
         </Box>
