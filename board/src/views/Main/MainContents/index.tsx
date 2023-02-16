@@ -1,9 +1,18 @@
 
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {Box,Grid,Typography,Pagination} from '@mui/material'
 import BoardListItem from 'src/components/BoardListItem'
+import PopularCard from 'src/components/PopularCard'
+import { IpreviewItem } from 'src/interfaces';
+import { BOARD_LIST } from 'src/mock';
 
 export default function MainContents() {
+
+    const [boardList,setboardList]=useState<IpreviewItem[]>([]);
+    
+    useEffect (()=>{
+        setboardList(BOARD_LIST)
+    },[])
   
     return (
     <Box sx={{p:'40px 120px',backgroundColor:'rgba(0,0,0,0.05)'}}>
@@ -14,9 +23,12 @@ export default function MainContents() {
             <Grid container spacing={3}>
                 {/* 세로 큰 선 grid의 차지 비율이 8:4이므로  */}
                 <Grid item sm={12} md={8}>
-                    <BoardListItem/>
+                    {boardList.map((borardItem)  =>  (<BoardListItem item={borardItem}/>))}
+
                 </Grid>
-                <Grid item sm={12} md={4}><BoardListItem/></Grid>
+                <Grid item sm={12} md={4}>
+                    <PopularCard/>
+                </Grid>
             </Grid>
         </Box>
         {/* content를 중앙 정렬 하는 방법  */}

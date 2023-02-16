@@ -1,37 +1,44 @@
-import { Avatar, Typography } from '@mui/material'
+import { Avatar, Typography } from '@mui/material';
+
 import { Box } from '@mui/system'
 import React from 'react'
+import { IpreviewItem } from 'src/interfaces';
+
+interface Props{
+    item:IpreviewItem
+};
 
 
 
 
-export default function BoardListItem() {
+export default function BoardListItem({item}:Props) {
   return (
-    <Box sx={{p:'24px' ,backgroundColor:'#ffffff'}}>
+    <Box sx={{display:'flex', justifyContent:'space-between',p:'24px' ,backgroundColor:'#ffffff'}}>
         <Box>
             <Box sx={{display:'flex'}}>
                 <Box sx={{mr:'8px'}}>
-                    <Avatar alt="Remy Sharp" src="" />
+                    <Avatar alt={item.writerNickName} src={item.writerProfile} />
                 </Box>
                 <Box>
-                    <Typography sx={{fontSize:'12px',fontWeight:500,color:'#000000'}}>Nickname</Typography>
+                    <Typography sx={{fontSize:'12px',fontWeight:500,color:'#000000'}}>{item.writerNickName}</Typography>
                     {/* rgba의 a는 투명도  */}
-                    <Typography sx={{mt:'2px', fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>2023.02.15</Typography>
+                    <Typography sx={{mt:'2px', fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>{item.writeDate}</Typography>
                 </Box>
 
             </Box>
             <Box sx={{mt:'16px',mb:'16px'}}>
-                <Typography sx={{fontSize:'16px',fontWeight:500,color:'#000000'}}>Title</Typography>
-                <Typography sx={{mt:'5px',fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>Contents</Typography>
+                <Typography sx={{fontSize:'16px',fontWeight:500,color:'#000000'}}>{item.boardTitle}</Typography>
+                <Typography sx={{mt:'5px',fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>{item.boardContent}</Typography>
 
             </Box>
             <Box>
-                <Typography sx={{fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>{`댓글 0 · 좋아요 0 · 조회수 0`}</Typography>
+                <Typography sx={{fontSize:'12px',fontWeight:400,color:'rgba(0,0,0,0.7)'}}>{`댓글 ${item.commentCount} · 좋아요 ${item.likeCount} · 조회수 ${item.viewCount}`}</Typography>
 
             </Box>
         </Box>
         <Box>
-            {/* 이미지 들어올 공간  */}
+                                                         {/* 박스가 단독으로<Box/> 있다  img tag 사용 할떄는 박스 한개만 단독으로 */}
+            <Box component='img' src={item.img as string} sx={{height:'152px' , width:'152px' ,borderRadius:'5%'}} />
         </Box>
     </Box>
   )
