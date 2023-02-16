@@ -20,17 +20,24 @@ export default function MainContents() {
 
 
     const onPageHandler = (page:number) =>{
+
         setpageNumber(page);
 
-        const startIndex = COUNT * (pageNumber -1) ;
-        const endIndex = COUNT * pageNumber - 1;
+        // ^ 같은 맥락으로 setpageNUmber함수 아직 적용 되지 못햇어 ==> PageNumber 대신 page를 써야 한다 
+        const startIndex = COUNT * (page -1) ;
+        const endIndex = COUNT * page - 1;
 
         const tmpList :IpreviewItem[]=[];
 
 
         for(let index = startIndex; index<=endIndex; index++){
-            
-                tmpList.push(boardList[index]);
+           
+            // boardList data의 개수를 벗어나면 for문 바로 벗어나고 지금까지 저장했던 tmpList만 출력 
+            if(boardList.length<index+1) {
+                break;
+            }
+
+            tmpList.push(boardList[index]);
                 
         }
         setViewList(tmpList);
@@ -45,19 +52,13 @@ export default function MainContents() {
         // ^  set 메서드는 useEffect가 종료된 후에 리렌더링 되고 boardList가 변경된다 
         // ^ useEffect 함수안에서 변경 되려고 하면 board_List 대신 이미 바껴있는 BOARD_LIST를 사용 한다 
 
-        const startIndex = COUNT * (pageNumber -1) ;
-        const endIndex = COUNT * pageNumber -1;
-        const tmpList :IpreviewItem[]=[];
+        
+    },[]);
 
-       
+    useEffect(()=>{
+        onPageHandler(pageNumber);
+    },[boardList]) // 조건 : 시작하자마자 발동되고 그리고 boardList가 바뀌면 onPageHandler(pageNumber) 가 발동 
 
-            //  ^ page개수 관련 
-        for(let index = startIndex; index<=endIndex; index++){
-                tmpList.push(BOARD_LIST[index]);
-                
-        }
-        setViewList(tmpList);
-    },[])
   
     return (
     <Box sx={{p:'40px 120px',backgroundColor:'rgba(0,0,0,0.05)'}}>
@@ -80,7 +81,7 @@ export default function MainContents() {
         </Box>
         {/* content를 중앙 정렬 하는 방법  */}
         <Box sx={{display:'flex',justifyContent:'center'}}>
-            <Pagination page={pageNumber} count={10} onChange={(event,value)=>onPageHandler(value)}/>
+            <Pagination page={pageNumber} count={Math.floor(boardList.length / COUNT)+1} onChange={(event,value)=>onPageHandler(value)}/>
         </Box>
     </Box>
   )
