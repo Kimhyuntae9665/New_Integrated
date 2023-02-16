@@ -36,10 +36,13 @@ export default function BoardListItem({item}:Props) {
 
             </Box>
         </Box>
-        <Box>
-                                                         {/* 박스가 단독으로<Box/> 있다  img tag 사용 할떄는 박스 한개만 단독으로 */}
-            <Box component='img' src={item.img as string} sx={{height:'152px' , width:'152px' ,borderRadius:'5%'}} />
-        </Box>
+        {/* item.img가 있으면 이미지 사진을 보여준다  */}
+        {item.img&&(
+            <Box>
+                                                            {/* 박스가 단독으로<Box/> 있다  img tag 사용 할떄는 박스 한개만 단독으로 */}
+                <Box component='img' src={item.img as string} sx={{height:'152px' , width:'152px' ,borderRadius:'5%'}} />
+            </Box>
+        )}
     </Box>
   )
 }
