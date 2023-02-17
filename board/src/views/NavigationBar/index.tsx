@@ -18,6 +18,7 @@ import {useState} from 'react';
 
 export default function NavigationBar() {
 
+  // ^ useState 는 변수 값 초기화 필수 
   const [content,setContent] = useState<string>('');
 
   const navigator = useNavigate();
