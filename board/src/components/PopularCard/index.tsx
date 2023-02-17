@@ -21,8 +21,8 @@ export default function PopularCard({title}:Props) {
     <Card variant='outlined' sx={{p:'24px 12px 26px 24px'}}>
         <Typography sx={{fontSize:'24px',fontWeight:500}}>{title}</Typography>
         <Box sx={{mt:'24px'}}>
-            {popularList.map((popular)=>(
-                    <Chip sx={{mr:'12px',mb:'12px',fontSize:'14px',fontWeight:500}} label={popular} variant="outlined" onClick={()=>navigator(`/board/search/${'popular'}`)}/>
+            {popularList.map((popular)=>(                                                                                            /*map 함수에서 변수의 값을 넣을때에는 '' 쓰지말고 그냥 뱐수 자체만 적어준다  */
+                    <Chip sx={{mr:'12px',mb:'12px',fontSize:'14px',fontWeight:500}} label={popular} variant="outlined" onClick={()=>navigator(`/board/search/${popular}`)}/>
             ))}
             
         </Box>

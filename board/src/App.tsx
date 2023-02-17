@@ -6,6 +6,7 @@ import AuthenticationView from './views/AuthenticationView';
 import NavigationBar from './views/NavigationBar';
 import Main from './views/Main';
 import Footer from './views/Footer';
+import SearchView from './views/SearchView';
 
 //# Router 설계 
 //? 1. 'main' path 작성 : '/'
@@ -29,7 +30,7 @@ function App() {
         <Route path='/myPage' element={(<></>)} />
         <Route path='/board'>
           <Route path='write' element={(<></>)} />
-          <Route path='search/:content' element={(<></>)} />
+          <Route path='search/:content' element={(<SearchView/>)} />
           <Route path='detail/:boardNumber' element={(<></>)} />
           <Route path='update/:boardNumber' element={(<></>)} />
         </Route>
