@@ -20,6 +20,7 @@ import SearchView from './views/SearchView';
 function App() {
 
   const path = useLocation();
+  
 
   return (
     <>

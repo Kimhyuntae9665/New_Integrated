@@ -54,11 +54,15 @@ const usePagingHook = (content?:string) => {
         // ? 해당 문자열에서 검색할 문자열이 존재한다면 true, 아니면 false 를 반환하는 메서드  
         // ? 변수 as string 쓰면  변수가 어떤 타입인지 확정적이지 않은 상황에서 무조선 string으로만 받는다 
         // content가 빈 값이면 앞에것 아니면 뒤에 것 
+        // ? 참(content가 빈 값이면 )이면 BOARD_LIST의 값들을 모두 tmp에 넣고 거짓이면(content가  빈 값이 아니면)boardTitle에서 content를 포함하는 것들만을 tmp에 넣는다 
         const tmp = !content ? BOARD_LIST:BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
         setboardList(tmp);
         // ^  set 메서드는 useEffect가 종료된 후에 리렌더링 되고 boardList가 변경된다 
         // ^ useEffect 함수안에서 변경 되려고 하면 board_List 대신 이미 바껴있는 BOARD_LIST를 사용 한다 
 
+        // ? SELECT * FROM Board ORDER BY writeDate DESC;
+
+        // ? SELECT * FROM Board WHERE boardTitle LIKE %contnet% ORDER BY writeDate;
         
     },[content]);  //contetnt 바뀔때 마다 발동
 

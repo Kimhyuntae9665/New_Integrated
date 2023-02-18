@@ -12,7 +12,7 @@ import { getPageCount } from 'src/utils'
 
 
 export default function SearchView() {
-
+        // ^ 주소에서 파라미터를 가져온다 
     const {content} = useParams();
     const {pageNumber,viewList,boardList,COUNT,onPageHandler}=usePagingHook(content as string);
 
