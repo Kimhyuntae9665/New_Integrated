@@ -77,6 +77,7 @@ export default function SearchView() {
             </Grid>
         </Box>
         <Box sx={{display:'flex',justifyContent:'center'}}>
+            {/* 밑에 Pagination 숫자 클릭 할때마다 onChange ={(event,value)=>onPageHandler(value)}가 발동 되서 클릭한 숫자에 알맞은 index를 가진 박스들을 보여준다(setViewList가 발동)  */}
             <Pagination page={pageNumber} count={getPageCount(boardList,COUNT)} onChange={(event,value)=>onPageHandler(value)}/>
         </Box>
 

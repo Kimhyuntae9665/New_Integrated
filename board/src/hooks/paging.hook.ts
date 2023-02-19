@@ -64,12 +64,14 @@ const usePagingHook = (content?:string) => {
 
         // ? SELECT * FROM Board WHERE boardTitle LIKE %contnet% ORDER BY writeDate;
         
-    },[content]);  //contetnt 바뀔때 마다 발동
+    },[content]);  //contetnt 바뀔때 마다 tmp가 바뀌고 boardList가 계속 바뀐다  발동
+
+
 
     useEffect(()=>{
         onPageHandler(pageNumber);
     },[boardList]) // 조건 : 시작하자마자 발동되고 그리고 boardList가 바뀌면 onPageHandler(pageNumber) 가 발동 
-
+        // ^ boardList가 바뀔때는 content가 바뀔때마다 boardList가 바껴서 useEffect가 발동 되고 onPageHandler가 발동된다 
     return {boardList,viewList,pageNumber,onPageHandler,COUNT};
 }
 
