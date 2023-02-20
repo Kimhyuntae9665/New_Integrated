@@ -10,7 +10,11 @@ import { usePagingHook } from 'src/hooks';
 
 export default function MainContents() {
 
-   const {pageNumber,viewList,boardList,COUNT,onPageHandler}=usePagingHook();
+   const {pageNumber,viewList,boardList,setboardList,COUNT,onPageHandler}=usePagingHook();
+
+   useEffect(()=>{
+    setboardList(BOARD_LIST);
+   },[])
 
   
     return (

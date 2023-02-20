@@ -14,7 +14,7 @@ import { getPageCount } from 'src/utils'
 export default function SearchView() {
         // ^ 주소에서 파라미터를 가져온다 
     const {content} = useParams();
-    const {pageNumber,viewList,boardList,COUNT,onPageHandler}=usePagingHook(content as string);
+    const {pageNumber,viewList,boardList,setboardList,COUNT,onPageHandler}=usePagingHook();
 
     
     // const COUNT =5;
@@ -43,13 +43,13 @@ export default function SearchView() {
     //     setViewList(tmpList);
     // }
 
-    // useEffect(()=>{
+    useEffect(()=>{
 
         
        
-    //     const tmp =BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
-    //     setBoardList(tmp);
-    // },[])
+        const tmp =BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
+        setboardList(tmp);
+    },[content])
 
     // useEffect(()=>{
     //     onPageHandler(pageNumber);

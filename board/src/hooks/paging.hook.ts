@@ -6,7 +6,7 @@ import { BOARD_LIST } from 'src/mock';
 
 // ! use 가 붙은 함수가 custom Hook 함수이다 
 // !  Parameter를 받을 떄 안 받을 때 2가지 경우가 있는경우는 Parameter 뒤에 ? 를 붙인다 
-const usePagingHook = (content?:string) => {
+const usePagingHook = () => {
 
     const COUNT = 5;
 
@@ -47,24 +47,24 @@ const usePagingHook = (content?:string) => {
 
 
     
-    useEffect (()=>{
-        // # array.filter(요소=>조건)
-        // ? 특정한 조건에 부합하는 요소만 모아서 새로운 배열로 만들어 반환하는 메서드 
-        // # string.includes(검색할 문자열)
-        // ? 해당 문자열에서 검색할 문자열이 존재한다면 true, 아니면 false 를 반환하는 메서드  
-        // ? 변수 as string 쓰면  변수가 어떤 타입인지 확정적이지 않은 상황에서 무조선 string으로만 받는다 
-        // content가 빈 값이면 앞에것 아니면 뒤에 것 
-        // ? 참(content가 빈 값이면 )이면 BOARD_LIST의 값들을 모두 tmp에 넣고 거짓이면(content가  빈 값이 아니면)boardTitle에서 content를 포함하는 것들만을 tmp에 넣는다 
-        const tmp = !content ? BOARD_LIST:BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
-        setboardList(tmp);
-        // ^  set 메서드는 useEffect가 종료된 후에 리렌더링 되고 boardList가 변경된다 
-        // ^ useEffect 함수안에서 변경 되려고 하면 board_List 대신 이미 바껴있는 BOARD_LIST를 사용 한다 
+    // useEffect (()=>{
+    //     // # array.filter(요소=>조건)
+    //     // ? 특정한 조건에 부합하는 요소만 모아서 새로운 배열로 만들어 반환하는 메서드 
+    //     // # string.includes(검색할 문자열)
+    //     // ? 해당 문자열에서 검색할 문자열이 존재한다면 true, 아니면 false 를 반환하는 메서드  
+    //     // ? 변수 as string 쓰면  변수가 어떤 타입인지 확정적이지 않은 상황에서 무조선 string으로만 받는다 
+    //     // content가 빈 값이면 앞에것 아니면 뒤에 것 
+    //     // ? 참(content가 빈 값이면 )이면 BOARD_LIST의 값들을 모두 tmp에 넣고 거짓이면(content가  빈 값이 아니면)boardTitle에서 content를 포함하는 것들만을 tmp에 넣는다 
+    //     const tmp = !content ? BOARD_LIST:BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
+    //     setboardList(tmp);
+    //     // ^  set 메서드는 useEffect가 종료된 후에 리렌더링 되고 boardList가 변경된다 
+    //     // ^ useEffect 함수안에서 변경 되려고 하면 board_List 대신 이미 바껴있는 BOARD_LIST를 사용 한다 
 
-        // ? SELECT * FROM Board ORDER BY writeDate DESC;
+    //     // ? SELECT * FROM Board ORDER BY writeDate DESC;
 
-        // ? SELECT * FROM Board WHERE boardTitle LIKE %contnet% ORDER BY writeDate;
+    //     // ? SELECT * FROM Board WHERE boardTitle LIKE %contnet% ORDER BY writeDate;
         
-    },[content]);  //contetnt 바뀔때 마다 tmp가 바뀌고 boardList가 계속 바뀐다  발동
+    // },[content]);  //contetnt 바뀔때 마다 tmp가 바뀌고 boardList가 계속 바뀐다  발동
 
 
     // ^ useEffect를 2번 쓰는 이유는 첫번째 useEffect에서 boardList가 set되고 있지만 useEffect 함수가 끝날때까지는 수정되지 않는다 
@@ -74,7 +74,7 @@ const usePagingHook = (content?:string) => {
         onPageHandler(pageNumber);
     },[boardList]) // 조건 : 시작하자마자 발동되고 그리고 boardList가 바뀌면 onPageHandler(pageNumber) 가 발동 
         // ^ boardList가 바뀔때는 content가 바뀔때마다 boardList가 바껴서 useEffect가 발동 되고 onPageHandler가 발동된다 
-    return {boardList,viewList,pageNumber,onPageHandler,COUNT};
+    return {boardList,viewList,pageNumber, setboardList, onPageHandler,COUNT};
 }
 
 

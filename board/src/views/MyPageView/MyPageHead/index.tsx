@@ -16,14 +16,14 @@ export default function MyPageHead() {
                 <Avatar sx={{height:'120px',width:'120px'}} alt ={user?.nickname} src={user?.profile}/>
             </IconButton>
         </Box>
-        <Box>
-            <Box>
-                <Typography>{user?.nickname}</Typography>
-                <IconButton>
+        <Box sx={{ml:'25px',display:'flex',flexDirection:'column',justifyContent:'center'}}>
+            <Box sx={{display:'flex',alignItems:'center'}}>
+                <Typography sx={{fontSize:'24px',fontWeight:500,color:'rgba(0,0,0,0.7)'}}>{user?.nickname}</Typography>
+                <IconButton sx={{mr:'10px'}}>
                     <EditOutlinedIcon/>
                 </IconButton>
             </Box>
-            <Typography>{user?.email}</Typography>
+            <Typography sx={{mt:'10px' ,fontSize:'16px',fontWeight:500,color:'rgba(0,0,0,0.4)'}}>{user?.email}</Typography>
         </Box>
     </Box>
   )
