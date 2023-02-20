@@ -1,7 +1,7 @@
 
 
 
-import { IpreviewItem } from "src/interfaces";
+import { IpreviewItem, IUSER } from "src/interfaces";
 
 export const TOP3 :IpreviewItem[] = [
     {
@@ -519,3 +519,15 @@ export const POPULAR_LIST:string[]=[
     '점심메뉴','저녁메뉴','아침메뉴',
     '점심메뉴','저녁메뉴','아침메뉴',
 ]
+
+
+export const USER : IUSER ={
+
+    email:'qwer@qwer.com',
+    password:'qwer1234',
+    nickname:'박호두',
+    telNumber:'010-1111-2222',
+    address:'부산광역시 부산진구',
+    addressDetail:'삼정타워'
+   
+}

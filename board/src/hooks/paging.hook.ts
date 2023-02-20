@@ -67,7 +67,9 @@ const usePagingHook = (content?:string) => {
     },[content]);  //contetnt 바뀔때 마다 tmp가 바뀌고 boardList가 계속 바뀐다  발동
 
 
-
+    // ^ useEffect를 2번 쓰는 이유는 첫번째 useEffect에서 boardList가 set되고 있지만 useEffect 함수가 끝날때까지는 수정되지 않는다 
+    // ^ 그래서 setboardList와 함께 onPageHandler를 사용 하지 않고 useEffect를 한 번 더 써서 boardList가 바뀔때 onPageHandler가 발동되게 조치 
+    // ^  첫번째 useEffect함수가 끝나면 두번째 useEffect함수가 boardList가 변경되었음으로 onPageHandler가 발동
     useEffect(()=>{
         onPageHandler(pageNumber);
     },[boardList]) // 조건 : 시작하자마자 발동되고 그리고 boardList가 바뀌면 onPageHandler(pageNumber) 가 발동 

@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+  // ! 최상위 index.tsx 파일에다가 <BrowserRouter>를 적어줘야지 Routes를 사용 가능 
   <BrowserRouter>
     <React.StrictMode>
       <App />

@@ -12,3 +12,14 @@ export interface IpreviewItem{
 
     boardNumber:number;
 }
+
+export interface IUSER{
+    email:string;
+    password:string;
+    nickname:string;
+    telNumber:string;
+    address:string;
+    addressDetail:string;
+    // ^ profile을 넣지 않아도 된다 
+    profile?:string;
+}

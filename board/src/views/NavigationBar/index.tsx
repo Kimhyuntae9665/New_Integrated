@@ -12,6 +12,7 @@ import { red } from '@mui/material/colors';
 import { Button,FormControl,OutlinedInput,InputAdornment } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {useState} from 'react';
+import { useUserStore } from 'src/stores';
 
 
 
@@ -20,6 +21,8 @@ export default function NavigationBar() {
 
   // ^ useState 는 변수 값 초기화 필수 
   const [content,setContent] = useState<string>('');
+
+  const {user} = useUserStore();
 
   const navigator = useNavigate();
   const path = useLocation();
@@ -77,7 +80,13 @@ export default function NavigationBar() {
             </FormControl>
             
             {/* path.name이 /auth이면 로그인 버튼 나오게  논리 연산자 사용해 준다 */}
-            {path.pathname!=='/auth'&&(<Button variant='contained' sx={{backgroundColor:'#000000'}} onClick={()=>navigator('/auth')}>로그인</Button>)}
+            {path.pathname!=='/auth'&& 
+              (
+                user ? 
+                  (<Button variant='outlined' sx={{borderColor:'#000000',color:'#000000'}}onClick={()=>navigator('/myPage')}>마이페이지</Button>) :
+                  (<Button variant='contained' sx={{backgroundColor:'#000000'}} onClick={()=>navigator('/auth')}>로그인</Button>))}
+            
+              
             {/*버튼의 variant의 contained를 하면 색상이 가득 찬 버튼 만들기  */}
             {/* 버튼 클릭했을 때 url 창에 주소 추가해 이동 할려면 (/auth) ==> (Linkto +) useNavigate() 사용  */}
             
