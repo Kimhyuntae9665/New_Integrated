@@ -64,7 +64,7 @@ export const BOARD_LIST:IpreviewItem[] = [
         writerProfile:'',
         writerNickName:'박호두',
         writeDate:'2023.02.16',
-        boardTitle:'게시물 제목2',
+        boardTitle:'게시물 제목2###',
         boardContent:'게시물2 내용 입니다',
         likeCount:10,
         commentCount:28,
@@ -82,7 +82,7 @@ export const BOARD_LIST:IpreviewItem[] = [
         likeCount:100,
         commentCount:378,
         viewCount:549,
-        boardNumber:1
+        boardNumber:2
         
     },{
         img:'http://image.dongascience.com/Photo/2022/06/6982fdc1054c503af88bdefeeb7c8fa8.jpg',
@@ -94,7 +94,7 @@ export const BOARD_LIST:IpreviewItem[] = [
         likeCount:10,
         commentCount:78,
         viewCount:543,
-        boardNumber:1
+        boardNumber:2
         
     },
     {

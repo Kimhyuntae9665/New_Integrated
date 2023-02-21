@@ -18,7 +18,7 @@ export default function BoardListItem({ item }: Props) {
 
     return (
         <Card variant='outlined' >
-            <CardActionArea sx={{ display: 'flex', justifyContent: 'space-between', p: '24px', backgroundColor: '#ffffff' }} onClick={()=>navigator(`/board/detail/${item.boardNumber}`)}>
+            <CardActionArea sx={{ display: 'flex', justifyContent: 'space-between', p: '24px', backgroundColor: '#ffffff' }} onClick={()=>navigator(`/board/update/${item.boardNumber}`)}>
                 <Box>
                     <Box sx={{ display: 'flex' }}>
                         <Box sx={{ mr: '8px' }}>

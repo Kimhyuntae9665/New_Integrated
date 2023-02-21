@@ -17,6 +17,30 @@ export default function BoardUpdateView() {
 
   const navigator = useNavigate();
 
+  const onUpdateHandler = () =>{
+      // ? 제목과 내용이 존재하는지 검증 
+      if(!boardTitle.trim() || !boardContent.trim()){
+        alert('모든 내용을 입력해 주세요 ');
+        return;
+      }
+      // ? 업데이트 기능 수행 
+      // #Board table
+    // ^ boardNumber int AI PK(Primary Key)(Unique Not NULL)
+    // ^ boardTitle VAR CHAR() but, 길이 제한 없을때에는 Text 사용 NOT NULL
+    // ^ boardContent TEXT NOT NULL 
+    // ^ writeDate DATETIME NN
+    // ? 외래키 사용해서 외부의 table을 가져온다 
+    // ^ writerEmail VARCHAR(45) FK(Foreign Key)
+    // ^ likeCount INT default 0
+    // ^ commentCount INT default 0
+    // ^ viewCount Int default 0
+
+    // ? UPDATE Board SET boardTitle=?, boardContent=? WHERE boardNumber ==?(Primary Key 조건 )
+    // ? back end로 boardTitle,boardContent,boardNumber를 넘겨주면 됨 
+
+      navigator('/myPage');
+  }
+
   useEffect(()=>{
     // ? 정상적이지 않은 경로로 접근을 시도 했을 때에 
     // ? main화면으로 돌려보냄 
@@ -58,17 +82,17 @@ export default function BoardUpdateView() {
   return (
     <Box sx={{p:'0px 198px',backgroundColor:'rgba(0,0,0,0.05)'}}>
     <Box sx={{p:'100px 24px',backgroundColor:'#ffffff'}}>
-      <Input fullWidth   placeholder='제목을 입력하세요' disableUnderline sx={{fontSize:'32px',fontWeight:500,border:'0px'}} onChange={(event)=>setBoardTitle(event.target.value)}/>
+      <Input fullWidth   placeholder='제목을 입력하세요' disableUnderline sx={{fontSize:'32px',fontWeight:500,border:'0px'}} value={boardTitle} onChange={(event)=>setBoardTitle(event.target.value)}/>
       <Divider sx={{m:'40px 0px'}}/>
       <Box sx={{display:'flex',alignItems:'start'}}>
                                           {/*multiline으로 Enter가능 하게  minRows={최소 라인 수 처음부터 } */}
-        <Input fullWidth disableUnderline  multiline minRows={20} maxRows={50}  placeholder='본문을 작성해 주세요' sx={{fontSize:'18px',fontWeight:500,lineHeight:'150%'}} onChange={(event)=>setBoardContent(event?.target.value)}/>
+        <Input fullWidth disableUnderline  multiline minRows={20} maxRows={50}  placeholder='본문을 작성해 주세요' sx={{fontSize:'18px',fontWeight:500,lineHeight:'150%'}} value={boardContent} onChange={(event)=>setBoardContent(event?.target.value)}/>
         <IconButton>
           <ImageOutlinedIcon/>
         </IconButton>
       </Box>
     </Box>
-    <Fab sx={{position:'fixed',bottom:'200px',right:'200px',   backgroundColor:'rgba(0,0,0,0.4)'}} onClick={onWriteHandler}>
+    <Fab sx={{position:'fixed',bottom:'200px',right:'200px',   backgroundColor:'rgba(0,0,0,0.4)'}} onClick={onUpdateHandler}>
       <CreateIcon/>
     </Fab>
   </Box>

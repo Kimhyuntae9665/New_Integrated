@@ -20,6 +20,24 @@ export default function BoardWriteView() {
     }
 
     // ? 존재한다면 작성 가능 
+// # User table 
+// ^ UserEmail VARCHAR(45) PK
+
+    // #Board table
+    // ^ boardNumber int AI PK(Primary Key)(Unique Not NULL)
+    // ^ boardTitle VAR CHAR() but, 길이 제한 없을때에는 Text 사용 NOT NULL
+    // ^ boardContent TEXT NOT NULL 
+    // ^ writeDate DATETIME NN
+    // ? 외래키 사용해서 외부의 table을 가져온다 
+    // ^ writerEmail VARCHAR(45) FK(Foreign Key)
+    // ^ likeCount INT default 0
+    // ^ commentCount INT default 0
+    // ^ viewCount Int default 0
+
+    // ? INSERT INTO Board(Table 명)    (boardTitle,boardContent,writeDate,writerEmail)(컬럼 이름들 ) VALUES(?,?,now(),?)
+
+    // ? Back end로 BOardTitle, boardContent, writerEmail을 넘겨주면 됨 
+
     navigator('/myPage');
   }
 
