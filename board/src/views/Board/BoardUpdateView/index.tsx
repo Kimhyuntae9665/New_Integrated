@@ -1,10 +1,16 @@
-import  {useEffect} from 'react'
+import  {useEffect,useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BOARD_LIST } from 'src/mock';
 import { useUserStore } from 'src/stores';
+import {Box,Divider,IconButton,Input,Fab} from '@mui/material'
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import CreateIcon from '@mui/icons-material/Create';
+
 
 export default function BoardUpdateView() {
-
+  
+  const [boardTitle,setBoardTitle] = useState<string>('');
+  const [boardContent,setBoardContent] = useState<string>('');
   const {user}=  useUserStore();
 
   const {boardNumber} = useParams();
@@ -42,11 +48,29 @@ export default function BoardUpdateView() {
         return;
     }
 
+    setBoardTitle(board.boardTitle);
+    setBoardContent(board.boardContent);
+
 
   },[])
 
-
+  // ? 일반적으로 수정페이지는 작성페이지와 거의 똑같음 
   return (
-    <div>BoadUpdate</div>
+    <Box sx={{p:'0px 198px',backgroundColor:'rgba(0,0,0,0.05)'}}>
+    <Box sx={{p:'100px 24px',backgroundColor:'#ffffff'}}>
+      <Input fullWidth   placeholder='제목을 입력하세요' disableUnderline sx={{fontSize:'32px',fontWeight:500,border:'0px'}} onChange={(event)=>setBoardTitle(event.target.value)}/>
+      <Divider sx={{m:'40px 0px'}}/>
+      <Box sx={{display:'flex',alignItems:'start'}}>
+                                          {/*multiline으로 Enter가능 하게  minRows={최소 라인 수 처음부터 } */}
+        <Input fullWidth disableUnderline  multiline minRows={20} maxRows={50}  placeholder='본문을 작성해 주세요' sx={{fontSize:'18px',fontWeight:500,lineHeight:'150%'}} onChange={(event)=>setBoardContent(event?.target.value)}/>
+        <IconButton>
+          <ImageOutlinedIcon/>
+        </IconButton>
+      </Box>
+    </Box>
+    <Fab sx={{position:'fixed',bottom:'200px',right:'200px',   backgroundColor:'rgba(0,0,0,0.4)'}} onClick={onWriteHandler}>
+      <CreateIcon/>
+    </Fab>
+  </Box>
   )
 }
