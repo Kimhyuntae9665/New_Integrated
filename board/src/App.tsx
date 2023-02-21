@@ -8,6 +8,7 @@ import Main from './views/Main';
 import Footer from './views/Footer';
 import SearchView from './views/SearchView';
 import MyPageView from './views/MyPageView';
+import BoardWriteView from './views/Board/BoardWriteView';
 
 //# Router 설계 
 //? 1. 'main' path 작성 : '/'
@@ -31,7 +32,7 @@ function App() {
         <Route path='/auth' element={(<AuthenticationView />)} />
         <Route path='/myPage' element={(<MyPageView/>)} />
         <Route path='/board'>
-          <Route path='write' element={(<></>)} />
+          <Route path='write' element={(<BoardWriteView/>)} />
           <Route path='search/:content' element={(<SearchView/>)} />
                             {/* /:variable은 path 변수 content가  경로변수  */}
           <Route path='detail/:boardNumber' element={(<></>)} />

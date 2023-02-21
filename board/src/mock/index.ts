@@ -20,7 +20,7 @@ export const TOP3 :IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -62,7 +62,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -100,7 +100,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -138,7 +138,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -176,7 +176,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -214,7 +214,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -252,7 +252,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -290,7 +290,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -328,7 +328,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -366,7 +366,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -404,7 +404,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -443,7 +443,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
@@ -482,7 +482,7 @@ export const BOARD_LIST:IpreviewItem[] = [
     {
         img:'https://image.ytn.co.kr/general/jpg/2021/1029/202110291540080554_d.jpg',
         writerProfile:'',
-        writerNickName:'작성자2',
+        writerNickName:'박호두',
         writeDate:'2023.02.16',
         boardTitle:'게시물 제목2',
         boardContent:'게시물2 내용 입니다',
