@@ -23,3 +23,8 @@ export interface IUSER{
     // ^ profile을 넣지 않아도 된다 
     profile?:string;
 }
+
+export interface ILikeUser{
+    likeUserProfile:string;
+    likeUserNickname:string;
+}
