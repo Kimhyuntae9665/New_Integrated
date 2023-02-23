@@ -13,5 +13,6 @@ export default function LikeListItem({ likeUser }: Props) {
         <Avatar sx={{ height: '32px', width: '32px', mr: '8px' }} src={likeUser?.likeUserProfile} />
         <Typography component='span' sx={{ fontSize: '16px', fontWeight: 500 }}>{likeUser?.likeUserNickname}</Typography>
     </Box>
+    
   )
 }

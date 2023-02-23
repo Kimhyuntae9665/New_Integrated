@@ -623,4 +623,128 @@ export const LIKE_LIST : ILikeUser[] = [
     },
     
 
+];
+
+export const COMMENT_LIST:ICommentItem[]=[
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    {
+        commentUserProfile:'',
+        commentUserNickname:'박호두',
+        commentContent:'안녕ㅎ셍ㅇ',
+        commentDateTime:'2023-02-23 14:19'
+    },
+    
 ]
