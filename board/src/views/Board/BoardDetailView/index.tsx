@@ -9,13 +9,16 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { BOARD_LIST, LIKE_LIST } from 'src/mock';
-import { ILikeUser, IpreviewItem } from 'src/interfaces';
+import { BOARD_LIST, COMMENT_LIST, LIKE_LIST } from 'src/mock';
+import { ICommentItem, ILikeUser, IpreviewItem } from 'src/interfaces';
 import { useUserStore } from 'src/stores';
 import LikeListItem from 'src/components/LikeListItem';
 import Pagination from '@mui/material/Pagination';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
+import CommentListItem from 'src/components/CommentListItem';
+import { usePagingHook } from 'src/hooks';
+import { getPageCount } from 'src/utils';
 
 export default function BoardDetailView() {
 
@@ -27,6 +30,8 @@ export default function BoardDetailView() {
     const [openLike, setOpenLike] = useState<boolean>(false);
     const [likeList, setLikeList] = useState<ILikeUser[]>([]);
     const [openComment, setOpenComment] = useState<boolean>(false);
+
+    const { boardList, setBoardList, viewList, COUNT, pageNumber, onPageHandler } = usePagingHook(3);
 
     const { boardNumber } = useParams();
     const navigator = useNavigate();
@@ -62,6 +67,8 @@ export default function BoardDetailView() {
         const owner = user !== null && user.nickname === board.writerNickName;
         setMenuFlag(owner);
         setBoard(board);
+
+        setBoardList(COMMENT_LIST);
     }, [])
 
   return (
@@ -123,49 +130,35 @@ export default function BoardDetailView() {
             <Box sx={{ mt: '20px' }}>
                 <Card variant='outlined' sx={{ p: '20px' }}>
                     <Typography>좋아요 {board?.likeCount}</Typography>
-                    <Box sx={{ m: '20px 0px', display: 'table' }}>
+                    <Box sx={{ m: '20px 0px' }}>
                         { likeList.map((likeUser) => (<LikeListItem likeUser={likeUser} />)) }
                     </Box>
                 </Card>
             </Box>
         ) }
         <Box>
-        {
-            openComment && (
-                <Box>
-
-
-                    <Box sx={{p:'20px',mb:'30px'}}>
-                        <Typography sx={{fontSize:'16px',fontWeight:500}}>댓글 0</Typography>
-                        <Stack sx={{p:'20px 0px'}} spacing={3.75}> 
-                            <Box>
-                                <Box sx={{mb:'8px',  display:'flex',alignItems:'center'}}>
-                                    <Avatar sx={{mb:'20px', height:'32px',width:'32px',mr:'8px'}} src=''/>
-                                    <Typography sx={{fontSize:'16px',fontWeight:500,color:'rgba(0,0,0,0.7)'}}>박호두 : 지금이니!</Typography>
-                                    <Divider sx={{mr:'11px',ml:'8px'}} orientation='vertical' variant='middle' flexItem/>
-                                    <Typography sx={{fontSize:'16px',fontWeight:400,color:'rgba(0,0,0,0.4)'}}>0 분전</Typography>
-                                </Box>
-                                <Typography sx={{fontSize:'18px',fontWeight:500, lineHeight:'150%' , color:'rgba(0,0,0,0.7)'}}>Content 박호두</Typography>
-                            </Box>
-                        </Stack>
-                    </Box>
-
-
-                    <Divider/>
-                    <Box sx={{display:'flex',justifyContent:'center',p:'20px 0px'}}>
-                        <Pagination/>
-                    </Box>
-                    <Box>
-                        <Card variant='outlined' sx={{p:'20px'}}>
-                            <Input rows={3} minRows={3} multiline disableUnderline fullWidth/>
-                            <Box sx={{display:'flex',justifyContent:'end'}}> {/*justifyContent : center 는 수평으로 중앙 정렬  수평으로 오른쪽 끝밑으로는 justifyContent:end */}  
-                                <Button sx={{p:'4px 23px' ,backgroundColor:'#000000',fontSize:'14px',fontWeight:400,color:'#ffffff',borderRadius:'46px'}}>댓글 달기</Button>
-                            </Box>
-                        </Card>
-                    </Box>
+        { openComment && (
+            <Box>
+                <Box sx={{ p: '20px' }}>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 500 }}>댓글 {boardList.length}</Typography>
+                    <Stack sx={{ p: '20px 0px' }} spacing={3.75}>
+                        {viewList.map((commentItem) => (<CommentListItem item={commentItem as ICommentItem} />))}
+                    </Stack>
                 </Box>
-            )
-        }
+                <Divider />
+                <Box sx={{ p: '20px 0px', display: 'flex', justifyContent: 'center' }}>
+                    <Pagination page={pageNumber} count={getPageCount(boardList, COUNT)} onChange={(event, value) => onPageHandler(value)} />
+                </Box>
+                <Box>
+                    <Card variant='outlined' sx={{ p: '20px' }}>
+                        <Input minRows={3} multiline disableUnderline fullWidth />
+                        <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                            <Button sx={{ p: '4px 23px', backgroundColor: '#000000', fontSize: '14px', fontWeight: 400, color: '#ffffff', borderRadius: '46px' }}>댓글달기</Button>
+                        </Box>
+                    </Card>
+                </Box>
+            </Box>
+        ) }
         </Box>
     </Box>
   )

@@ -1,88 +1,76 @@
-import { Box, Grid, Pagination, Typography } from '@mui/material'
-import { Stack } from '@mui/system'
-import React, { useEffect,useState } from 'react'
-import { useParams } from 'react-router-dom'
-import BoardListItem from 'src/components/BoardListItem'
+import React, { useEffect, useState } from 'react'
+
+import { Box, Grid, Pagination, Stack, Typography } from '@mui/material'
 import PopularCard from 'src/components/PopularCard'
-import { usePagingHook } from 'src/hooks'
-import { IpreviewItem } from 'src/interfaces'
-import { BOARD_LIST } from 'src/mock'
-import { getPageCount } from 'src/utils'
+import { useParams } from 'react-router-dom'
+import { IpreviewItem } from 'src/interfaces';
 
-
+import { BOARD_LIST } from 'src/mock';
+import BoardListItem from 'src/components/BoardListItem';
+import { getPageCount } from 'src/utils';
+import { usePagingHook } from 'src/hooks';
 
 export default function SearchView() {
-        // ^ 주소에서 파라미터를 가져온다 
-    const {content} = useParams();
-    const {pageNumber,viewList,boardList,setboardList,COUNT,onPageHandler}=usePagingHook();
 
-    
-    // const COUNT =5;
+    const { content } = useParams();
+    const { viewList, pageNumber, boardList, setBoardList, onPageHandler, COUNT } = usePagingHook(5);
 
-    // const [boardList,setBoardList]=useState<IpreviewItem[]>([]);
-    // const [viewList,setViewList] =useState<IpreviewItem[]>([]);
-    // const[pageNumber,setPageNumber]=useState<number>(1);
-    // // 주소 path의 단어를 Parnms를 가져온다 
-    // // SearchView의 Path인 search/:content 의 content를 가져온다 
-     
+    // const COUNT = 5;
 
-    // const onPageHandler = (page:number)=>{
+    // const [boardList, setBoardList] = useState<IPreviewItem[]>([]);
+    // const [viewList, setViewList] = useState<IPreviewItem[]>([]);
+    // const [pageNumber, setPageNumber] = useState<number>(1);
+
+    // const onPageHandler = (page: number) => {
     //     setPageNumber(page);
 
-    //     const tmpList:IpreviewItem[] =[];
-    //     const startIndex = COUNT    *   (page-1);
-    //     const endIndex = COUNT  *   page-1;
+    //     const tmpList: IPreviewItem[] = [];
+    //     const startIndex = COUNT * (page - 1);
+    //     const endIndex = COUNT * page - 1;
 
-    //     for(let index = startIndex;   index<=endIndex;  index++){
-    //         if(boardList.length<index+1) break;
-
+    //     for (let index = startIndex; index <= endIndex; index++) {
+    //         if (boardList.length < index + 1) break;
     //         tmpList.push(boardList[index]);
-            
     //     }
 
     //     setViewList(tmpList);
     // }
 
-    useEffect(()=>{
+    useEffect(() => {
+        //# array.filter(요소 => 조건)
+        //? 특정한 조건에 부합하는 요소만 모아서 새로운 배열로 만들어 반환하는 메서드
+        //# string.inclues(검색할 문자열)
+        //? 해당 문자열에서 검색할 문자열이 존재한다면 true, 아니면 false를 반환하는 메서드
+        const tmp = BOARD_LIST.filter((board) => board.boardTitle.includes(content as string));
+        setBoardList(tmp);
+    }, [content]);
 
-        
-       
-        const tmp =BOARD_LIST.filter((board)=>board.boardTitle.includes(content as string))
-        setboardList(tmp);
-    },[content])
-
-    // useEffect(()=>{
+    // useEffect(()=> {
     //     onPageHandler(pageNumber);
-    // },[boardList])
+    // }, [boardList]);
 
   return (
-    <Box sx={{p:'40px 120px' , backgroundColor:'rgba(0,0,0,0,0.05)'}}>
-        <Box sx={{fontSize:'24px',fontWeight:500}}>
-            <Box component={'strong'} sx={{opacity:1}}>{content}</Box>
-            <Typography component='span' sx={{fontSize:'24px',fontWeight:500,opacity:0.7}}>에 대한 검색결과 입니다</Typography>
-            <Box component={'strong'} sx={{opacity:1}}>{boardList.length}</Box>
-
+    <Box sx={{ p: '40px 120px', backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+        <Box sx={{ fontSize: '24px', fontWeight: 500 }}>
+            <Box component='strong'>{content}</Box>
+            <Typography component='span' sx={{ fontSize: '24px', fontWeight: 500, opacity: 0.7 }}>에 대한 검색결과 입니다. </Typography>
+            <Box component='strong'>{boardList.length}</Box>
         </Box>
-        <Box sx={{pt:'20px',pb:'80px'}}>
+        <Box sx={{ pt: '20px', pb: '80px' }}>
             <Grid container spacing={3}>
                 <Grid item sm={12} md={8}>
                     <Stack spacing={2}>
-                        {/* setViewList를 찾아보면 viewList에 뭐가 들어가있는지 보인다  */}
-                        {viewList.length === 0 ? (<Box sx={{height:'416px', display:'flex',justifyContent:'center',alignItems:'center'}}><Typography sx={{fontSize:'24px',fontWeight:500,color:'rgba(0,0,0,0.4)'}}>검색 결과가 없습니다</Typography></Box>) : viewList.map((boardItem)=>(<BoardListItem item={boardItem}/>))}
+                        {viewList.length === 0 ? (<Box sx={{ height: '416px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Typography sx={{ fontSize: '24px', fontWeight: 500, color: 'rgba(0, 0, 0, 0.4)' }}>검색결과가 없습니다.</Typography></Box>) : viewList.map((boardItem) => (<BoardListItem item={boardItem as IpreviewItem} />))}
                     </Stack>
                 </Grid>
                 <Grid item sm={12} md={4}>
-                    <PopularCard title='연관 검색어'/>
+                    <PopularCard title='연관 검색어' />
                 </Grid>
             </Grid>
         </Box>
-        <Box sx={{display:'flex',justifyContent:'center'}}>
-            {/* 밑에 Pagination 숫자 클릭 할때마다 onChange ={(event,value)=>onPageHandler(value)}가 발동 되서 클릭한 숫자에 알맞은 index를 가진 박스들을 보여준다(setViewList가 발동)  */}
-            <Pagination page={pageNumber} count={getPageCount(boardList,COUNT)} onChange={(event,value)=>onPageHandler(value)}/>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Pagination page={pageNumber} count={getPageCount(boardList, COUNT)} onChange={(event, value) => onPageHandler(value)} />
         </Box>
-
-
-
     </Box>
   )
 }

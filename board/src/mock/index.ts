@@ -1,7 +1,7 @@
 
 
 
-import { ILikeUser, IpreviewItem, IUSER } from "src/interfaces";
+import { ILikeUser, IpreviewItem, IUSER,ICommentItem } from "src/interfaces";
 
 export const TOP3 :IpreviewItem[] = [
     {
@@ -746,5 +746,5 @@ export const COMMENT_LIST:ICommentItem[]=[
         commentContent:'안녕ㅎ셍ㅇ',
         commentDateTime:'2023-02-23 14:19'
     },
-    
+
 ]
