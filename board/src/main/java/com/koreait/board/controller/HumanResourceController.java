@@ -1,12 +1,18 @@
 package com.koreait.board.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.koreait.board.Service.HumanResourceService;
+import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
+import com.koreait.board.dto.response.ResponseDto;
+import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
 @RestController
 @RequestMapping("/apis/hr")

@@ -1,6 +1,7 @@
 package com.koreait.board.dto.request.humanResource;
 
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,7 +26,6 @@ public class PostHumanResourceRequestDto {
     private String name;
     
     // ? 나이 
-    @NotNull
     @Range(min=0,max=120)
     private int age;
     
@@ -63,10 +63,14 @@ public class PostHumanResourceRequestDto {
     private String resignationDate;
     
     // ? 부서
+    @NotBlank
+    @Length(min=0,max=5)
     private String departement;
     
-    // ? 연봉 
+    // ? 연봉
+    @Min(0) 
     private int annualIncome;
+    
     // ? 비고 
     private String note;
     

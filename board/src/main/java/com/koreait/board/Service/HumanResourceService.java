@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.koreait.board.Repository.DepartementRepository;
 import com.koreait.board.Repository.EmployeeRepository;
+import com.koreait.board.dto.response.ResponseDto;
 import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
 import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
@@ -14,7 +15,7 @@ public class HumanResourceService {
     @Autowired  private EmployeeRepository employeeRepository;//객체 생성작업을 framework에 넘긴다  ==> 바로 인스턴스 사용 가능 
     @Autowired private DepartementRepository departementRepository; //객체 생성작업을 framework에 넘긴다 바로 인스턴스 사용 가능
     
-    public ResposeDto<PostHumanResourceResponseDto> postHumanResource(PostHumanResourceRequestDto dto){
+    public ResponseDto<PostHumanResourceResponseDto> postHumanResource(PostHumanResourceRequestDto dto){
 
         String telNumber = dto.getTelNumber();
 
