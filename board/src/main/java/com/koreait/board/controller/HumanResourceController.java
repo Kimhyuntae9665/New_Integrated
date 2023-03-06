@@ -16,7 +16,9 @@ public class HumanResourceController {
     @Autowired private HumanResourceService humanResourceService;
 
     @PostMapping("/")
-    public ? postHumanResource(){
-        
+    public ResponseDto<PostHumanResourceResponseDto> postHumanResource(@Valid @RequestBody PostHumanResourceRequestDto requestBody){   //@RequestBody 는 POst와 같은 method에는 Body에 정보가 붙어 오기 떼문에 이 어노테이션을 ㅆ서 ㅓ일겅 주는거 
+        ResponseDto<PostHumanResourceResponseDto> response = humanResourceService.postHumanResource(requestBody);
+
+        return response;
     }
 }
