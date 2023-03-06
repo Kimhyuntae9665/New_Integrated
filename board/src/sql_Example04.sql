@@ -1,7 +1,7 @@
 use EXAMPLE_DB;
 
 --  Employee(employee_number,   position,   name,   age,
---  gender, academic_ability,birth, tel_number,
+--  gender, academic_ability,birth, tel_number,employee_two
 --  address,    address_detail, join_date,  resignation_Date,
 --  departement,    annual_income,  note)
 
@@ -41,6 +41,7 @@ CREATE TABLE Departement(
 
 
 DROP TABLE Departement;
+DROP TABLE Employee;
 
 ALTER TABLE Employee_two MODIFY COLUMN departement VARCHAR(5) COMMENT '부서코드';
 
