@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Employee")
-@Table(name = "Employee")
+@Entity(name = "Employee") //^ SQL 데이터베이스 테이블 이름 연결 
+@Table(name = "Employee") //^ SQL 데이터베이스 테이블 이름 연결 
 public class EmployeeEntity {
     @Id //employeeNumber가 PK라고 지정 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
