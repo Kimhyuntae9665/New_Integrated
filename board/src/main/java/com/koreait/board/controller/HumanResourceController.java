@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +29,10 @@ public class HumanResourceController {
         ResponseDto<PostHumanResourceResponseDto> response = humanResourceService.postHumanResource(requestBody);
 
         return response; //^ Controller의 역할은 Service에서 가공된 계산을 사용하여 Client에게 정보 전달역할  
+    }
+
+    @GetMapping("/{employeeNumber}")  //^ t사번을 Path (URL) 을 통해서 받아온다 
+    public ResponseDto<?> getHumanResource(@PathVariable("employeeNumber") int employeeNumber){
+        
     }
 }

@@ -8,6 +8,7 @@ import com.koreait.board.Repository.DepartementRepository;
 import com.koreait.board.Repository.EmployeeRepository;
 import com.koreait.board.dto.response.ResponseDto;
 import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
+import com.koreait.board.dto.response.humanResource.GetHumanResourceResponseDto;
 import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
 @Service
@@ -47,5 +48,16 @@ public class HumanResourceService {
         
 
         return ResponseDto.setSuccess("Sucess",data);
+    }
+
+    public ResponseDto<GetHumanResourceResponseDto> getHumanResource(int employeeNumber){
+
+
+        try{
+
+        } catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFail("Data Error");
+        }
     }
 }
