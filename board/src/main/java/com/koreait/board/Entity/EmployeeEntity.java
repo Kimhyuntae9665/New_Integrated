@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,4 +50,21 @@ public class EmployeeEntity {
     private int annualIncome;
     // ? 비고 
     private String note;
+
+    public EmployeeEntity(PostHumanResourceRequestDto dto){
+        this.position = dto.getPosition();
+        this.name = dto.getName();
+        this.age = dto.getAge();
+        this.gender = dto.getGender();
+        this.academicAbility = dto.getAcademicAbility();
+        this.birth = dto.getBirth();
+        this.telNumber = dto.getTelNumber();
+        this.address = dto.getAddress();
+        this.addressDetail = dto.getAddressDetail();
+        this.joinDate = dto.getJoinDate();
+        this.resignationDate = dto.getResignationDate();
+        this.departement = dto.getDepartement();
+        this.annualIncome = dto.getAnnualIncome();
+        this.note = dto.getNote();
+    }
 }

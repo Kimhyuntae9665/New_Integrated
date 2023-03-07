@@ -9,7 +9,7 @@ import com.koreait.board.Entity.Example_Entity;
 import com.koreait.board.Repository.ExampleRespository;
 import com.koreait.board.dto.GetTestResponseDto;
 import com.koreait.board.dto.PostTestRequestDto;
-import com.koreait.board.dto.ResponseDto;
+import com.koreait.board.dto.response.ResponseDto;
 
 
 // # Service 

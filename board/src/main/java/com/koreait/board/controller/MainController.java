@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.koreait.board.Service.MainService;
 import com.koreait.board.dto.GetTestResponseDto;
 import com.koreait.board.dto.PostTestRequestDto;
-import com.koreait.board.dto.ResponseDto;
+import com.koreait.board.dto.response.ResponseDto;
 
 // ?? ???? REST API? ???? Controller? ?? ? ? ?? 
 // Controller = react? Route? ?? ?? 

@@ -2,6 +2,8 @@ package com.koreait.board.dto.response.humanResource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.koreait.board.Entity.EmployeeEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/apis/hr")
 public class PostHumanResourceResponseDto {
-
+    private int employeeNumber;
     // ? 직급 
     private String position;
     // ?이름
@@ -40,5 +42,26 @@ public class PostHumanResourceResponseDto {
     private int annualIncome;
     // ? 비고 
     private String note;
+
+
+    public PostHumanResourceResponseDto(EmployeeEntity employeeEntity){
+
+        this.employeeNumber = employeeEntity.getEmployeeNumber();
+        this.position = employeeEntity.getPosition();
+        this.name = employeeEntity.getName();
+        this.age = employeeEntity.getAge();
+        this.gender = employeeEntity.getGender();
+        this.academicAbility = employeeEntity.getAcademicAbility();
+        this.birth = employeeEntity.getBirth();
+        this.telNumber = employeeEntity.getTelNumber();
+        this.address = employeeEntity.getAddress();
+        this.addressDetail = employeeEntity.getAddressDetail();
+        this.joinDate = employeeEntity.getJoinDate();
+        this.resignationDate = employeeEntity.getResignationDate();
+        this.departement = employeeEntity.getDepartement();
+        this.annualIncome = employeeEntity.getAnnualIncome();
+        this.note = employeeEntity.getNote();
+
+    }
     
 }

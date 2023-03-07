@@ -3,6 +3,7 @@ package com.koreait.board.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.koreait.board.Entity.EmployeeEntity;
 import com.koreait.board.Repository.DepartementRepository;
 import com.koreait.board.Repository.EmployeeRepository;
 import com.koreait.board.dto.response.ResponseDto;
@@ -17,19 +18,33 @@ public class HumanResourceService {
     
     public ResponseDto<PostHumanResourceResponseDto> postHumanResource(PostHumanResourceRequestDto dto){
 
+        PostHumanResourceResponseDto data = null;
+
         String telNumber = dto.getTelNumber();
+        String departementCode = dto.getDepartement();
 
         try{
-            boolean hasTelNumber = employeeRepository.existByTelNumber(telNumber);
+            boolean hasTelNumber = employeeRepository.existsByTelNumber(telNumber);
             if(hasTelNumber){
                 return ResponseDto.setFail("Existed TelPhone Number");
             }
+
+            if(departementCode != null){
+                boolean hasDepartement = departementRepository.existsById(departementCode);
+                if(!hasDepartement) return ResponseDto.setFail("Does not exist Departement Code");
+            }
+
+            EmployeeEntity employeeEntity = new EmployeeEntity(dto);
+            employeeRepository.save(employeeEntity);
+
+            data = new PostHumanResourceResponseDto(employeeEntity);
+
         }catch(Exception exception){
             exception.printStackTrace();
             return ResponseDto.setFail("Database Error");
         }
 
-        PostHumanResourceResponseDto data = new PostHumanResourceResponseDto();
+        
 
         return ResponseDto.setSuccess("Sucess",data);
     }
