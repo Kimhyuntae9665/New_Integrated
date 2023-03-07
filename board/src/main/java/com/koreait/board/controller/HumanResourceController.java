@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.koreait.board.Service.HumanResourceService;
 import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
 import com.koreait.board.dto.response.ResponseDto;
+import com.koreait.board.dto.response.humanResource.GetHumanResourceResponseDto;
 import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
 @RestController
@@ -32,7 +33,12 @@ public class HumanResourceController {
     }
 
     @GetMapping("/{employeeNumber}")  //^ t사번을 Path (URL) 을 통해서 받아온다 
-    public ResponseDto<?> getHumanResource(@PathVariable("employeeNumber") int employeeNumber){
-        
+    // ? GET 방식으로 http://localhost:4040/apis/hr/사번
+    public ResponseDto<GetHumanResourceResponseDto> getHumanResource(@PathVariable("employeeNumber") int employeeNumber){
+       
+        ResponseDto<GetHumanResourceResponseDto> response = 
+        humanResourceService.getHumanResource(employeeNumber);
+
+        return response;
     }
 }
