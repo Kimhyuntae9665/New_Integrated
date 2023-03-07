@@ -12,17 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.koreait.board.Service.HumanResourceService;
+import com.koreait.board.common.constant.ApiMappingPattern;
 import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
 import com.koreait.board.dto.response.ResponseDto;
 import com.koreait.board.dto.response.humanResource.GetHumanResourceResponseDto;
 import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
 @RestController
-@RequestMapping("/apis/hr")
+@RequestMapping(ApiMappingPattern.HR)
 public class HumanResourceController {
     
 
     @Autowired private HumanResourceService humanResourceService;
+
+
+    // ^ 코드상에 literal 없애서 깔끔하게 보인다 
+    private static final String POST_HUMAN_RESOURCE = "/";
+    private static final String GET_HUMAN_RESOURCE = "/{employeeNumber}";
 
     @PostMapping("/")
     //? POST 방식 http://localhost:4040/apis/hr/
@@ -32,7 +38,7 @@ public class HumanResourceController {
         return response; //^ Controller의 역할은 Service에서 가공된 계산을 사용하여 Client에게 정보 전달역할  
     }
 
-    @GetMapping("/{employeeNumber}")  //^ t사번을 Path (URL) 을 통해서 받아온다 
+    @GetMapping(GET_HUMAN_RESOURCE)  //^ t사번을 Path (URL) 을 통해서 받아온다 
     // ? GET 방식으로 http://localhost:4040/apis/hr/사번
     public ResponseDto<GetHumanResourceResponseDto> getHumanResource(@PathVariable("employeeNumber") int employeeNumber){
        
