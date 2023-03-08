@@ -53,11 +53,12 @@ public class HumanResourceController {
     }
 
     @PatchMapping(PATCH_HUMAN_RESOURCE) //^ PATCH 가 정보를 수정하는 메서드 
+    // ?PATCH http://localhost:4040/apis/hr/
     // ^ PATCH는 데이터를 담아올 적에 RequestBody에 데이터를 받아온다 POST와 동일 
     // ^ @Valid는 유효성 검사 때문에 사용 
     public ResponseDto<PatchHumanResourceResponseDto> patchHumanResource(@Valid@RequestBody PatchHumanResourceRequestDto requestBody){
         
-        ResponseDto<PatchHumanResourceResponseDto> response = null;
+        ResponseDto<PatchHumanResourceResponseDto> response = humanResourceService.patchHumanResource(requestBody);
         return response;
     }
 }

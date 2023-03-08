@@ -90,12 +90,22 @@ public class HumanResourceService {
         PatchHumanResourceResponseDto data = null;
 
         int employeeNumber = dto.getEmployeeNumber();
+        String departementCode = dto.getDepartement();
+
         try{
 
             boolean hasEmployee = employeeRepository.existsById(employeeNumber);
             if(!hasEmployee){
                 return ResponseDto.setFail(ResponseMessage.NOT_EXIST_EMPLOYEE_NUMBER);
             }
+
+            if(departementCode !=null){
+                
+                boolean hasDepartement = departementRepository.existsById(departementCode);
+                if(!hasDepartement) return ResponseDto.setFail(ResponseMessage.NOT_EXIST_EMPLOYEE_NUMBER);
+            }
+
+           
 
             EmployeeEntity employeeEntity = new EmployeeEntity(dto);
             employeeRepository.save(employeeEntity);
