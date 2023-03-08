@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.koreait.board.Service.HumanResourceService;
 import com.koreait.board.common.constant.ApiMappingPattern;
+import com.koreait.board.dto.request.humanResource.PatchHumanResourceRequestDto;
 import com.koreait.board.dto.request.humanResource.PostHumanResourceRequestDto;
 import com.koreait.board.dto.response.ResponseDto;
 import com.koreait.board.dto.response.humanResource.GetHumanResourceResponseDto;
+import com.koreait.board.dto.response.humanResource.PatchHumanResourceResponseDto;
 import com.koreait.board.dto.response.humanResource.PostHumanResourceResponseDto;
 
 @RestController
@@ -29,6 +32,7 @@ public class HumanResourceController {
     // ^ 코드상에 literal 없애서 깔끔하게 보인다 
     private static final String POST_HUMAN_RESOURCE = "/";
     private static final String GET_HUMAN_RESOURCE = "/{employeeNumber}";
+    private static final String PATCH_HUMAN_RESOURCE = "/";
 
     @PostMapping("/")
     //? POST 방식 http://localhost:4040/apis/hr/
@@ -45,6 +49,15 @@ public class HumanResourceController {
         ResponseDto<GetHumanResourceResponseDto> response = 
         humanResourceService.getHumanResource(employeeNumber);
 
+        return response;
+    }
+
+    @PatchMapping(PATCH_HUMAN_RESOURCE) //^ PATCH 가 정보를 수정하는 메서드 
+    // ^ PATCH는 데이터를 담아올 적에 RequestBody에 데이터를 받아온다 POST와 동일 
+    // ^ @Valid는 유효성 검사 때문에 사용 
+    public ResponseDto<PatchHumanResourceResponseDto> patchHumanResource(@Valid@RequestBody PatchHumanResourceRequestDto requestBody){
+        
+        ResponseDto<PatchHumanResourceResponseDto> response = null;
         return response;
     }
 }

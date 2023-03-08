@@ -26,10 +26,15 @@ public class DepartementService {
 
         PostDepartementResponseDto data = null;
 
-
+        String departementCode = dto.getDepartementCode();
         int cheifEmployeeNumber = dto.getChief();
 
         try{
+
+            boolean hasDepartement = departementRepository.existsById(departementCode);
+            if(hasDepartement) {
+                return ResponseDto.setFail(ResponseMessage.EXIST_DEPARTEMENT_CODE);
+            }
 
             boolean hasEmployee = employeeRepository.existsById(cheifEmployeeNumber);
             if(!hasEmployee){
