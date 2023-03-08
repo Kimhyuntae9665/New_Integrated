@@ -17,11 +17,14 @@ public class PostDepartementRequestDto {
     @NotBlank
     @Length(min = 0,max =5)
     private String departementCode;
+    
     @NotBlank
     @Length(min=0,max=50)
     private String name;
+
     @Min(1)
     private int chief;
+
     @NotBlank
     @Length(min=0,max=15)
     private String telNumber;

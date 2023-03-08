@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.koreait.board.dto.request.departement.PostDepartementRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,14 @@ public class DepartementEntity {
     private int chief;
     // ? 부서 전화번호 
     private String telNumber;
+
+    public DepartementEntity(PostDepartementRequestDto dto){
+        
+        this.departementCode = dto.getDepartementCode();
+        this.name = dto.getName();
+        this.chief = dto.getChief();
+        this.telNumber = dto.getTelNumber();
+    }
 
     
 }
