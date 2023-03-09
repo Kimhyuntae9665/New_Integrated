@@ -30,12 +30,12 @@ public class DepartementService {
         int cheifEmployeeNumber = dto.getChief();
 
         try{
-
+            // ^ 부서코드가 있는지 부터 먼저 확인한다 
             boolean hasDepartement = departementRepository.existsById(departementCode);
             if(hasDepartement) {
                 return ResponseDto.setFail(ResponseMessage.EXIST_DEPARTEMENT_CODE);
             }
-
+            // ^ 부서장 코드가 있는지 부터 먼저 확인한다 
             boolean hasEmployee = employeeRepository.existsById(cheifEmployeeNumber);
             if(!hasEmployee){
                 return ResponseDto.setFail(ResponseMessage.NOT_EXIST_EMPLOYEE_NUMBER);
@@ -63,7 +63,8 @@ public class DepartementService {
 
 
         try{
-
+            // ^  findAll()의 반환타입이 List<T> 이다 
+            // ^  모든 컬럼을 조회하기 위해 findAll 을 사용하죠
            List<DepartementEntity> departementList =  departementRepository.findAll();
 
            data = GetAllDepartementListResponseDto.copyList(departementList);
