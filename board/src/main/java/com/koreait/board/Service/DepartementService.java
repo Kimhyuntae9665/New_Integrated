@@ -13,6 +13,7 @@ import com.koreait.board.Repository.EmployeeRepository;
 import com.koreait.board.common.constant.ResponseMessage;
 import com.koreait.board.dto.request.departement.PostDepartementRequestDto;
 import com.koreait.board.dto.response.ResponseDto;
+import com.koreait.board.dto.response.departement.DeleteDepartementResponseDto;
 import com.koreait.board.dto.response.departement.GetAllDepartementListResponseDto;
 import com.koreait.board.dto.response.departement.PostDepartementResponseDto;
 
@@ -77,6 +78,36 @@ public class DepartementService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
         
         
+    }
+
+    public ResponseDto<List<DeleteDepartementResponseDto>> deleteDepartement(String departementCode){
+
+        List<DeleteDepartementResponseDto> data = null;
+
+        try{
+
+            boolean hasDepartement = departementRepository.existsById(departementCode);
+
+            if(!hasDepartement){
+                return ResponseDto.setFail(ResponseMessage.NOT_EXIST_DEPARTEMENT_CODE);
+            }
+            // ^ 사원테이블에서 해당 부서를 참조하고 있을 때 (외래 키 때문에 삭제 불가 )
+            boolean hasReferenceEmployee = employeeRepository.existsByDepartement(departementCode);
+            if(hasReferenceEmployee){
+                return ResponseDto.setFail(ResponseMessage.REFERING_EXIST);
+            }
+
+            departementRepository.deleteById(departementCode);
+
+            List<DepartementEntity> departementEntities = departementRepository.findAll();
+            data = DeleteDepartementResponseDto.copyList(departementEntities);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFail(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
     
 }

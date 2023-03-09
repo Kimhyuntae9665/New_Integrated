@@ -11,6 +11,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity,Integer
     
 
     public boolean existsByTelNumber(String telNumber);
+    public boolean existsByDepartement(String departement);
 
     public EmployeeEntity findByEmployeeNumber(int employeeNumber);
 }

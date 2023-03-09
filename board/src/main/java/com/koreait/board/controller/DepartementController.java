@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.koreait.board.Service.DepartementService;
 import com.koreait.board.common.constant.ApiMappingPattern;
 import com.koreait.board.dto.request.departement.PostDepartementRequestDto;
 import com.koreait.board.dto.response.ResponseDto;
+import com.koreait.board.dto.response.departement.DeleteDepartementResponseDto;
 import com.koreait.board.dto.response.departement.GetAllDepartementListResponseDto;
 import com.koreait.board.dto.response.departement.PostDepartementResponseDto;
 
@@ -28,6 +31,7 @@ public class DepartementController {
     
     private static final String POST_DEPARTEMENT = "/";
     private static final String GET_ALL_DEPARTEMENT_LIST = "/all";
+    private static final String DELETE_DEPARTEMENT = "/{departementCode}";
 
 
     @PostMapping(POST_DEPARTEMENT)
@@ -49,5 +53,16 @@ public class DepartementController {
          ResponseDto<List<GetAllDepartementListResponseDto>> response = departementService.getAllDepartementList();
          return response;
 
+    }
+
+    // ^ Delete는 URL에 데이터를 담아서 보낸다 
+    // ^ @PathVariable 어노테이션 사용 
+    // ^ React에서는 USEPARAM 사용 
+    @DeleteMapping(DELETE_DEPARTEMENT)
+    // ? DELETE http://localhost:4040/apis/departement/{departementCode}
+    public ResponseDto<List<DeleteDepartementResponseDto>> deleteDepartement(@PathVariable("departementCode") String departementCode){
+
+        ResponseDto<List<DeleteDepartementResponseDto>> response = departementService.deleteDepartement(departementCode);
+        return response;
     }
 }
