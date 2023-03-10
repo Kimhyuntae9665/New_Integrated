@@ -6,4 +6,6 @@ public class ApiMappingPattern {
     public static final String DEPARTEMENT = "/apis/departement";
 
     public static final String FILE = "/file";
+
+    public static final String AUTH = "/auth";
 }
