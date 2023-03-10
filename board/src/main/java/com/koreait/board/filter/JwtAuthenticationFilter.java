@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String token = parseBearToken(request);
 
                 //? token이 있는지
-                if (token != null) throw new Exception();
+                if (token == null) throw new Exception();
 
                 String sub = tokenProvider.validate(token);
 
