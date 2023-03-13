@@ -46,7 +46,7 @@ public class HumanResourceController {
     @GetMapping(GET_HUMAN_RESOURCE)  //^ t사번을 Path (URL) 을 통해서 받아온다 
     // ? GET 방식으로 http://localhost:4040/apis/hr/사번
     public ResponseDto<GetHumanResourceResponseDto> getHumanResource(@AuthenticationPrincipal String sub,@PathVariable("employeeNumber") int employeeNumber){
-       
+    
         ResponseDto<GetHumanResourceResponseDto> response = 
         humanResourceService.getHumanResource(employeeNumber);
 
