@@ -7,5 +7,11 @@ import com.hoodoo.board.entity.UserEntity;
 
 @Repository
 public interface UserRepository  extends JpaRepository<UserEntity,String>{ //^ 누구의 Repository인지 , 그다음에는 PK의 타입이 뭔지 
+
+    // ^ 함수 이름을 규칙에 따라 쓰면 자동으로 내용까지 작성이 된다 
+    public boolean existsByEmail(String email);
+    public boolean existsByTelNumber(String telNumber);
+
+    
     
 }
