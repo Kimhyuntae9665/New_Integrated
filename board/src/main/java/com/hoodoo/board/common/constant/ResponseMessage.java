@@ -10,5 +10,6 @@ public interface ResponseMessage {
     public static final String SUCCESS = "Sucess";
     public static final String EXIST_EMAIL = "Already Existed Email";
     public static final String EXIST_TEL_NUMBER = "Existed Tel Number";
+    public static final String FAIL_SIGN_IN =  "Failed Sign In";
     
 }

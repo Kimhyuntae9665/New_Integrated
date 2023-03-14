@@ -12,11 +12,12 @@ import com.hoodoo.board.dto.response.ResponseDto;
 import com.hoodoo.board.dto.response.auth.SignInResponseDto;
 import com.hoodoo.board.dto.response.auth.SignUpResponseDto;
 import com.hoodoo.board.entity.UserEntity;
+import com.hoodoo.board.provider.TokenProvider;
 import com.hoodoo.board.repository.UserRepository;
 
 @Service
 public class AuthService {
-
+    @Autowired private TokenProvider tokenProvider;
     @Autowired private UserRepository userRepository;
     
     // ^ 비밀번호 암호화 
@@ -31,6 +32,8 @@ public class AuthService {
         String email = dto.getEmail();
         String telNumber = dto.getTelNumber();
         String password = dto.getPassword();
+
+        UserEntity userEntity = null;
 
         // ^ 이메일과 전화번호가 UNIQUE인지 확인하는 작업을 가장 먼저 한다 
         try{
@@ -51,7 +54,7 @@ public class AuthService {
 
             // ^ 바뀐 암호화된 비밀번호와 이메일을 다시 UserEntity와 UserRepository로 전달저장한다 
             // ^ 데이터 베이스에 집어넣는 주된 작업 
-            UserEntity userEntity = new UserEntity(dto);
+             userEntity = new UserEntity(dto);
             userRepository.save(userEntity);
 
             // ^  인스턴스를 반환 
@@ -78,13 +81,36 @@ public class AuthService {
         String email = dto.getEmail();
         String password  = dto.getPassword();
 
+        UserEntity userEntity = null;
+        
         try{
+            //  ^ 받아온 이메일이 존재하는지 부터 확인 
+            userEntity = userRepository.findByEmail(email);
+            if(userEntity ==null){
+                return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
+            }
 
-            UserEntity userEntity = userRepository.findByEmail(email);
+            boolean isEqualPassword = passwordEncoder.matches(password, userEntity.getPassword());
+            if(!isEqualPassword){
+                return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
+            }
+
+
 
         }catch(Exception exception){
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        try{
+
+            String token = tokenProvider.create(email);
+
+            data =  new SignInResponseDto(userEntity,token);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
         }
 
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
