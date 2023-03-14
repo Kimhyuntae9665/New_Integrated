@@ -6,8 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hoodoo.board.common.constant.ResponseMessage;
+import com.hoodoo.board.dto.request.auth.SignInDto;
 import com.hoodoo.board.dto.request.auth.SignUpDto;
 import com.hoodoo.board.dto.response.ResponseDto;
+import com.hoodoo.board.dto.response.auth.SignInResponseDto;
+import com.hoodoo.board.dto.response.auth.SignUpResponseDto;
+import com.hoodoo.board.entity.UserEntity;
 import com.hoodoo.board.repository.UserRepository;
 
 @Service
@@ -20,9 +24,9 @@ public class AuthService {
 
 
     // ^ 데이터 베이스에 집어넣는 작업 
-    public ResponseDto<SignUpDto> signUp(SignUpDto dto){
+    public ResponseDto<SignUpResponseDto> signUp(SignUpDto dto){
 
-        SignUpDto data = null;
+        SignUpResponseDto data = null;
 
         String email = dto.getEmail();
         String telNumber = dto.getTelNumber();
@@ -42,6 +46,16 @@ public class AuthService {
 
             // ^ 비밀번호 암호화 작업 .encode()함수 
             String encodedPassword = passwordEncoder.encode(password);
+            // ^ 유저 비밀번호를 암호화된 상태로 바꿔준다 
+            dto.setPassword(encodedPassword);
+
+            // ^ 바뀐 암호화된 비밀번호와 이메일을 다시 UserEntity와 UserRepository로 전달저장한다 
+            // ^ 데이터 베이스에 집어넣는 주된 작업 
+            UserEntity userEntity = new UserEntity(dto);
+            userRepository.save(userEntity);
+
+            // ^  인스턴스를 반환 
+            data = new SignUpResponseDto(true);
 
             
 
@@ -53,6 +67,27 @@ public class AuthService {
 
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
         
+    }
+
+    public ResponseDto<SignInResponseDto> signIn(SignInDto dto){
+        
+        SignInResponseDto data = null;
+
+        // ^ 개인정보 보호법상 둘 중에 하나만 잘못되어도 로그인 안되지만 뭐가 틀린건지 가르쳐 주면 안되 
+        // ^ 뭐가 틀린건지 가르쳐 주면 안되  
+        String email = dto.getEmail();
+        String password  = dto.getPassword();
+
+        try{
+
+            UserEntity userEntity = userRepository.findByEmail(email);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
     
 }

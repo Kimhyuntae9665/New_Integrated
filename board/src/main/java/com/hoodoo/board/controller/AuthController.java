@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodoo.board.common.constant.ApiPattern;
+import com.hoodoo.board.dto.request.auth.SignInDto;
 import com.hoodoo.board.dto.request.auth.SignUpDto;
 import com.hoodoo.board.dto.response.ResponseDto;
+import com.hoodoo.board.dto.response.auth.SignInResponseDto;
 import com.hoodoo.board.dto.response.auth.SignUpResponseDto;
 import com.hoodoo.board.service.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,7 @@ public class AuthController {
     @Autowired private AuthService authService;
 
     private final String SIGN_UP = "/sign-up";
+    private final String SIGN_IN = "/sign-in";
     
     @PostMapping(SIGN_UP)
     // ^ ResponseDto와 ResponseEntity 차이 
@@ -32,5 +35,13 @@ public class AuthController {
         return response;
         
     }
+
+    @PostMapping(SIGN_IN)
+    public ResponseDto<SignInResponseDto> signIn(@Valid @RequestBody SignInDto requestBody){
+
+        ResponseDto<SignInResponseDto> response = authService.signIn(requestBody);
+        return response; 
+    }
+
     
 }
