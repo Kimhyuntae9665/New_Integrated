@@ -24,7 +24,7 @@ public class PostBoardResponseDto {
     public PostBoardResponseDto(BoardEntity board){
         this.board = board;
         this.commentList = new ArrayList<>();
-        this.likeList = new ArrayList<>();
+        this.likeyList = new ArrayList<>();
     }
     
 }

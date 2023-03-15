@@ -7,6 +7,7 @@ import com.hoodoo.board.common.constant.ResponseMessage;
 import com.hoodoo.board.dto.request.board.PostBoardDto;
 import com.hoodoo.board.dto.request.board.PostBoardResponseDto;
 import com.hoodoo.board.dto.response.ResponseDto;
+import com.hoodoo.board.entity.BoardEntity;
 import com.hoodoo.board.entity.UserEntity;
 import com.hoodoo.board.repository.BoardRepository;
 import com.hoodoo.board.repository.UserRepository;
@@ -30,7 +31,12 @@ public class BoardService {
                 ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
             }
 
-            
+            BoardEntity boardEntity = new BoardEntity(userEntity,dto);
+            boardRepository.save(boardEntity);
+
+            data =  new PostBoardResponseDto(boardEntity);
+
+
             
         } catch (Exception exception) {
             exception.printStackTrace();
