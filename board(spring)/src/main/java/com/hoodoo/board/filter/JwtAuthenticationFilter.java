@@ -35,9 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseToken(request);
-            boolean hasJwt = jwt != null && !jwt.equalsIgnoreCase("null")
+            boolean hasJwt = jwt != null && !jwt.equalsIgnoreCase("null");
             if (!hasJwt) {
-                
+
                 filterChain.doFilter(request, response);
                 return;
 
