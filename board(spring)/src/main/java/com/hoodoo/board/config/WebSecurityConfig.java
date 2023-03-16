@@ -33,7 +33,10 @@ public class WebSecurityConfig {
                                                             // ^ 다른 것들은 Token이 있어야 접근가능 
                                                             // ^ 없으면 401 뜬다 
             .authorizeRequests()        //! 공통된 부분이 있으면 상세한 놈이 앞으로 오도록 
+                                        // ! 그래야지 1차적으로 많이 걷어낼 수 있다 
+                                        //^ authenticated()는 권한이 있는 authorized 된 사람만 사용 가능하다는 뜻 
             .antMatchers("/api/board/my-list").authenticated()
+                                        // ^auth : 로그인 이나 회원가입은 누구나 할 수 있어야 하니 
             .antMatchers("/auth/**","/file/**").permitAll()
                                                         // ! 공통된 부분이 있으면 범위가 넓은 놈들이 뒤로 가게 상세한 놈들이 앞으로  
             .antMatchers(HttpMethod.GET,"/api/board/**").permitAll()
