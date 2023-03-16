@@ -18,8 +18,8 @@ public class BoardService {
     @Autowired private BoardRepository boardRepository;
     @Autowired private UserRepository userRepository;
 
-
-    public ResponseDto<PostBoardResponseDto > postBoard(String email,PostBoardDto dto){
+                                                 // ^ email은 글쓴이에 대한 정보를 위한 PK , PostBoardDto는 게시물 정보  
+    public ResponseDto <PostBoardResponseDto> postBoard(String email,PostBoardDto dto){
         
         PostBoardResponseDto data = null;
 
@@ -33,7 +33,7 @@ public class BoardService {
 
             BoardEntity boardEntity = new BoardEntity(userEntity,dto);
             boardRepository.save(boardEntity);
-
+            // ^ 게시물을 Post 하는것에 대한 결과를 담은 Data 객체  이므로 PostBoardResponseDto이다 
             data =  new PostBoardResponseDto(boardEntity);
 
 

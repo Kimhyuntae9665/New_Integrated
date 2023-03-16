@@ -33,9 +33,9 @@ public class UserService {
             userEntity.setProfile(profile);
             // ^ 데이터 베이스에서도 변경 
             userRepository.save(userEntity);
-
+            // ^ 바뀐 user 정보를 가진 인스턴스를 data로 옮긴다 
             data = new PatchProfileResponseDto(userEntity);
-
+            // ^ 성공시에 Sucess 메시지와 함께 data 정보를 전송한다 
 
 
             
