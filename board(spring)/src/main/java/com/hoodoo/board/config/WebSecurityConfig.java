@@ -28,9 +28,13 @@ public class WebSecurityConfig {
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                                                             // ^ auth만을 허용하는것 
+                                                             // ^ auth, file만을 허용하는것 
+                                                            //  ^ 이 URL 들은 Token이 없어도 허용 
+                                                            // ^ 다른 것들은 Token이 있어야 접근가능 
+                                                            // ^ 없으면 401 뜬다 
             .authorizeRequests().antMatchers("/auth/**","/file/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/board/**").permitAll()
+            .antMatchers("/api/board/my-list").authenticated()
             .anyRequest().authenticated().and()
             .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
