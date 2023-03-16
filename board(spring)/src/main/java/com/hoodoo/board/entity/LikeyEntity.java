@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import com.hoodoo.board.entity.primaryKey.LikeyPK;
@@ -19,14 +20,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name="Likey")
 @Table(name=  "Likey")
+@IdClass(LikeyPK.class)
 public class LikeyEntity {
 
-
+    @Id
+    private String userEmail;
+    @Id
+    private int boardNumber;
     
-    @EmbeddedId
-    private LikeyPK likeyPK;
-    
-    private String userProfile;
+    private String userProfileUrl;
     private String userNickname;
     
     

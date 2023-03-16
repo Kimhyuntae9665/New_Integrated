@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodoo.board.common.constant.ApiPattern;
 import com.hoodoo.board.dto.request.board.PostBoardDto;
-import com.hoodoo.board.dto.request.board.PostBoardResponseDto;
 import com.hoodoo.board.dto.response.ResponseDto;
+import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
+import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
 import com.hoodoo.board.service.BoardService;
 
 @RestController
@@ -26,6 +29,8 @@ public class BoardController {
     @Autowired private BoardService boardService;
 
     private final String POST_BOARD = "";
+                                    // ^ PathVariable 사용 
+    private final String GET_BOARD = "/{boardNumber}";
     private final String GET_LIST = "/list";
 
     @PostMapping(POST_BOARD)
@@ -39,6 +44,13 @@ public class BoardController {
         return response;
 
         
+    }
+
+    @GetMapping(GET_BOARD)                              //^ // ^ PathVariable 사용 
+    public ResponseDto<GetBoardResponseDto> getBoard(@PathVariable("boardNumber") int boardNumber){
+        ResponseDto<GetBoardResponseDto> response = boardService.getBoard(boardNumber);
+        return response;
+
     }
 
     // ^모든  BoardList를 가져오는 작업 

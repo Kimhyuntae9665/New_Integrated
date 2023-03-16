@@ -1,4 +1,4 @@
-package com.hoodoo.board.dto.request.board;
+package com.hoodoo.board.dto.response.board;
 
 import java.util.ArrayList;
 import java.util.List;

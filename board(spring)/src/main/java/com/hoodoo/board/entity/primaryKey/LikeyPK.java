@@ -10,7 +10,6 @@ import lombok.Data;
 
 // ^ 복합키 클래스 만드는 방법 
 @Data
-@Embeddable
 public class LikeyPK implements Serializable {
 
 

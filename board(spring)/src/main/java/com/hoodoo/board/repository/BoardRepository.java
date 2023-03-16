@@ -9,6 +9,8 @@ import com.hoodoo.board.entity.BoardEntity;
 
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity,Integer>{
+
+    public BoardEntity findByBoardNumber(int boardNumber);
     // ^ 역순으로 == 최신순으로 
     public List<BoardEntity> findByOrderByBoardWriteDatetimeDesc();
     
