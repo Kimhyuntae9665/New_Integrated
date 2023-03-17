@@ -7,15 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoodoo.board.common.constant.ResponseMessage;
+import com.hoodoo.board.dto.request.board.LikeDto;
 import com.hoodoo.board.dto.request.board.PatchBoardDto;
 import com.hoodoo.board.dto.request.board.PostBoardDto;
+import com.hoodoo.board.dto.request.board.PostCommentDto;
 import com.hoodoo.board.dto.response.ResponseDto;
 import com.hoodoo.board.dto.response.board.DeleteBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
+import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
+import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
+import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
 import com.hoodoo.board.entity.BoardEntity;
 import com.hoodoo.board.entity.CommentEntity;
 import com.hoodoo.board.entity.LikeyEntity;
@@ -61,22 +66,77 @@ public class BoardService {
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber){
-        GetBoardResponseDto data = null;
+    public ResponseDto<LikeResponseDto> like(String email, LikeDto dto) {
+
+        LikeResponseDto data = null;
+
+        int boardNumber = dto.getBoardNumber();
+
+        try {
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+            
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+
+            LikeyEntity LikeyEntity = likeyRepository.findByUserEmailAndBoardNumber(email, boardNumber);
+            // ! 좋아요 명단에 유저의 email이 없으면 좋아요 누르면 +1 
+            if (LikeyEntity == null) {
+                LikeyEntity = new LikeyEntity(userEntity, boardNumber);
+                likeyRepository.save(LikeyEntity);
+                boardEntity.increaseLikeCount();
+            }
+            // !   좋아요 명단에 유저의 email이 있으면 좋아요를 한번 더 누르면 좋아요 -1 되도록 
+            else {
+                likeyRepository.delete(LikeyEntity);
+                boardEntity.decreaseLikeCount();
+            }
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriteDatetimeDesc(boardNumber);
+            List<LikeyEntity> likeList = likeyRepository.findByBoardNumber(boardNumber);
+
+            data = new LikeResponseDto(boardEntity, commentList, likeList);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+
+    }
+
+
+    public ResponseDto<PostCommentResponseDto> postComment(String email,PostCommentDto dto){
+        
+        PostCommentResponseDto data =null;
+
+        int boardNumber = dto.getBoardNumber();
 
         try{
 
-            // ^ 1.  
-            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
-            if(boardEntity==null){
-                ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if(userEntity ==null){
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
             }
 
-            List<LikeyEntity> likeyList = likeyRepository.findByBoardNumber(boardNumber);
-            List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriteDatetimeDesc(boardNumber);
-            data = new GetBoardResponseDto(boardEntity,commentList,likeyList);
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if(boardEntity==null){
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+            }
 
-            // ^ 2. 
+            CommentEntity commentEntity = new CommentEntity(userEntity,dto);
+            commentRepository.save(commentEntity);
+
+
+            boardEntity.increaseCommentCount();
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriteDatetimeDesc(boardNumber);
+            List<LikeyEntity> likeyList = likeyRepository.findByBoardNumber(boardNumber);
+
+            data = new PostCommentResponseDto(boardEntity, commentList, likeyList);
 
 
 
@@ -85,9 +145,38 @@ public class BoardService {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
-
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
+
+
+
+
+    public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber) {
+
+        GetBoardResponseDto data = null;
+
+        try {
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_BOARD);
+            List<LikeyEntity> likyList = likeyRepository.findByBoardNumber(boardNumber);
+            List<CommentEntity> commentList = commentRepository.findByBoardNumberOrderByWriteDatetimeDesc(boardNumber);
+            
+            boardEntity.increaseViewCount();
+            boardRepository.save(boardEntity);
+
+            data = new GetBoardResponseDto(boardEntity, commentList, likyList);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+
+    }
+
+
 
     public ResponseDto<List<GetListResponseDto>> getList(){
 

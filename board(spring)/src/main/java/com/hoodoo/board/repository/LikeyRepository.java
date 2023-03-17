@@ -12,4 +12,5 @@ import com.hoodoo.board.entity.primaryKey.LikeyPK;
 public interface LikeyRepository extends JpaRepository<LikeyEntity,LikeyPK>{
     
     public List<LikeyEntity> findByBoardNumber(int boardNumber);
+    public LikeyEntity findByUserEmailAndBoardNumber(String userEmail,int boardNumber);
 }

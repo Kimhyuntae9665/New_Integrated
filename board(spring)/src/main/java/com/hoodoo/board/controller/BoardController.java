@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoodoo.board.common.constant.ApiPattern;
+import com.hoodoo.board.dto.request.board.LikeDto;
 import com.hoodoo.board.dto.request.board.PatchBoardDto;
 import com.hoodoo.board.dto.request.board.PostBoardDto;
+import com.hoodoo.board.dto.request.board.PostCommentDto;
 import com.hoodoo.board.dto.response.ResponseDto;
 import com.hoodoo.board.dto.response.board.DeleteBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
+import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
+import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
 import com.hoodoo.board.service.BoardService;
 
 @RestController
@@ -36,6 +40,8 @@ public class BoardController {
 
     private final String POST_BOARD = "";
                                     // ^ PathVariable 사용 
+    private final String POST_COMMENT = "/comment";
+    private final String LIKE = "/like";
     private final String GET_BOARD = "/{boardNumber}";
     private final String GET_LIST = "/list";
     private final String GET_MY_LIST = "my-list";
@@ -53,6 +59,30 @@ public class BoardController {
         return response;
 
         
+    }
+
+
+    @PostMapping(POST_COMMENT)
+    public ResponseDto<PostCommentResponseDto> postComment(
+        @AuthenticationPrincipal String email,
+        @Valid @RequestBody PostCommentDto requestBody
+    ){
+        ResponseDto<PostCommentResponseDto> response = boardService.postComment(email,requestBody);
+        return response;
+
+    }
+
+
+    @PostMapping(LIKE)
+    public ResponseDto<LikeResponseDto>like(
+        // ^ 로그인 된 사람만 좋아요 누를 수 있다(검증된 인스턴스만 좋앙 누를 수 있다 )
+        @AuthenticationPrincipal String email,
+        @Valid @RequestBody LikeDto requestBody){
+        // ^ 로그인 된 사람만 좋아요 누를 수 있다 
+
+        ResponseDto<LikeResponseDto> response = boardService.like(email,requestBody);
+        return response;
+
     }
 
     @GetMapping(GET_BOARD)                              //^ // ^ PathVariable 사용 
