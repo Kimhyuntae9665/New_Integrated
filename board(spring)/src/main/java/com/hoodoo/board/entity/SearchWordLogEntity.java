@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "SearchWordLog")
-@Table(name = "SearchWordLog")
+@Entity(name = "Searchwordlog")
+@Table(name = "Searchwordlog")
 public class SearchWordLogEntity {
 
     @Id
@@ -22,5 +22,10 @@ public class SearchWordLogEntity {
     
     private int sequence;
     private String searchWord;
+
+    public SearchWordLogEntity(String searchWord){
+        this.searchWord = searchWord;
+
+    }
     
 }

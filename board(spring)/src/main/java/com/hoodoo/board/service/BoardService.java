@@ -16,6 +16,7 @@ import com.hoodoo.board.dto.response.board.DeleteBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
+import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
@@ -24,10 +25,14 @@ import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
 import com.hoodoo.board.entity.BoardEntity;
 import com.hoodoo.board.entity.CommentEntity;
 import com.hoodoo.board.entity.LikeyEntity;
+import com.hoodoo.board.entity.RelatedSearchWordEntity;
+import com.hoodoo.board.entity.SearchWordLogEntity;
 import com.hoodoo.board.entity.UserEntity;
 import com.hoodoo.board.repository.BoardRepository;
 import com.hoodoo.board.repository.CommentRepository;
 import com.hoodoo.board.repository.LikeyRepository;
+import com.hoodoo.board.repository.RelatedSearchWordRepository;
+import com.hoodoo.board.repository.SearchWordLogRepository;
 import com.hoodoo.board.repository.UserRepository;
 
 @Service
@@ -37,6 +42,8 @@ public class BoardService {
     @Autowired private UserRepository userRepository;
     @Autowired private LikeyRepository likeyRepository;
     @Autowired private CommentRepository commentRepository;
+    @Autowired private SearchWordLogRepository searchWordLogRepository;
+    @Autowired private RelatedSearchWordRepository relatedSearchWordRepository;
 
                                                  // ^ email은 글쓴이에 대한 정보를 위한 PK , PostBoardDto는 게시물 정보  
     public ResponseDto <PostBoardResponseDto> postBoard(String email,PostBoardDto dto){
@@ -264,5 +271,34 @@ public class BoardService {
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+    }
+
+
+    public ResponseDto<List<GetSearchListResponseDto>> getSearchList(String searchWord,String previousSearchWord){
+
+        List<GetSearchListResponseDto> data = null;
+
+        try{
+
+            SearchWordLogEntity searchWordLogEntity = new SearchWordLogEntity(searchWord);
+            searchWordLogRepository.save(searchWordLogEntity);
+
+            if(!previousSearchWord.isBlank()){
+                RelatedSearchWordEntity relatedSearchWordEntity = new RelatedSearchWordEntity(searchWord,previousSearchWord);
+                relatedSearchWordRepository.save(relatedSearchWordEntity);
+
+            }
+
+            List<BoardEntity> boardList = boardRepository.findByBoardTitleContainsOrBoardContentContainsOrderByBoardWriteDatetimeDesc(searchWord, searchWord);
+
+            data = GetSearchListResponseDto.copyList(boardList);
+            
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+
     }
 }
