@@ -27,6 +27,7 @@ import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop15RelatedSearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
@@ -52,6 +53,7 @@ public class BoardController {
     private final String PATCH_BOARD = "";
     private final String DELETE_BOARD = "/{boardNumber}";
     private final String GET_TOP15_SEARCH_WORD = "/top15-search-word";
+    private final String GET_TOP15_RELATED_SEARCH_WORD = "/top15-related-search-word/{searchWord}";
 
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(
@@ -139,6 +141,12 @@ public class BoardController {
 
     }
 
+
+    @GetMapping(GET_TOP15_RELATED_SEARCH_WORD)
+    public ResponseDto<GetTop15RelatedSearchWordResponseDto> getTop15RelatedSearchWord(@PathVariable("searchWord") String searchWord){
+        ResponseDto<GetTop15RelatedSearchWordResponseDto> response = boardService.getTop15RelatedSearchWord(searchWord);
+        return response;
+    }
 
     @PatchMapping(PATCH_BOARD)
     public ResponseDto<PatchBoardResponseDto> patchBoard(@AuthenticationPrincipal String email,@Valid @RequestBody PatchBoardDto requestBody){

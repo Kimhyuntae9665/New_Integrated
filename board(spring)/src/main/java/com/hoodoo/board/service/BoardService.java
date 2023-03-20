@@ -17,6 +17,7 @@ import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop15RelatedSearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
@@ -29,6 +30,7 @@ import com.hoodoo.board.entity.LikeyEntity;
 import com.hoodoo.board.entity.RelatedSearchWordEntity;
 import com.hoodoo.board.entity.SearchWordLogEntity;
 import com.hoodoo.board.entity.UserEntity;
+import com.hoodoo.board.entity.resultSet.RelatedSearchWordResultSet;
 import com.hoodoo.board.entity.resultSet.SearchWordResultSet;
 import com.hoodoo.board.repository.BoardRepository;
 import com.hoodoo.board.repository.CommentRepository;
@@ -220,6 +222,22 @@ public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord(){
 }
 
 
+    public ResponseDto<GetTop15RelatedSearchWordResponseDto> getTop15RelatedSearchWord(String searchWord){
+        GetTop15RelatedSearchWordResponseDto data = null;
+
+        try{
+
+            List<RelatedSearchWordResultSet> relatedSearchWordList = relatedSearchWordRepository.findTop15(searchWord);
+            data = GetTop15RelatedSearchWordResponseDto.copyList(relatedSearchWordList);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+    }
+
+
     public ResponseDto<PatchBoardResponseDto> patchBoard(String email,PatchBoardDto dto){
         PatchBoardResponseDto data = null;
 
@@ -319,4 +337,6 @@ public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord(){
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
 
     }
+
+
 }
