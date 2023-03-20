@@ -13,18 +13,23 @@ import com.hoodoo.board.dto.response.ResponseDto;
 import com.hoodoo.board.dto.response.auth.SignInResponseDto;
 import com.hoodoo.board.dto.response.auth.SignUpResponseDto;
 import com.hoodoo.board.service.AuthService;
+
+import io.swagger.annotations.Api;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping(ApiPattern.AUTH)
+@Api(description = "인증모듈")
 public class AuthController {
 
     @Autowired private AuthService authService;
 
     private final String SIGN_UP = "/sign-up";
     private final String SIGN_IN = "/sign-in";
+
     
     @PostMapping(SIGN_UP)
     // ^ ResponseDto와 ResponseEntity 차이 
