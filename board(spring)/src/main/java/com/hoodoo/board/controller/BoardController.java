@@ -27,6 +27,7 @@ import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
@@ -50,6 +51,7 @@ public class BoardController {
     private final String GET_SEARCH_LIST_PREVIOUS = "/search-list/{searchWord}/{previousSearchWord}";
     private final String PATCH_BOARD = "";
     private final String DELETE_BOARD = "/{boardNumber}";
+    private final String GET_TOP15_SEARCH_WORD = "/top15-search-word";
 
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(
@@ -116,6 +118,8 @@ public class BoardController {
     // ^ URL 설정 2개도 가능 
     @GetMapping(value={GET_SEARCH_LIST_PREVIOUS,GET_SEARCH_LIST})
     public ResponseDto<List<GetSearchListResponseDto>>  getSearchList(
+
+
         @PathVariable("searchWord") String searchWord,
         @PathVariable(name="previousSearchWord",required=false) String previousSearchWord
     ){
@@ -127,6 +131,14 @@ public class BoardController {
     }
 
     
+    @GetMapping(GET_TOP15_SEARCH_WORD)
+    public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord(){
+        
+        ResponseDto<GetTop15SearchWordResponseDto> response = boardService.getTop15SearchWord();
+        return response;
+
+    }
+
 
     @PatchMapping(PATCH_BOARD)
     public ResponseDto<PatchBoardResponseDto> patchBoard(@AuthenticationPrincipal String email,@Valid @RequestBody PatchBoardDto requestBody){

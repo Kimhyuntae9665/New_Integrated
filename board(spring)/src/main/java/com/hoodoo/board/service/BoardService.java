@@ -17,6 +17,7 @@ import com.hoodoo.board.dto.response.board.GetBoardResponseDto;
 import com.hoodoo.board.dto.response.board.GetListResponseDto;
 import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
@@ -28,6 +29,7 @@ import com.hoodoo.board.entity.LikeyEntity;
 import com.hoodoo.board.entity.RelatedSearchWordEntity;
 import com.hoodoo.board.entity.SearchWordLogEntity;
 import com.hoodoo.board.entity.UserEntity;
+import com.hoodoo.board.entity.resultSet.SearchWordResultSet;
 import com.hoodoo.board.repository.BoardRepository;
 import com.hoodoo.board.repository.CommentRepository;
 import com.hoodoo.board.repository.LikeyRepository;
@@ -201,6 +203,22 @@ public class BoardService {
 
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
+
+public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord(){
+    GetTop15SearchWordResponseDto data = null;
+
+    try{
+
+        List<SearchWordResultSet> searchWordList = searchWordLogRepository.findTop15(); 
+        data = GetTop15SearchWordResponseDto.copyList(searchWordList);
+
+    }catch(Exception exception){
+        exception.printStackTrace();
+        return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+    }
+    return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+}
+
 
     public ResponseDto<PatchBoardResponseDto> patchBoard(String email,PatchBoardDto dto){
         PatchBoardResponseDto data = null;
