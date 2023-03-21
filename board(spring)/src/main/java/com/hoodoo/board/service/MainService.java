@@ -50,7 +50,8 @@ public class MainService {
 
                                         // ^ 개발자 코드가 console에 출력 
         for(Element element:elements){
-            // ! 유명한 URL의 특정 태그와 옵션을 입력해주면 그곳의 Data를 가져다 준다 
+            // ^ Crawling :다른 사람이 만든 웹 페이지에서 필요한 정보를 가져온다 
+            // ! 유명한 URL의 특정 태그와 옵션을 입력해주면 그곳의 필요한 정보를 가져다 준다 
             System.out.println(element.attr("href"));
                 // ?https://dict.naver.com/
                 // ?https://news.naver.com/
