@@ -43,11 +43,24 @@ public class MainService {
         Document document = Jsoup.connect("https://naver.com").get();
         
                                         // ^ 개발자 도구 (F12) 누르고 div class="**" 되있는 곳에서 우클릭 copy selector 누르면 이렇게 복사 된다 
-        Elements elements = document.select("#NM_NEWSSTAND_MY_THUMB > div._NM_UI_PAGE_CONTAINER > div > div > div.thumb_area");
+                                        // ^ .select li가 된다 <li> 안에 <a> 들을 element에 저장한다 
+                                        
+        Elements elements = document.select("#NM_FAVORITE > div.group_nav > ul.list_nav.NM_FAVORITE_LIST > li > a");
+        System.out.println(elements.size());
 
                                         // ^ 개발자 코드가 console에 출력 
         for(Element element:elements){
-            System.out.println(element.attr("data-pid"));
+            // ! 유명한 URL의 특정 태그와 옵션을 입력해주면 그곳의 Data를 가져다 준다 
+            System.out.println(element.attr("href"));
+                // ?https://dict.naver.com/
+                // ?https://news.naver.com/
+                // ?https://finance.naver.com/
+                // ?https://land.naver.com/
+                // ?https://map.naver.com/
+                // ?https://vibe.naver.com/?from=naver_main&utm_source=naver_main&utm_medium=naver_main_pcweb&utm_campaign=naver_main_redirect
+                // ?https://search.shopping.naver.com/book/home
+                // ?https://comic.naver.com/
+                // ! <li> 안의 <a> 안의 href attributeKey가 가지고 있는 것을 sysout 해준다 이런 결과가 나온다 
         }
 
     }
