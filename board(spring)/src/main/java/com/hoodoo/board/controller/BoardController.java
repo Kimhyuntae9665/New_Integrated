@@ -35,6 +35,8 @@ import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
 import com.hoodoo.board.service.BoardService;
 
+import io.swagger.annotations.ApiParam;
+
 @RestController
 @RequestMapping(ApiPattern.BOARD)
 public class BoardController {
@@ -92,8 +94,12 @@ public class BoardController {
 
     }
 
+
     @GetMapping(GET_BOARD)                              //^ // ^ PathVariable 사용 
-    public ResponseDto<GetBoardResponseDto> getBoard(@PathVariable("boardNumber") int boardNumber){
+    public ResponseDto<GetBoardResponseDto> getBoard(
+        @ApiParam(value="게시물 번호",example="2",required=true)
+        @PathVariable("boardNumber") int boardNumber){
+        
         ResponseDto<GetBoardResponseDto> response = boardService.getBoard(boardNumber);
         return response;
 
