@@ -28,14 +28,14 @@ public class MainService {
     // ! Crons 중요 많이 사용한다 
     // ! @Scheduled(cron = "2 * * * * ?") 는 HH:MM:02 초가 되면 실행된다 
     // ! @Scheduled(cron = "2 22 * * * ?") 는 HH:22:02 가 되면 실행 된다 
-    @Scheduled(cron = "2 * * * * *")
-    public void scheduleCronJob(){
-        try{
-            crawling();
-        }catch(Exception exception){
-            exception.printStackTrace();
-        }
-    }
+    // @Scheduled(cron = "2 * * * * *")
+    // public void scheduleCronJob(){
+    //     try{
+    //         crawling();
+    //     }catch(Exception exception){
+    //         exception.printStackTrace();
+    //     }
+    // }
 
     public void crawling() throws Exception {
 
