@@ -17,6 +17,7 @@ public class SocketProvider extends TextWebSocketHandler {
     }
 
     // ^연결 다 된 후  Message가 왔을 때 수행해야하는 작업 
+    // ^ 메시지를 Client에서 보내주면 Server에서 보여준다 
     @Override
     protected void handleTextMessage(WebSocketSession webSocketSession, TextMessage textMessage){
         String messagePayload = textMessage.getPayload();
