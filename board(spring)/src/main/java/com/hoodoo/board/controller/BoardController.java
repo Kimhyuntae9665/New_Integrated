@@ -100,7 +100,7 @@ public class BoardController {
     }
 
     
-    @ApiOperation(value="",notes="")
+    @ApiOperation(value="특정 게시물 가져오기",notes="Path Variable에 boardNumber를 포함하여 요청을 하면, 성공시 게시물 전체 데이터를 반환, 실패시 실패 메시지를 반환")
     @GetMapping(GET_BOARD)                              //^ // ^ PathVariable 사용 
     public ResponseDto<GetBoardResponseDto> getBoard(
         @ApiParam(value="게시물 번호",example="2",required=true)
@@ -113,12 +113,14 @@ public class BoardController {
 
     // ^모든  BoardList를 가져오는 작업 
     // ^ React Frontend에서 요구하는 데이터 타입과 똑같은 형태로 반환해야해 IPreview 형태 ==> 만들어야 
+    @ApiOperation(value="전체 게시물 리스트 가져오기",notes="요청을 하면, 성공시 전체 게시물 리스트를 최신순으로 반환, 실패시 실패 메시지를 반환")
     @GetMapping(GET_LIST)
     public ResponseDto<List<GetListResponseDto>> getList(){
         ResponseDto<List<GetListResponseDto>> response = boardService.getList();
         return response;
     }
 
+    @ApiOperation(value="본인 작성 게시물 리스트 가져오기",notes="Request Header Authorization에 Bearer JWT를 포함하여 요청을 하면, 성공시 요청자가 작성한 게시물 전체 리스트를 최신순으로 반환, 실패시 실패 메시지를 반환")
     @GetMapping(GET_MY_LIST)
     public ResponseDto<List<GetMyListResponseDto>> getMyList(@AuthenticationPrincipal String email){
         
@@ -130,11 +132,13 @@ public class BoardController {
     // public ResponseDto
 
     // ^ URL 설정 2개도 가능 
+    @ApiOperation(value="검색어에 대한 게시물 리스트 가져오기",notes="Path Variable에 searchWord와 previousSearchWord를 포함하여 요청을 하면, 성공시 검색어에 해당하는 게시물 리스트를 최신순(DESC)으로 반환, 실패시 실패 메시지를 반환")
     @GetMapping(value={GET_SEARCH_LIST_PREVIOUS,GET_SEARCH_LIST})
     public ResponseDto<List<GetSearchListResponseDto>>  getSearchList(
 
-
+        @ApiParam(value="검색어",example="아침",required=true)
         @PathVariable("searchWord") String searchWord,
+        @ApiParam(value="이전 검색어",example ="점심메뉴",required=false)
         @PathVariable(name="previousSearchWord",required=false) String previousSearchWord
     ){
         ResponseDto<List<GetSearchListResponseDto>> response = boardService.getSearchList(searchWord,previousSearchWord);
@@ -144,7 +148,7 @@ public class BoardController {
 
     }
 
-    
+    @ApiOperation(value="인기 검색어 리스트 가져오기",notes="요청을 하면, 성공시 가장 많이 검색한 15개의 검색어 리스트를 반환, 실패시 실패 메시지를 반환")
     @GetMapping(GET_TOP15_SEARCH_WORD)
     public ResponseDto<GetTop15SearchWordResponseDto> getTop15SearchWord(){
         
@@ -154,20 +158,26 @@ public class BoardController {
     }
 
 
+    @ApiOperation(value="검색어에 해당하는 연관 검색어 리스트 가져오기",notes="Path Variable에 SearchWord를 포함하여 요청하면, 성공시 해당하는 검색어와 관련된 검색어 중 가장 많이 검색한 15개 검색어 리스트를 반환, 실패시 실패 메시지를 반환")
     @GetMapping(GET_TOP15_RELATED_SEARCH_WORD)
-    public ResponseDto<GetTop15RelatedSearchWordResponseDto> getTop15RelatedSearchWord(@PathVariable("searchWord") String searchWord){
+    public ResponseDto<GetTop15RelatedSearchWordResponseDto> getTop15RelatedSearchWord(
+        @ApiParam(value="검색어할 단어",example ="안녕",required=true)
+        @PathVariable("searchWord") String searchWord){
         ResponseDto<GetTop15RelatedSearchWordResponseDto> response = boardService.getTop15RelatedSearchWord(searchWord);
         return response;
     }
 
+    @ApiOperation(value="특정 게시물 수정",notes="Request Header Authorization에 Bearer JWT를 포함하고 Request Body에 bardNumber, title,content,boardImageUrl을 포함하여 요청을 하면, 성공시 게시물 전체 데이터를 반환, 실패시 실패 메시지를 반환")
     @PatchMapping(PATCH_BOARD)
     public ResponseDto<PatchBoardResponseDto> patchBoard(@AuthenticationPrincipal String email,@Valid @RequestBody PatchBoardDto requestBody){
         ResponseDto<PatchBoardResponseDto> response = boardService.patchBoard(email,requestBody);
         return response;
     }
 
+    @ApiOperation(value="특정 게시물 삭제",notes="Request Header Authorizaion에 Bearer JWT를 포함하고 Path Variavle에 boardNumber를 포함하여 요청을 하면 boardNumber에 해당하는  게시물을 삭제하고, 성공시 true를 반환, 실패시 실패 메시지를 반환")
     @DeleteMapping(DELETE_BOARD)
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(
+        @ApiParam(value="게시물 번호",example ="1",required=true)
         // ^ 게시물 작성자 확인을 위해 
         @AuthenticationPrincipal String email,
         @PathVariable("boardNumber") int boardNumber
