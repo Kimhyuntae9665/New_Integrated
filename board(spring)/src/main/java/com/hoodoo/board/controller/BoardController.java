@@ -35,8 +35,11 @@ import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostCommentResponseDto;
 import com.hoodoo.board.service.BoardService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+@Api(value="게시물 모듈")
 @RestController
 @RequestMapping(ApiPattern.BOARD)
 public class BoardController {
@@ -57,6 +60,8 @@ public class BoardController {
     private final String GET_TOP15_SEARCH_WORD = "/top15-search-word";
     private final String GET_TOP15_RELATED_SEARCH_WORD = "/top15-related-search-word/{searchWord}";
 
+
+    @ApiOperation(value="게시물 작성",notes="제목 ,내용,이미지를 전송하면 게시물 작성 결과로 작성된 게시물 정보를 반환, 실패시 실패 메시지를 반환")
     @PostMapping(POST_BOARD)
     public ResponseDto<PostBoardResponseDto> postBoard(
         // ^ 토큰을 받아서 인증 후에 사용하는 어노테이션 
@@ -70,7 +75,7 @@ public class BoardController {
         
     }
 
-
+    @ApiOperation(value="댓글 작성",notes="Requset Header Athorization에 Bearer JWT를 포함하고 Request Body에 bodyNumber,content를 포함하여 요청을 하면, 성공시에 게시물 전체 데이터를 반환, 실패시 실패 메시지를 반환")
     @PostMapping(POST_COMMENT)
     public ResponseDto<PostCommentResponseDto> postComment(
         @AuthenticationPrincipal String email,
@@ -81,7 +86,7 @@ public class BoardController {
 
     }
 
-
+    @ApiOperation(value="좋아요 기능",notes="Request Header Authorization에 Bearer JWT를 포함하고 Request Body에 boardNumber를 포함하여 요청을 하면, 성공시 게시물 전체 데이터를 반환, 실패시 실패 메시지를 반환")
     @PostMapping(LIKE)
     public ResponseDto<LikeResponseDto>like(
         // ^ 로그인 된 사람만 좋아요 누를 수 있다(검증된 인스턴스만 좋앙 누를 수 있다 )
@@ -94,7 +99,8 @@ public class BoardController {
 
     }
 
-
+    
+    @ApiOperation(value="",notes="")
     @GetMapping(GET_BOARD)                              //^ // ^ PathVariable 사용 
     public ResponseDto<GetBoardResponseDto> getBoard(
         @ApiParam(value="게시물 번호",example="2",required=true)
