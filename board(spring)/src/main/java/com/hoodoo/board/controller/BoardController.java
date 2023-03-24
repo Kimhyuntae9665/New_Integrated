@@ -29,6 +29,7 @@ import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15RelatedSearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop3ListResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
@@ -146,6 +147,13 @@ public class BoardController {
 
        
 
+    }
+
+    @ApiOperation(value="")
+    @GetMapping()
+    public ResponseDto<List<GetTop3ListResponseDto>> getTop3List(){
+        ResponseDto<List<GetTop3ListResponseDto>> response = boardService.getTop3List();
+        return response;
     }
 
     @ApiOperation(value="인기 검색어 리스트 가져오기",notes="요청을 하면, 성공시 가장 많이 검색한 15개의 검색어 리스트를 반환, 실패시 실패 메시지를 반환")
