@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value="회원가입 결과")
+@ApiModel(value="회원가입 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
