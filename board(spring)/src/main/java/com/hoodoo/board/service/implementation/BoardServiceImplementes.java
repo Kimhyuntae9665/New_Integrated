@@ -19,6 +19,7 @@ import com.hoodoo.board.dto.response.board.GetMyListResponseDto;
 import com.hoodoo.board.dto.response.board.GetSearchListResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15RelatedSearchWordResponseDto;
 import com.hoodoo.board.dto.response.board.GetTop15SearchWordResponseDto;
+import com.hoodoo.board.dto.response.board.GetTop3ListResponseDto;
 import com.hoodoo.board.dto.response.board.LikeResponseDto;
 import com.hoodoo.board.dto.response.board.PatchBoardResponseDto;
 import com.hoodoo.board.dto.response.board.PostBoardResponseDto;
@@ -337,6 +338,21 @@ public class BoardServiceImplementes implements BoardService{
 
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
 
+    }
+
+    @Override
+    public ResponseDto<List<GetTop3ListResponseDto>> getTop3List() {
+        List<GetTop3ListResponseDto> data = null;
+
+        try{
+            List<BoardEntity> boardList = boardRepository.findTop3ByOrderByLikeCountDesc();
+            data =  GetTop3ListResponseDto.copyList(boardList);
+            
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
 
 
