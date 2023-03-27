@@ -4,6 +4,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useSignUpStore } from 'src/stores';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
+import axios from 'axios';
+import { SignUpDto } from 'src/apis/request/auth';
 
 
 
@@ -60,13 +62,13 @@ function FirstPage(){
 }
 
 function SecondPage(){
-    const {nickName,telNumber,address,addressDetail} = useSignUpStore();
-    const {setnickName,settelNumber,setaddress,setaddressDetail} = useSignUpStore();
+    const {nickname,telNumber,address,addressDetail} = useSignUpStore();
+    const {setNickname,settelNumber,setaddress,setaddressDetail} = useSignUpStore();
 
     return(
       <Box>
-        <TextField sx={{mt:'40px'}} fullWidth label='닉네임*' variant='standard' value={nickName} onChange={(event)=>setnickName(event.target.value)}/>
-                                                                                                    {/* 원래의 nickName의 값이 바뀌면(event) setnickName 함수가 바뀌는 데로 nickName변수의 값을 바꿔준다  */}
+        <TextField sx={{mt:'40px'}} fullWidth label='닉네임*' variant='standard' value={nickname} onChange={(event)=>setNickname(event.target.value)}/>
+                                                                                                    {/* 원래의 nickname의 값이 바뀌면(event) setNickname 함수가 바뀌는 데로 nickname변수의 값을 바꿔준다  */}
         <TextField sx={{mt:'40px'}} fullWidth label='휴대폰 번호*' variant='standard' value={telNumber} onChange={(event)=>settelNumber(event.target.value)}/>
 
         <FormControl fullWidth variant='standard' sx={{mt:'40px'}}>
@@ -108,7 +110,7 @@ export default function SignUpCardView({setLoginView}:Props) {
 
     const {email,password,passwordCheck} = useSignUpStore();
 
-    const{nickName,telNumber,address,addressDetail} = useSignUpStore();
+    const{nickname,telNumber,address,addressDetail} = useSignUpStore();
 
     const onNextButtonHandler = ()=>{  //! {} 이므로 조건문 사용 가능 
         //todo : 이메일 /비밀번호/비밀번호 확인 검증 
@@ -131,14 +133,14 @@ export default function SignUpCardView({setLoginView}:Props) {
         // todo : 검증이 성공하면 page 변경 
         setPage(2);
     }
-
+                            // ? 동기함수로 바꾸는 async 
     const onSignUpHandler = () =>{
         if( !email || !password || !passwordCheck){
             alert('모든 값을 입력하세요');
             setPage(1);
             return;
         }
-        if(!nickName || !telNumber || !address || !addressDetail){
+        if(!nickname || !telNumber || !address || !addressDetail){
             alert('모든 값을 입력하세요');
             setPage(2);
             return;
@@ -151,13 +153,27 @@ export default function SignUpCardView({setLoginView}:Props) {
 
         }
 
-        alert('회원 가입 완료!');
+        
 
-        const data ={
-            email,password,nickName,address,telNumber,addressDetail
-        }
+        const data : SignUpDto ={
+            email,password,nickname,telNumber, address: `${address} ${addressDetail}`
+        } //? json 객체 형태 
 
-        console.log(data);
+
+        console.log('axios 이전!!');
+
+        // ? then()은 post()의 결과를 받아 실행되는 함수 만약 then()이 받은 결과가 잘못되었으면 catch()로 잡아준다 
+        axios.post("http://localhost:4040/auth/sign-up",data)
+        .then((response)=>{
+            console.log("Success");
+        }).catch((error)=>{
+            console.log(error.message);
+        });
+
+        // ^ async 함수는 await으로 받아 줘야한다 
+        // const response = await axios.post("http://localhost:4040/auth/sign-up",data);
+
+       console.log('axios 이후!!');
     }
 
 

@@ -3,7 +3,7 @@ interface RequestDto{
     address:string;
     email:string;
     password:string;
-    nickName:string;
+    nickname:string;
     telNumber:string;
 }
 
