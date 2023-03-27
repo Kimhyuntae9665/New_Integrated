@@ -6,6 +6,9 @@ import { useSignUpStore } from 'src/stores';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import axios from 'axios';
 import { SignUpDto } from 'src/apis/request/auth';
+import { SignUpResponseDto } from 'src/apis/response/auth';
+import ResponseDto from 'src/apis/response'
+import { SIGN_UP_URL } from 'src/constants/api';
 
 
 
@@ -160,20 +163,26 @@ export default function SignUpCardView({setLoginView}:Props) {
         } //? json 객체 형태 
 
 
-        console.log('axios 이전!!');
+        
 
         // ? then()은 post()의 결과를 받아 실행되는 함수 만약 then()이 받은 결과가 잘못되었으면 catch()로 잡아준다 
-        axios.post("http://localhost:4040/auth/sign-up",data)
+        axios.post(SIGN_UP_URL,data)
         .then((response)=>{
-            console.log("Success");
+            const { result,message,data } = response.data as ResponseDto<SignUpResponseDto>;
+            if(result){ 
+                setLoginView(true);
+            }else{
+                alert(message);
+            }
         }).catch((error)=>{
-            console.log(error.message);
+            // ^ Error 상태 코드가 나온다 
+            console.log(error.response.status);
         });
 
         // ^ async 함수는 await으로 받아 줘야한다 
         // const response = await axios.post("http://localhost:4040/auth/sign-up",data);
 
-       console.log('axios 이후!!');
+       
     }
 
 

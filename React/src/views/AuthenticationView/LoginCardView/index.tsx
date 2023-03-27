@@ -4,12 +4,16 @@ import { Typography } from '@mui/material'
 import { useState } from 'react'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import axios from 'axios';
 
 import {USER} from 'src/mock';
 
 // ! export default 아닌 그냥 export는 {}꼭 해줘야한다 
 import { useSignUpStore, useUserStore } from 'src/stores';
 import { useNavigate } from 'react-router-dom';
+import { SIGN_IN_URL } from 'src/constants/api';
+import { SignInDto } from 'src/apis/request/auth';
+import { SignInResponseDto } from 'src/apis/response/auth';
 
 interface Props {
     setLoginView: Dispatch<React.SetStateAction<boolean>>;
@@ -35,11 +39,21 @@ export default function LoginCardView({ setLoginView }: Props) {
             return;
         }
 
-        // ?USER mock 데이터의 email과 password가 입력받은 email과 password와 일치하는지 검증 
-        if(USER.email!==email||USER.password!==password){
-            alert('로그인 정보가 일치하지 않습니다.')
-            return;
-        }
+        const data: SignInDto = {email,password};
+
+        axios.post(SIGN_IN_URL,data)
+        .then((response)=>{
+            const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
+            if(result){
+
+            }else{
+                alert('로그인 정보가 잘못되었습니다.');
+            }
+        }).catch((error)=>{
+            console.log(error.message);
+        });
+
+        
 
 
         // ? 로그인 처리 
