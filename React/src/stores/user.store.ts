@@ -1,10 +1,10 @@
-import { IUSER } from "src/interfaces";
+import { User } from "src/interfaces";
 import { create } from "zustand";
 
 interface IUserStore {
 
-    user: IUSER | null;
-    setUser:(user:IUSER)=>void;
+    user: User | null;
+    setUser:(user:User)=>void;
     resetUser:()=>void;
 
 }
@@ -12,7 +12,7 @@ interface IUserStore {
 
 const useStore = create<IUserStore>((set)=>({
     user:null,
-    setUser:(user:IUSER) =>set((state)=>({...state,user})),
+    setUser:(user:User) =>set((state)=>({...state,user})),
     resetUser:()=>set((state)=>({...state,user:null})),
 }))
 

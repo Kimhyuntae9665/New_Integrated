@@ -7,6 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import axios from 'axios';
 
 import {USER} from 'src/mock';
+import ResponseDto from 'src/apis/response';
 
 // ! export default 아닌 그냥 export는 {}꼭 해줘야한다 
 import { useSignUpStore, useUserStore } from 'src/stores';
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_URL } from 'src/constants/api';
 import { SignInDto } from 'src/apis/request/auth';
 import { SignInResponseDto } from 'src/apis/response/auth';
+import { useCookies } from 'react-cookie';
 
 interface Props {
     setLoginView: Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +24,7 @@ interface Props {
 
 export default function LoginCardView({ setLoginView }: Props) {
    
+    const [cookies, setCookie] = useCookies();
     
     const[email,setEmail]= useState<string>('');
     const[password,setpassword] = useState<string>('');
@@ -44,7 +47,16 @@ export default function LoginCardView({ setLoginView }: Props) {
         axios.post(SIGN_IN_URL,data)
         .then((response)=>{
             const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
-            if(result){
+            if(result && data){
+                const { token, expiredTime, ...user } = data;
+                //? 로그인 처리
+                //? 쿠키에 로그인 데이터 (Token) 보관
+                const now = new Date().getTime();
+                const expires = new Date(now + expiredTime);
+                setCookie('accessToken', token, { expires });
+                //? 스토어에 유저 데이터 보관
+                setUser(user);
+                navigator('/');
 
             }else{
                 alert('로그인 정보가 잘못되었습니다.');
@@ -60,9 +72,7 @@ export default function LoginCardView({ setLoginView }: Props) {
         // ? 쿠키에 로그인 데이터 (Token) 보관 
         // ? 스토어에 유저 데이터 보관  
 
-        setUser(USER);
-        // 로그인 완료시 ==> main화면으로 이동 
-        navigator('/');
+       
 
         
 
