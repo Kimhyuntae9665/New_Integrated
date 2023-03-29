@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { GetListResponseDto } from "src/apis/response/board";
 import { ICommentItem, IpreviewItem } from "src/interfaces";
 import { BOARD_LIST } from "src/mock";
 
 const usePagingHook = (COUNT: number) => {
 
-  const [boardList, setBoardList] = useState<(IpreviewItem | ICommentItem)[]>([]);
-  const [viewList, setViewList] = useState<(IpreviewItem | ICommentItem)[]>([]);
+  const [boardList, setBoardList] = useState<(GetListResponseDto | ICommentItem)[]>([]);
+  const [viewList, setViewList] = useState<(GetListResponseDto | ICommentItem)[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(1);
 
   //? 한 페이지에 5개의 게시물을 보여주고자 할 때
@@ -15,7 +16,7 @@ const usePagingHook = (COUNT: number) => {
   const onPageHandler = (page: number) => {
     setPageNumber(page);
   
-    const tmpList: (IpreviewItem | ICommentItem)[] = [];
+    const tmpList: (GetListResponseDto | ICommentItem)[] = [];
 
     const startIndex = COUNT * (page - 1);
     const endIndex = COUNT * page - 1;

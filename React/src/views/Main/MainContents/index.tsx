@@ -9,13 +9,36 @@ import { IpreviewItem } from 'src/interfaces';
 import { BOARD_LIST } from 'src/mock';
 import { getPageCount } from 'src/utils';
 import { usePagingHook } from 'src/hooks';
+import axios, { AxiosResponse } from 'axios';
+import ResponseDto from 'src/apis/response';
+import { GetListResponseDto } from 'src/apis/response/board';
 
 export default function MainContents() {
 
   const { viewList, pageNumber, boardList, setBoardList, onPageHandler, COUNT } = usePagingHook(5);
 
+  const getList = () =>{
+    axios.get()
+    .then((response)=>getListResponseHandler(response))
+    .catch((error)=>getListErrorHandler(error))
+  }
+
+  const getListResponseHandler = (response:AxiosResponse<any, any>)=>{
+    const {result,message,data} = response.data as ResponseDto<GetListResponseDto[]> 
+    if(!result || data === null){
+      return;
+    }
+    setBoardList(data);
+
+
+  }
+
+  const getListErrorHandler = (error:any)=>{
+    console.log(error.message);
+  }
+
   useEffect(() => {
-    setBoardList(BOARD_LIST);
+    getList();
   }, [])
 
   return (

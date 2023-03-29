@@ -1,5 +1,5 @@
-interface RequestDto{
+interface Dto{
     profile: string;
 }
 
-export default RequestDto;
+export default Dto;

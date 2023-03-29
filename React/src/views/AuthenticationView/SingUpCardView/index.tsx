@@ -4,7 +4,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useSignUpStore } from 'src/stores';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { SignUpDto } from 'src/apis/request/auth';
 import { SignUpResponseDto } from 'src/apis/response/auth';
 import ResponseDto from 'src/apis/response'
@@ -167,17 +167,8 @@ export default function SignUpCardView({setLoginView}:Props) {
 
         // ? then()은 post()의 결과를 받아 실행되는 함수 만약 then()이 받은 결과가 잘못되었으면 catch()로 잡아준다 
         axios.post(SIGN_UP_URL,data)
-        .then((response)=>{
-            const { result,message,data } = response.data as ResponseDto<SignUpResponseDto>;
-            if(result){ 
-                setLoginView(true);
-            }else{
-                alert(message);
-            }
-        }).catch((error)=>{
-            // ^ Error 상태 코드가 나온다 
-            console.log(error.response.status);
-        });
+        .then((response)=> signUpResponseHandler(response))
+        .catch((error)=> signUpErrorHandler(error));
 
         // ^ async 함수는 await으로 받아 줘야한다 
         // const response = await axios.post("http://localhost:4040/auth/sign-up",data);
@@ -185,6 +176,20 @@ export default function SignUpCardView({setLoginView}:Props) {
        
     }
 
+
+    const signUpResponseHandler = (response : AxiosResponse<any, any>) =>{
+        
+        const { result,message,data } = response.data as ResponseDto<SignUpResponseDto>;
+            if(result){ 
+                setLoginView(true);
+            }else{
+                alert(message);
+            }
+    }
+
+    const signUpErrorHandler = (error: any)=>{
+        console.log(error.response.status)
+    }
 
      return(
         <Box display='flex' sx={{height:'100%',flexDirection:'column',justifyContent:'space-between'}} >

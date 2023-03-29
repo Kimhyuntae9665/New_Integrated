@@ -1,12 +1,9 @@
 interface Dto{
-
     address:string;
     email:string;
-    expiredTime:number;
     nickname:string;
-    profile:string | null;
+    profile: string|null;
     telNumber:string;
-    token:string;
 
 }
 

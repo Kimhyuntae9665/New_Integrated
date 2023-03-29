@@ -4,7 +4,7 @@ import { Typography } from '@mui/material'
 import { useState } from 'react'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import {USER} from 'src/mock';
 import ResponseDto from 'src/apis/response';
@@ -16,6 +16,7 @@ import { SIGN_IN_URL } from 'src/constants/api';
 import { SignInDto } from 'src/apis/request/auth';
 import { SignInResponseDto } from 'src/apis/response/auth';
 import { useCookies } from 'react-cookie';
+import { getExpires } from 'src/utils';
 
 interface Props {
     setLoginView: Dispatch<React.SetStateAction<boolean>>;
@@ -45,25 +46,8 @@ export default function LoginCardView({ setLoginView }: Props) {
         const data: SignInDto = {email,password};
 
         axios.post(SIGN_IN_URL,data)
-        .then((response)=>{
-            const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
-            if(result && data){
-                const { token, expiredTime, ...user } = data;
-                //? 로그인 처리
-                //? 쿠키에 로그인 데이터 (Token) 보관
-                const now = new Date().getTime();
-                const expires = new Date(now + expiredTime);
-                setCookie('accessToken', token, { expires });
-                //? 스토어에 유저 데이터 보관
-                setUser(user);
-                navigator('/');
-
-            }else{
-                alert('로그인 정보가 잘못되었습니다.');
-            }
-        }).catch((error)=>{
-            console.log(error.message);
-        });
+        .then((response)=>signInResponseHandler(response))
+        .catch((error)=>signInErrorHandler(error));
 
         
 
@@ -76,6 +60,31 @@ export default function LoginCardView({ setLoginView }: Props) {
 
         
 
+    }
+
+    const signInResponseHandler = (response : AxiosResponse<any, any>) =>{
+
+        const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
+        if(!result || !data){
+            alert("로그인 정보가 잘못되었습니다");
+            return;
+        }
+        
+        
+        const { token, expiredTime, ...user } = data;
+        //? 로그인 처리
+        //? 쿠키에 로그인 데이터 (Token) 보관
+        const expires = getExpires(expiredTime);
+        setCookie('accessToken', token, { expires });
+        //? 스토어에 유저 데이터 보관
+        setUser(user);
+        navigator('/');
+
+        }
+
+    const signInErrorHandler=(error:any)=>{
+
+        console.log(error.message);
     }
 
     return (
