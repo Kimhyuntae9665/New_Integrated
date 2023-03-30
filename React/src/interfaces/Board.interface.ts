@@ -1,7 +1,7 @@
 interface Board {
 
     boardContent: string
-    boardImgUrl: string
+    boardImgUrl: string | null;
     boardNumber: number
     boardTitle: string
     boardWriteDatetime: string
@@ -10,7 +10,7 @@ interface Board {
     viewCount: number
     writerEmail: string
     writerNickname: string
-    writerProfileUrl: string
+    writerProfileUrl: string | null;
 
 }
 export default Board;

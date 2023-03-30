@@ -10,7 +10,7 @@ import User from './User.interface'
 export interface IpreviewItem{
     img: string | null;
     writerProfile: string;
-    writerNickName: string;
+    writerNickname: string;
     writeDate:string;
     boardTitle: string;
     boardContent: string;

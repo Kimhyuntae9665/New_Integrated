@@ -62,7 +62,7 @@ function App() {
       getUser(accessToken);
     }
 
-  },[])
+  },[path])
   
 
   return (

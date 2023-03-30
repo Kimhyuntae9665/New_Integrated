@@ -1,20 +1,40 @@
 
 import { Card, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import axios, { AxiosResponse } from 'axios';
 import React, {useState,useEffect}  from 'react'
+import ResponseDto from 'src/apis/response';
+import { GetTop3ListResponseDto } from 'src/apis/response/board';
 import PreviewCard from 'src/components/PreviewCard'
+import { GET_TOP3_LIST_URL } from 'src/constants/api';
 import { IpreviewItem } from 'src/interfaces';
 import {    TOP3   } from 'src/mock'
 
 export default function MainHead() {
 //        top3List도 자동으로 배열이 된다 
-    const[top3List,setTop3List] =useState<IpreviewItem[]>([]);
+    const[top3List,setTop3List] =useState<GetTop3ListResponseDto[]>([]);
+
+    const getTop3List = () =>{
+        axios.get(GET_TOP3_LIST_URL)
+            .then((response)=>{getTop3ListResponseHandler(response)})
+            .catch((error)=>{getTop3ListErrorHandler(error)})
+    }
+
+    const getTop3ListResponseHandler = (response:AxiosResponse<any, any>)=>{
+        const {result,message,data} = response.data as ResponseDto<GetTop3ListResponseDto[]>;
+        if(!result || data === null) return;
+        setTop3List(data);
+    }
+
+    const getTop3ListErrorHandler = (error:any) =>{
+        console.log(error.message);
+    }
 
 
     // ^ useEffect 쓰면 화면 첫 로드와 동시에 동작한다 
     // ^ 
     useEffect (()=>{
-        setTop3List(TOP3);
+        getTop3List();
     },[]) //^ [] 안에는 이 변수가 바꼇을때 setTop3List가 실행된다
   
     return (

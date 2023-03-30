@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 import { Box, TextField, FormControl, InputLabel, Input, InputAdornment, IconButton, Button } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useState } from 'react'
@@ -25,7 +25,7 @@ interface Props {
 
 export default function LoginCardView({ setLoginView }: Props) {
    
-    const [cookies, setCookie] = useCookies();
+    const [cookies, setCookie,removeCookie] = useCookies(["accessToken"]);
     
     const[email,setEmail]= useState<string>('');
     const[password,setpassword] = useState<string>('');
@@ -33,6 +33,18 @@ export default function LoginCardView({ setLoginView }: Props) {
     const {setUser} = useUserStore(); 
 
     const navigator = useNavigate();
+
+    // useEffect(() => {
+    //     window.addEventListener("beforeunload", deleteCookie);
+
+    //     return () => {
+    //         window.removeEventListener("beforeunload", deleteCookie);
+    //     };
+    //     }, []);
+
+    // const deleteCookie = ()=>{
+    //     removeCookie("accessToken");
+    // }
 
     const onLoginHandler = () => {
         // ? email 입력했는지 검증 
@@ -45,6 +57,7 @@ export default function LoginCardView({ setLoginView }: Props) {
 
         const data: SignInDto = {email,password};
 
+        // ^ URL 로 요청을 보낸다 
         axios.post(SIGN_IN_URL,data)
         .then((response)=>signInResponseHandler(response))
         .catch((error)=>signInErrorHandler(error));

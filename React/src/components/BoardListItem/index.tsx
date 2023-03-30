@@ -3,10 +3,11 @@ import { Avatar, Typography, Card, CardActionArea } from '@mui/material';
 import { Box } from '@mui/system'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { GetListResponseDto, GetMyListResponseDto, GetSearchListResponseDto } from 'src/apis/response/board';
 import { IpreviewItem } from 'src/interfaces';
 
 interface Props {
-    item: IpreviewItem
+    item: GetListResponseDto | GetSearchListResponseDto|GetMyListResponseDto;
 };
 
 
@@ -22,12 +23,12 @@ export default function BoardListItem({ item }: Props) {
                 <Box>
                     <Box sx={{ display: 'flex' }}>
                         <Box sx={{ mr: '8px' }}>
-                            <Avatar alt={item.writerNickName} src={item.writerProfile} />
+                            <Avatar alt={item.writerNickname} src={item.writerProfileUrl ? item.writerProfileUrl : ''} />
                         </Box>
                         <Box>
-                            <Typography sx={{ fontSize: '12px', fontWeight: 500, color: '#000000' }}>{item.writerNickName}</Typography>
+                            <Typography sx={{ fontSize: '12px', fontWeight: 500, color: '#000000' }}>{item.writerNickname}</Typography>
                             {/* rgba의 a는 투명도  */}
-                            <Typography sx={{ mt: '2px', fontSize: '12px', fontWeight: 400, color: 'rgba(0,0,0,0.7)' }}>{item.writeDate}</Typography>
+                            <Typography sx={{ mt: '2px', fontSize: '12px', fontWeight: 400, color: 'rgba(0,0,0,0.7)' }}>{item.boardWriteDatetime}</Typography>
                         </Box>
 
                     </Box>
@@ -42,10 +43,10 @@ export default function BoardListItem({ item }: Props) {
                     </Box>
                 </Box>
                 {/* item.img가 있으면 이미지 사진을 보여준다  */}
-                {item.img && (
+                {item.boardImgUrl && (
                     <Box>
                         {/* 박스가 단독으로<Box/> 있다  img tag 사용 할떄는 박스 한개만 단독으로 */}
-                        <Box component='img' src={item.img as string} sx={{ height: '152px', width: '152px', borderRadius: '5%' }} />
+                        <Box component='img' src={item.boardImgUrl as string} sx={{ height: '152px', width: '152px', borderRadius: '5%' }} />
                     </Box>
                 )}
             </CardActionArea>

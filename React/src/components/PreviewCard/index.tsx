@@ -2,17 +2,18 @@ import { Card, Box, Typography, Avatar } from '@mui/material'
 import CardActionArea from '@mui/material/CardActionArea';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { GetTop3ListResponseDto } from 'src/apis/response/board';
 import { IpreviewItem } from 'src/interfaces'
 import BoardListItem from '../BoardListItem';
 
 interface Props {
-    previewItem: IpreviewItem
+    previewItem: GetTop3ListResponseDto
 }
 
 export default function PreviewCard({ previewItem }: Props) {
 
     // ^ ``백 스쿼트  이미지 가져오기 
-    const backgroundImage = `url(${previewItem.img})`;
+    const backgroundImage = `url(${previewItem.boardImgUrl})`;
 
     const navigator = useNavigate();
 
@@ -26,12 +27,12 @@ export default function PreviewCard({ previewItem }: Props) {
                     <Box sx={{ p: '24px' }}>
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ mr: '8px' }}>
-                                <Avatar alt="Remy Sharp" src="{previewItem.writerProfile}" />
+                                <Avatar alt="Remy Sharp" src={ previewItem.writerProfileUrl ? previewItem.writerProfileUrl : '' } />
                             </Box>
                             <Box>
-                                <Typography sx={{ fontSize: '12px', fontWeight: 500, color: '#ffffff' }}>{previewItem.writerNickName}</Typography>
+                                <Typography sx={{ fontSize: '12px', fontWeight: 500, color: '#ffffff' }}>{previewItem.writerNickname}</Typography>
                                 {/* rgba의 a는 투명도  */}
-                                <Typography sx={{ mt: '2px', fontSize: '12px', fontWeight: 400, color: 'rgba(255,255,255,0.7)' }}>{previewItem.writeDate}</Typography>
+                                <Typography sx={{ mt: '2px', fontSize: '12px', fontWeight: 400, color: 'rgba(255,255,255,0.7)' }}>{previewItem.boardWriteDatetime}</Typography>
                             </Box>
 
                         </Box>

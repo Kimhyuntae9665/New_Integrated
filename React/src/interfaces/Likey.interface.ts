@@ -1,8 +1,9 @@
 interface Likey{
 
-    boardNumber:number;
-    userProfileUrl?:string | null;
-    userNickName:string;
+    boardNumber: number;
+    userEmail: string;
+    userNickname: string;
+    userProfileUrl: string | null;
 
 }
 

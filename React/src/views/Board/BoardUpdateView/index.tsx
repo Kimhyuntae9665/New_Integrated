@@ -67,7 +67,7 @@ export default function BoardUpdateView() {
 
 
     // ? 검색된 board의 작성자가 로그인한 user와 일치하는지 검증 
-    if(board.writerNickName==='박호두'){
+    if(board.writerNickname==='박호두'){
         navigator('/');
         return;
     }
