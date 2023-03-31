@@ -105,6 +105,15 @@ export default function BoardDetailView() {
         
     }, [])
 
+
+    useEffect(()=>{
+        if(!user) return;
+        // ^ 좋아요 목록안에 나의 email이 있으면 
+        // ^ 내가 좋아요 표시한 게시물은 setLikeStatus(True)로 
+        const like = likeList.find((like)=>like.userEmail === user.email);
+        setLikeStatus(like !==undefined && like ! ==null);
+    },[likeList])
+
   return (
     <Box sx={{ p: '100px 222px' }}>
         <Box>

@@ -75,7 +75,8 @@ export default function BoardWriteView() {
   const imageUploadResponseHandler = (response:AxiosResponse<any,any>)=>{
     const imageUrl = response.data as string;
     if(!imageUrl) return;
-    // ^ F12 키 후 Network preview에서의 정보인 http://localhost:4040/file/9576cef5-cef5-4ddd-87b8-2c481496ebb1.png 이게 imageUrl에 들어가서 setBoardImgUrl 에 인수로 들어가서 화면에 보이는 거 
+    // ^ F12 키 후 Network preview에서의 정보인 http://localhost:4040/file/9576cef5-cef5-4ddd-87b8-2c481496ebb1.png 
+    // ^이게 imageUrl에 들어가서 setBoardImgUrl 에 인수로 들어가서 화면에 보이는 거 
     setBoardImgUrl(imageUrl);
   }
 
