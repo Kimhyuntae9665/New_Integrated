@@ -2,6 +2,10 @@ export const authorizationHeader = (accessToken: string) =>{
     return {headers:{Authorization:`Bearer ${accessToken}`}}
 }
 
+export const multipartHeader = () =>{
+    return {headers:{'Content-Type':'multipart/form-data' } };
+}
+
 const HOST = 'http://localhost:4040/';
 
 
@@ -20,4 +24,5 @@ export const GET_BOARD_URL = (boardNumber:string) =>`${HOST}api/board/${boardNum
 export const GET_TOP15_RELATED_SEARCH_WORD_LIST = (content:string)=>`${HOST}api/board/top15-related-search-word/${content}`;
 
 export const POST_BOARD_URL = `${HOST}api/board/`;
+export const FILE_UPLOAD_URL = `${HOST}file/upload`;
 
