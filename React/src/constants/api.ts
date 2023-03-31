@@ -29,3 +29,5 @@ export const FILE_UPLOAD_URL = `${HOST}file/upload`;
 export const LIKE_URL = `${HOST}api/board/like`;
 export const POST_COMMENT_URL = `${HOST}api/board/comment`;
 
+export const DELETE_BOARD_URL = (boardNumber:string)=> `${HOST}api/board/${boardNumber}`;
+

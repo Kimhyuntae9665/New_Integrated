@@ -20,9 +20,9 @@ import CommentListItem from 'src/components/CommentListItem';
 import { usePagingHook } from 'src/hooks';
 import { getPageCount } from 'src/utils';
 import axios, { AxiosResponse } from 'axios';
-import { GetBoardResponseDto, LikeResponseDto, PostCommentResponseDto } from 'src/apis/response/board';
+import { DeleteBoardResponseDto, GetBoardResponseDto, LikeResponseDto, PostCommentResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
-import { authorizationHeader, GET_BOARD_URL, LIKE_URL, POST_COMMENT_URL } from 'src/constants/api';
+import { authorizationHeader, DELETE_BOARD_URL, GET_BOARD_URL, LIKE_URL, POST_COMMENT_URL } from 'src/constants/api';
 import { useCookies } from 'react-cookie';
 import { LikeDto, PostCommentDto } from 'src/apis/request/board';
 
@@ -154,6 +154,35 @@ export default function BoardDetailView() {
         console.log(error.message)
     }
 
+    const onDeleteHandler = () =>{
+        if(!accessToken){
+            alert('로그인이 필요합니다 ');
+            return;
+        }
+        if(board?.writerEmail !== user?.email){
+            alert('권한이 없습니다.');
+            return;
+        }
+
+        axios.delete(DELETE_BOARD_URL(boardNumber as string) ,authorizationHeader(accessToken))
+            .then((response)=>deleteBoardResponseHandler(response))
+            .catch((error)=>deleteBoardErrorHandler(error));
+    }
+
+    const deleteBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
+        const {result,message,data} = response.data as ResponseDto<DeleteBoardResponseDto>
+        if( !result || !data || !data.resultStatus){
+            alert(message);
+            return;
+        }
+
+        navigator('/');
+    }
+
+    const deleteBoardErrorHandler = (error:any) =>{
+        console.log(error.message);
+    }
+
     // ^ 좋아요를 눌러서 변경된 점 , 게시물을 바꿔서 변경된 점 , 댓글 달아 변경된 점을 수정하고 데이터 베이스에 저장해주는 함수 
     const setBoardResponse = (data:GetBoardResponseDto | LikeResponseDto | PostCommentResponseDto) =>{
         const {board,commentList,likeyList} = data;
@@ -217,7 +246,7 @@ export default function BoardDetailView() {
                     <Menu anchorEl={anchorElement} open={menuOpen} onClose={onMenuCloseHandler}>
                         <MenuItem sx={{ p: '10px 59px', opacity: 0.5 }} onClick={() => navigator(`/board/update/${board?.boardNumber}`)}>수정</MenuItem>
                         <Divider />
-                        <MenuItem sx={{ p: '10px 59px', color: '#ff0000', opacity: 0.5 }}>삭제</MenuItem>
+                        <MenuItem sx={{ p: '10px 59px', color: '#ff0000', opacity: 0.5 }} onClick={()=>onDeleteHandler()}>삭제</MenuItem>
                     </Menu>
                 </Box>
             </Box>

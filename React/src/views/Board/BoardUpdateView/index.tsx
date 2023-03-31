@@ -5,17 +5,56 @@ import { useUserStore } from 'src/stores';
 import {Box,Divider,IconButton,Input,Fab} from '@mui/material'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CreateIcon from '@mui/icons-material/Create';
+import { GET_BOARD_URL } from 'src/constants/api';
+import axios, { AxiosResponse } from 'axios';
+import { GetBoardResponseDto } from 'src/apis/response/board';
+import ResponseDto from 'src/apis/response';
+import { useCookies } from 'react-cookie';
 
 
 export default function BoardUpdateView() {
+
+  const [cookies] = useCookies();
   
   const [boardTitle,setBoardTitle] = useState<string>('');
   const [boardContent,setBoardContent] = useState<string>('');
+  const [boardImgUrl,setBoardImgUrl] = useState<string>('');
   const {user}=  useUserStore();
 
   const {boardNumber} = useParams();
 
   const navigator = useNavigate();
+
+  const accessToken = cookies.accessToken;
+
+  // ^ 게시물 수정 (수정과 삭제 함께있는 버튼 에서의 수정 기능 ) 함수 3/31일 
+  const getBoard = () =>{
+    axios.get(GET_BOARD_URL(boardNumber as string))
+        .then((response)=>getBoardResponseHandler(response))
+        .catch((error)=>getBoardErrorHandler(error));
+  }
+
+  const getBoardResponseHandler = (response:AxiosResponse<any,any>)=>{
+    const{result,message,data} = response.data as ResponseDto<GetBoardResponseDto>;
+    if(!result || !data){
+      alert(message);
+      navigator('/');
+      return;
+    }
+    const {boardTitle,boardContent,boardImgUrl,writerEmail} = data.board;
+    if(writerEmail !== user?.email){
+      alert('권한이 없습니다');
+      navigator('/');
+      return;
+    }
+    setBoardTitle(boardTitle);
+    setBoardContent(boardContent);
+
+  }
+
+  const getBoardErrorHandler = (error:any)=>{
+    console.log(error);
+  }
 
   const onUpdateHandler = () =>{
       // ? 제목과 내용이 존재하는지 검증 
@@ -23,20 +62,7 @@ export default function BoardUpdateView() {
         alert('모든 내용을 입력해 주세요 ');
         return;
       }
-      // ? 업데이트 기능 수행 
-      // #Board table
-    // ^ boardNumber int AI PK(Primary Key)(Unique Not NULL)
-    // ^ boardTitle VAR CHAR() but, 길이 제한 없을때에는 Text 사용 NOT NULL
-    // ^ boardContent TEXT NOT NULL 
-    // ^ writeDate DATETIME NN
-    // ? 외래키 사용해서 외부의 table을 가져온다 
-    // ^ writerEmail VARCHAR(45) FK(Foreign Key)
-    // ^ likeCount INT default 0
-    // ^ commentCount INT default 0
-    // ^ viewCount Int default 0
-
-    // ? UPDATE Board SET boardTitle=?, boardContent=? WHERE boardNumber ==?(Primary Key 조건 )
-    // ? back end로 boardTitle,boardContent,boardNumber를 넘겨주면 됨 
+      
 
       navigator('/myPage');
   }
@@ -54,11 +80,12 @@ export default function BoardUpdateView() {
     
     // board가 존재하는지를 확인   ==> 검색 결과가 존재하지 않으면 
     // ? main 화면으로 돌려보낸다 
-    if(!board){
+    if(!accessToken){
         navigator('/');
         return;
     }
 
+    
     // ? 현재 로그인되어 있는지 검증 
     if(!user){
       navigator('/auth');
@@ -66,14 +93,9 @@ export default function BoardUpdateView() {
     }
 
 
-    // ? 검색된 board의 작성자가 로그인한 user와 일치하는지 검증 
-    if(board.writerNickname==='박호두'){
-        navigator('/');
-        return;
-    }
+    
 
-    setBoardTitle(board.boardTitle);
-    setBoardContent(board.boardContent);
+    getBoard();
 
 
   },[])
