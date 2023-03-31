@@ -24,7 +24,7 @@ interface Dto {
             "writerProfileUrl": string | null;
         }
     ],
-    "likeList": [
+    "likeyList": [
         {
             "boardNumber": number,
             "userEmail": string,

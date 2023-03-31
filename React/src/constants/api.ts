@@ -26,4 +26,6 @@ export const GET_TOP15_RELATED_SEARCH_WORD_LIST = (content:string)=>`${HOST}api/
 
 export const POST_BOARD_URL = `${HOST}api/board/`;
 export const FILE_UPLOAD_URL = `${HOST}file/upload`;
+export const LIKE_URL = `${HOST}api/board/like`;
+export const POST_COMMENT_URL = `${HOST}api/board/comment`;
 

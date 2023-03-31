@@ -20,11 +20,15 @@ import CommentListItem from 'src/components/CommentListItem';
 import { usePagingHook } from 'src/hooks';
 import { getPageCount } from 'src/utils';
 import axios, { AxiosResponse } from 'axios';
-import { GetBoardResponseDto } from 'src/apis/response/board';
+import { GetBoardResponseDto, LikeResponseDto, PostCommentResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
-import { GET_BOARD_URL } from 'src/constants/api';
+import { authorizationHeader, GET_BOARD_URL, LIKE_URL, POST_COMMENT_URL } from 'src/constants/api';
+import { useCookies } from 'react-cookie';
+import { LikeDto, PostCommentDto } from 'src/apis/request/board';
 
 export default function BoardDetailView() {
+
+    const[cookies] = useCookies();
 
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const [menuFlag, setMenuFlag] = useState<boolean>(false);
@@ -35,6 +39,8 @@ export default function BoardDetailView() {
     const [likeList, setLikeList] = useState<Likey[]>([]);
     const [openComment, setOpenComment] = useState<boolean>(false);
 
+    const [commentContent,setCommentContent] = useState<string>('');
+
     
     const [commentList,setCommentList] = useState<Comment[]>([]);
 
@@ -42,6 +48,8 @@ export default function BoardDetailView() {
 
     const { boardNumber } = useParams();
     const navigator = useNavigate();
+
+    const accessToken = cookies.accessToken;
 
     const { user } = useUserStore();
 
@@ -60,16 +68,7 @@ export default function BoardDetailView() {
             return;
         }
 
-        const {board,commentList,likeList} = data;
-        setBoard(board);
-        //? 댓글 리스트를 3개 까지 보여주도록 하는 로직 
-
-
-        setBoardList(commentList);
-        setLikeList(likeList);
-
-        const owner = user !== null && board.writerEmail === user.email;
-        setMenuFlag(owner);
+        setBoardResponse(data);
 
     }
 
@@ -85,6 +84,88 @@ export default function BoardDetailView() {
     const onMenuCloseHandler = () => {
         setAnchorElement(null);
         setMenuOpen(false);
+    }
+
+    const onLikeHandler = () =>{
+        if(!accessToken){
+            alert('로그인이 필요합니다.')
+            return;
+        } 
+
+                                                    //^ boardNumber type이 string | undefined 여서 string으로 형 확실하게 지정 아니면 error 떠  
+        const data : LikeDto = {boardNumber:parseInt(boardNumber as string)}
+
+        // ^ Post 는 토큰 이 필요 
+        axios.post(LIKE_URL,data,authorizationHeader(accessToken))
+            .then((response)=>likeReponseHandler(response))
+            .catch((error)=>likeErrorHandler(error))
+    }
+
+    const likeReponseHandler = (response:AxiosResponse<any,any>) =>{
+        const {result,message,data} = response.data as ResponseDto<LikeResponseDto>
+        if(!result || !data){
+            alert(message);
+            return;
+        }
+
+        setBoardResponse(data);
+
+        
+
+    }
+
+    const likeErrorHandler = (error:any)=>{
+        console.log(error.message);
+    }
+
+    const onPostCommentHandler =() =>{
+        if(!accessToken){
+            alert('로그인이 필요합니다.');
+            return;
+        }
+
+        const data: PostCommentDto = {
+            boardNumber:parseInt(boardNumber as string),
+            commentContent
+        }
+
+        axios.post(POST_COMMENT_URL,data,authorizationHeader(accessToken))
+            .then((response)=>postCommentResponseHandler(response))
+            .catch((error)=>postCommentErrorHandler(error));
+    }
+
+    const postCommentResponseHandler = (response:AxiosResponse<any,any>) =>{
+        const {result,message,data} = response.data as ResponseDto<PostCommentResponseDto>;
+
+        if(!result || !data){
+            alert(message);
+            return;
+        }
+
+        // ? 댓글을 
+        setBoardResponse(data);
+        // ? 댓글을 단 후 입력란을 공백으로 바꾼다 
+        setCommentContent('');
+
+       
+    }
+
+    const postCommentErrorHandler = (error: any) =>{
+        console.log(error.message)
+    }
+
+    // ^ 좋아요를 눌러서 변경된 점 , 게시물을 바꿔서 변경된 점 , 댓글 달아 변경된 점을 수정하고 데이터 베이스에 저장해주는 함수 
+    const setBoardResponse = (data:GetBoardResponseDto | LikeResponseDto | PostCommentResponseDto) =>{
+        const {board,commentList,likeyList} = data;
+        setBoard(board);
+        //? 댓글 리스트를 3개 까지 보여주도록 하는 로직 
+
+
+        setBoardList(commentList);
+        setLikeList(likeyList);
+
+        const owner = user !== null && board.writerEmail === user.email;
+        setMenuFlag(owner);
     }
 
     useEffect(() => {
@@ -111,7 +192,7 @@ export default function BoardDetailView() {
         // ^ 좋아요 목록안에 나의 email이 있으면 
         // ^ 내가 좋아요 표시한 게시물은 setLikeStatus(True)로 
         const like = likeList.find((like)=>like.userEmail === user.email);
-        setLikeStatus(like !==undefined && like ! ==null);
+        setLikeStatus(like !==undefined);
     },[likeList])
 
   return (
@@ -148,8 +229,8 @@ export default function BoardDetailView() {
             <Box sx={{ display: 'flex', mt: '20px' }}>
                 <Box sx={{ mr: '20px', display: 'flex' }}>
                     { likeStatus ? 
-                        (<FavoriteIcon sx={{ height: '24px', width: '24px', mr: '6px', opacity: 0.7, color: '#ff0000' }} onClick={() => setLikeStatus(!likeStatus)} />) : 
-                        (<FavoriteBorderIcon sx={{ height: '24px', width: '24px', mr: '6px', opacity: 0.7 }} onClick={() => setLikeStatus(!likeStatus)} />) 
+                        (<FavoriteIcon sx={{ height: '24px', width: '24px', mr: '6px', opacity: 0.7, color: '#ff0000' }} onClick={() => onLikeHandler()} />) : 
+                        (<FavoriteBorderIcon sx={{ height: '24px', width: '24px', mr: '6px', opacity: 0.7 }} onClick={() => onLikeHandler()} />) 
                     }
                     <Typography sx={{ fontSize: '16px', fontWeight: 500, opacity: 0.7, mr: '6px' }}>좋아요 {board?.likeCount}</Typography>
                     <IconButton sx={{ height: '24px', width: '24px' }} onClick={() => setOpenLike(!openLike)}>
@@ -196,9 +277,9 @@ export default function BoardDetailView() {
                 </Box>
                 <Box>
                     <Card variant='outlined' sx={{ p: '20px' }}>
-                        <Input minRows={3} multiline disableUnderline fullWidth />
+                        <Input minRows={3} multiline disableUnderline fullWidth  value={commentContent}  onChange={(event)=>setCommentContent(event.target.value)}/>
                         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-                            <Button sx={{ p: '4px 23px', backgroundColor: '#000000', fontSize: '14px', fontWeight: 400, color: '#ffffff', borderRadius: '46px' }}>댓글달기</Button>
+                            <Button sx={{ p: '4px 23px', backgroundColor: '#000000', fontSize: '14px', fontWeight: 400, color: '#ffffff', borderRadius: '46px' }} onClick={()=>onPostCommentHandler()}>댓글달기</Button>
                         </Box>
                     </Card>
                 </Box>
