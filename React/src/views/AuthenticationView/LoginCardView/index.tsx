@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from 'react'
+import React, { Dispatch, KeyboardEvent, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie';
 import { Box, TextField, FormControl, InputLabel, Input, InputAdornment, IconButton, Button } from '@mui/material'
 import { Typography } from '@mui/material'
@@ -31,9 +31,13 @@ export default function LoginCardView({ setLoginView }: Props) {
     const[email,setEmail]= useState<string>('');
     const[password,setpassword] = useState<string>('');
     const [showPassword, setshowPassword] = useState<boolean>(false);
+    const [loginError,setLoginError] = useState<boolean>(false); 
     const {setUser} = useUserStore(); 
     //          HOOK          //
     const navigator = useNavigate();
+
+    const passwordRef = useRef<HTMLInputElement|null>(null);
+    const loginButtonRef = useRef<HTMLButtonElement | null>(null);
 
     // useEffect(() => {
     //     window.addEventListener("beforeunload", deleteCookie);
@@ -75,12 +79,29 @@ export default function LoginCardView({ setLoginView }: Props) {
         
 
     }
+
+    const onPasswordKeyPressHandler = (event:KeyboardEvent<HTMLDivElement>) =>{
+        // ^ Enter 키만 눌러도 로그인 가능 
+        if(event.key !=='Enter') return;
+        onLoginHandler();
+
+    }
+
+    const onEmailKeyPressHandler = (event:KeyboardEvent<HTMLDivElement>) =>{
+        if(event.key !== 'Tab'){
+            return;
+        }
+        if(!passwordRef.current) return;
+        (passwordRef as any).current?.lastChild?.firstChild?.focus();
+
+
+    }
     //          Response Handler          //
     const signInResponseHandler = (response : AxiosResponse<any, any>) =>{
 
         const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
         if(!result || !data){
-            alert("로그인 정보가 잘못되었습니다");
+            setLoginError(true);
             return;
         }
         
@@ -106,11 +127,12 @@ export default function LoginCardView({ setLoginView }: Props) {
 
             <Box>
                 <Typography variant='h4' fontWeight='900'>로그인</Typography>
-                <TextField sx={{ mt: '40px' }} fullWidth label="E-mail" variant="standard" onChange={(event)=>setEmail(event.target.value)}/>
+                <TextField error={loginError} sx={{ mt: '40px' }} fullWidth label="E-mail" variant="standard" onChange={(event)=>setEmail(event.target.value)} onKeyPress={(event)=>onEmailKeyPressHandler(event)}/>
 
-                <FormControl fullWidth variant="standard" sx={{ mt: '40px' }}>
+                <FormControl error={loginError} ref = {passwordRef} fullWidth variant="standard" sx={{ mt: '40px' }}>
                     <InputLabel>비밀번호</InputLabel>
                     <Input
+                       
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
                             <InputAdornment position="end">
@@ -123,13 +145,23 @@ export default function LoginCardView({ setLoginView }: Props) {
                             </InputAdornment>
                         }
                         onChange={(event)=>setpassword(event.target.value)}
+                        onKeyPress={(event)=>onPasswordKeyPressHandler(event)}
                     />
                 </FormControl>
 
             </Box>
 
             <Box>
-                <Button sx={{ mb: '20px' }} fullWidth variant="contained" size='large' onClick={onLoginHandler}>로그인</Button>
+                {
+                    (loginError &&
+                
+                <Box sx={{margin:' 12px '}}>
+                    <Typography sx={{fontSize='12px',color:'red',opacity:'0.7'}}>이메일 주소 또는 비밀번호를 잘못 입력했습니다.</Typography>
+                    <Typography sx={{fontSize='12px',color:'red',opacity:'0.7'}}>입력하신 내용을 다시 확인 해 주세요.</Typography>
+                </Box>
+
+                    )}
+                <Button  sx={{ mb: '20px' }} fullWidth variant="contained" size='large' onClick={onLoginHandler}>로그인</Button>
                 <Typography textAlign={'center'}>신규 사용자 이신가요?
                                                                         {/* LoginCardView함수에서 매개변수로 받았던 setLoginView를 클릭하면 false로 바뀐다 ==> 
                                                                         원래 가장 먼저 불렸던 AuthenticView 연결되어있던 AuthenticView에서 LoginView가 false로 바뀌면서 LoginCardView에서 SignInCardView 함수로 바뀐다 
