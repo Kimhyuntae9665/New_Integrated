@@ -163,7 +163,7 @@ export default function BoardDetailView() {
             alert('권한이 없습니다.');
             return;
         }
-
+        // ^ axios.delete 라는 함수 자체에 이미 delete 라는 기능이 담겨져 있다 
         axios.delete(DELETE_BOARD_URL(boardNumber as string) ,authorizationHeader(accessToken))
             .then((response)=>deleteBoardResponseHandler(response))
             .catch((error)=>deleteBoardErrorHandler(error));
@@ -171,11 +171,13 @@ export default function BoardDetailView() {
 
     const deleteBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
         const {result,message,data} = response.data as ResponseDto<DeleteBoardResponseDto>
+        
         if( !result || !data || !data.resultStatus){
             alert(message);
             return;
         }
 
+    // ^ 삭제 후 메인 화면으로 돌려 버리는 것 
         navigator('/');
     }
 

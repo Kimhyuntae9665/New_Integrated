@@ -31,3 +31,5 @@ export const POST_COMMENT_URL = `${HOST}api/board/comment`;
 
 export const DELETE_BOARD_URL = (boardNumber:string)=> `${HOST}api/board/${boardNumber}`;
 
+export const PATCH_BOARD_URL = `${HOST}api/board/`;
+
