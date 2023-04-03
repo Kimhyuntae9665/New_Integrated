@@ -1,5 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 import { Avatar, Box, Card, Divider, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -23,11 +24,13 @@ import axios, { AxiosResponse } from 'axios';
 import { DeleteBoardResponseDto, GetBoardResponseDto, LikeResponseDto, PostCommentResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
 import { authorizationHeader, DELETE_BOARD_URL, GET_BOARD_URL, LIKE_URL, POST_COMMENT_URL } from 'src/constants/api';
-import { useCookies } from 'react-cookie';
+
 import { LikeDto, PostCommentDto } from 'src/apis/request/board';
 
 export default function BoardDetailView() {
 
+
+    //           Hook               //
     const[cookies] = useCookies();
 
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
@@ -52,28 +55,12 @@ export default function BoardDetailView() {
     const accessToken = cookies.accessToken;
 
     const { user } = useUserStore();
-
+    //              Event Handler               //
     const getBoard = () =>{
         
         axios.get(GET_BOARD_URL(boardNumber as string))
             .then((response)=>getBoardResponseHandler(response))
             .catch((error)=>getBoardErrorHandler(error));
-    }
-
-    const getBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
-        const{result,message,data} = response.data as ResponseDto<GetBoardResponseDto>
-        if(!result || !data){
-            alert(message);
-            navigator('/');
-            return;
-        }
-
-        setBoardResponse(data);
-
-    }
-
-    const getBoardErrorHandler = (error:any) => {
-        console.log(error.message);
     }
 
     const onMenuClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
@@ -100,6 +87,18 @@ export default function BoardDetailView() {
             .then((response)=>likeReponseHandler(response))
             .catch((error)=>likeErrorHandler(error))
     }
+    //              Response Handler                //
+    const getBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
+        const{result,message,data} = response.data as ResponseDto<GetBoardResponseDto>
+        if(!result || !data){
+            alert(message);
+            navigator('/');
+            return;
+        }
+
+        setBoardResponse(data);
+
+    }
 
     const likeReponseHandler = (response:AxiosResponse<any,any>) =>{
         const {result,message,data} = response.data as ResponseDto<LikeResponseDto>
@@ -112,10 +111,6 @@ export default function BoardDetailView() {
 
         
 
-    }
-
-    const likeErrorHandler = (error:any)=>{
-        console.log(error.message);
     }
 
     const onPostCommentHandler =() =>{
@@ -134,6 +129,21 @@ export default function BoardDetailView() {
             .catch((error)=>postCommentErrorHandler(error));
     }
 
+    const onDeleteHandler = () =>{
+        if(!accessToken){
+            alert('로그인이 필요합니다 ');
+            return;
+        }
+        if(board?.writerEmail !== user?.email){
+            alert('권한이 없습니다.');
+            return;
+        }
+        // ^ axios.delete 라는 함수 자체에 이미 delete 라는 기능이 담겨져 있다 
+        axios.delete(DELETE_BOARD_URL(boardNumber as string) ,authorizationHeader(accessToken))
+            .then((response)=>deleteBoardResponseHandler(response))
+            .catch((error)=>deleteBoardErrorHandler(error));
+    }
+
     const postCommentResponseHandler = (response:AxiosResponse<any,any>) =>{
         const {result,message,data} = response.data as ResponseDto<PostCommentResponseDto>;
 
@@ -150,25 +160,6 @@ export default function BoardDetailView() {
        
     }
 
-    const postCommentErrorHandler = (error: any) =>{
-        console.log(error.message)
-    }
-
-    const onDeleteHandler = () =>{
-        if(!accessToken){
-            alert('로그인이 필요합니다 ');
-            return;
-        }
-        if(board?.writerEmail !== user?.email){
-            alert('권한이 없습니다.');
-            return;
-        }
-        // ^ axios.delete 라는 함수 자체에 이미 delete 라는 기능이 담겨져 있다 
-        axios.delete(DELETE_BOARD_URL(boardNumber as string) ,authorizationHeader(accessToken))
-            .then((response)=>deleteBoardResponseHandler(response))
-            .catch((error)=>deleteBoardErrorHandler(error));
-    }
-
     const deleteBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
         const {result,message,data} = response.data as ResponseDto<DeleteBoardResponseDto>
         
@@ -181,11 +172,6 @@ export default function BoardDetailView() {
         navigator('/');
     }
 
-    const deleteBoardErrorHandler = (error:any) =>{
-        console.log(error.message);
-    }
-
-    // ^ 좋아요를 눌러서 변경된 점 , 게시물을 바꿔서 변경된 점 , 댓글 달아 변경된 점을 수정하고 데이터 베이스에 저장해주는 함수 
     const setBoardResponse = (data:GetBoardResponseDto | LikeResponseDto | PostCommentResponseDto) =>{
         const {board,commentList,likeyList} = data;
         setBoard(board);
@@ -198,6 +184,34 @@ export default function BoardDetailView() {
         const owner = user !== null && board.writerEmail === user.email;
         setMenuFlag(owner);
     }
+
+    //            Error Handler               
+    const getBoardErrorHandler = (error:any) => {
+        console.log(error.message);
+    }
+
+
+    
+
+    const likeErrorHandler = (error:any)=>{
+        console.log(error.message);
+    }
+
+
+
+    const postCommentErrorHandler = (error: any) =>{
+        console.log(error.message)
+    }
+
+
+    const deleteBoardErrorHandler = (error:any) =>{
+        console.log(error.message);
+    }
+
+    // ^ 좋아요를 눌러서 변경된 점 , 게시물을 바꿔서 변경된 점 , 댓글 달아 변경된 점을 수정하고 데이터 베이스에 저장해주는 함수 
+    
+
+    //          Use Effect          //
 
     useEffect(() => {
         let isLoad = false;

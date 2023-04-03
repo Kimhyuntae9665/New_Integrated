@@ -15,6 +15,9 @@ import { PatchBoardDto } from 'src/apis/request/board';
 
 export default function BoardUpdateView() {
 
+  //        Hook        //
+  const navigator = useNavigate();
+
   const imageRef = useRef<HTMLInputElement | null>(null);
 
   const [cookies] = useCookies();
@@ -26,9 +29,39 @@ export default function BoardUpdateView() {
 
   const {boardNumber} = useParams();
 
-  const navigator = useNavigate();
+ 
 
   const accessToken = cookies.accessToken;
+
+
+  //          Event Handler         //
+
+  const onImageUploadButtonHandler = () =>{
+    if(!imageRef.current) return;
+    imageRef.current.click();
+  }
+
+  const onUpdateButtonHandler = () =>{
+      // ? 제목과 내용이 존재하는지 검증 
+      if(!boardTitle.trim() || !boardContent.trim()){
+        alert('모든 내용을 입력해 주세요 ');
+        return;
+      }
+      
+
+      patchBoard();
+  }
+  //  TODO : DetailView, BoardUpdateView, MyPageHead에서 중복 
+  //  TODO : Hook 또는 외부 함수로 변경 
+  const onImageUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) =>{
+    if(!event.target.files) return;
+    const data = new FormData();
+    data.append('file',event.target.files[0]);
+
+    axios.post(FILE_UPLOAD_URL,data,multipartHeader())
+        .then((response)=>imageUploadResponseHandler(response))
+        .catch((error)=>imageUploadErrorHandler(error));
+  }
 
   // ^ 게시물 수정 (수정과 삭제 함께있는 버튼 에서의 수정 기능 ) 함수 3/31일 
   const getBoard = () =>{
@@ -52,16 +85,8 @@ export default function BoardUpdateView() {
         .catch((error)=>patchBoardErrorHandler(error));
   }
 
-  // !aaaaaaaaaaa
-  const onImageUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) =>{
-    if(!event.target.files) return;
-    const data = new FormData();
-    data.append('file',event.target.files[0]);
 
-    axios.post(FILE_UPLOAD_URL,data,multipartHeader())
-        .then((response)=>imageUploadResponseHandler(response))
-        .catch((error)=>imageUploadErrorHandler(error));
-  }
+  //          Response Handler          //
 
   const getBoardResponseHandler = (response:AxiosResponse<any,any>)=>{
     const{result,message,data} = response.data as ResponseDto<GetBoardResponseDto>;
@@ -81,8 +106,10 @@ export default function BoardUpdateView() {
 
   }
 
-  const getBoardErrorHandler = (error:any)=>{
-    console.log(error);
+  const imageUploadResponseHandler = (response:AxiosResponse<any,any>) =>{
+    const imageUrl = response.data as string;
+    if(!imageUrl) return;
+    setBoardImgUrl(imageUrl);
   }
 
   const patchBoardResponseHandler = (response:AxiosResponse<any,any>) =>{
@@ -94,38 +121,23 @@ export default function BoardUpdateView() {
     navigator(`/board/detail/${boardNumber}`);
   }
 
+  //          Error Handler           //
+  const getBoardErrorHandler = (error:any)=>{
+    console.log(error);
+  }
+
+
   const patchBoardErrorHandler = (error:any) =>{
     console.log(error.message);
   }
 
 
-
-  const imageUploadResponseHandler = (response:AxiosResponse<any,any>) =>{
-    const imageUrl = response.data as string;
-    if(!imageUrl) return;
-    setBoardImgUrl(imageUrl);
-  }
-
   const imageUploadErrorHandler = (error:any) =>{
     console.log(error.message);
   }
 
-  const onImageUploadButtonHandler = () =>{
-    if(!imageRef.current) return;
-    imageRef.current.click();
-  }
-
-  const onUpdateButtonHandler = () =>{
-      // ? 제목과 내용이 존재하는지 검증 
-      if(!boardTitle.trim() || !boardContent.trim()){
-        alert('모든 내용을 입력해 주세요 ');
-        return;
-      }
-      
-
-      patchBoard();
-  }
-
+  
+//         Use Effect          //
   useEffect(()=>{
     // ? 정상적이지 않은 경로로 접근을 시도 했을 때에 
     // ? main화면으로 돌려보냄 

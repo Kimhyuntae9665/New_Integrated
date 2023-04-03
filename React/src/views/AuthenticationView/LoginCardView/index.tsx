@@ -1,4 +1,5 @@
 import React, { Dispatch, useEffect } from 'react'
+import { useCookies } from 'react-cookie';
 import { Box, TextField, FormControl, InputLabel, Input, InputAdornment, IconButton, Button } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useState } from 'react'
@@ -15,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_URL } from 'src/constants/api';
 import { SignInDto } from 'src/apis/request/auth';
 import { SignInResponseDto } from 'src/apis/response/auth';
-import { useCookies } from 'react-cookie';
+
 import { getExpires } from 'src/utils';
 
 interface Props {
@@ -31,7 +32,7 @@ export default function LoginCardView({ setLoginView }: Props) {
     const[password,setpassword] = useState<string>('');
     const [showPassword, setshowPassword] = useState<boolean>(false);
     const {setUser} = useUserStore(); 
-
+    //          HOOK          //
     const navigator = useNavigate();
 
     // useEffect(() => {
@@ -45,7 +46,7 @@ export default function LoginCardView({ setLoginView }: Props) {
     // const deleteCookie = ()=>{
     //     removeCookie("accessToken");
     // }
-
+    //          Event Handler          //
     const onLoginHandler = () => {
         // ? email 입력했는지 검증 
         // ? password 입력했는지 검증
@@ -74,7 +75,7 @@ export default function LoginCardView({ setLoginView }: Props) {
         
 
     }
-
+    //          Response Handler          //
     const signInResponseHandler = (response : AxiosResponse<any, any>) =>{
 
         const {result,message,data} = response.data as ResponseDto<SignInResponseDto>;
@@ -94,7 +95,7 @@ export default function LoginCardView({ setLoginView }: Props) {
         navigator('/');
 
         }
-
+    //          Error Handler          //
     const signInErrorHandler=(error:any)=>{
 
         console.log(error.message);

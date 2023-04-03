@@ -13,8 +13,10 @@ import { SIGN_UP_URL } from 'src/constants/api';
 
 
 
-
+//          Component          //
 function FirstPage(){
+
+    //          HOOK          //
     const{setEmail,setpassword,setpasswordCheck} = useSignUpStore();
     const{email,password,passwordCheck} = useSignUpStore();
 
@@ -63,8 +65,9 @@ function FirstPage(){
         </Box>
     )
 }
-
+//          Component          //
 function SecondPage(){
+    //          Hook          //
     const {nickname,telNumber,address,addressDetail} = useSignUpStore();
     const {setNickname,settelNumber,setaddress,setaddressDetail} = useSignUpStore();
 
@@ -109,12 +112,14 @@ interface Props{
 
 export default function SignUpCardView({setLoginView}:Props) {
 
+    //          HOOK          //
     const [page,setPage] = useState<number>(1);
 
     const {email,password,passwordCheck} = useSignUpStore();
 
     const{nickname,telNumber,address,addressDetail} = useSignUpStore();
 
+    //          Evenet Handler          //
     const onNextButtonHandler = ()=>{  //! {} 이므로 조건문 사용 가능 
         //todo : 이메일 /비밀번호/비밀번호 확인 검증 
         // ? 해당 문자열 변수가 빈값인지 확인 
