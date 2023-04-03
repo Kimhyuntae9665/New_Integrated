@@ -12,7 +12,8 @@ import { authorizationHeader, FILE_UPLOAD_URL, multipartHeader, POST_BOARD_URL }
 
 
 export default function BoardWriteView() {
-
+//          Hook          //
+  const navigator = useNavigate();
   const imageRef = useRef< HTMLInputElement | null >(null);
 
   const [cookies] = useCookies();
@@ -20,34 +21,16 @@ export default function BoardWriteView() {
   const [boardContent,setBoardContent]= useState<string>(''); 
   const [boardImgUrl,setBoardImgUrl] = useState<string>('');
 
-  const navigator = useNavigate();
+  
 
   const accessToken = cookies.accessToken;
-
+//          Event Handler         //
   const postBoard = () =>{
     const data:PostBoardDto = { boardTitle,boardContent,boardImgUrl};
 
     axios.post(POST_BOARD_URL,data,authorizationHeader(accessToken))
         .then((response)=>postBoardResponseHandler(response))
         .catch((error)=>postBoardErrorHandler(error));
-  }
-
-  const postBoardResponseHandler = (response: AxiosResponse<any,any>) =>{
-    const {result,message,data} = response.data as ResponseDto<PostBoardResponseto>;
-    if(!result || !data){
-      alert(message);
-      return;
-    }
-
-    navigator('/myPage');
-
-
-
-  }
-
-
-  const postBoardErrorHandler= (error: any) =>{
-    console.log(error.message);
   }
 
   const onImageUploadButtonHandler = () =>{
@@ -72,18 +55,6 @@ export default function BoardWriteView() {
 
   }
 
-  const imageUploadResponseHandler = (response:AxiosResponse<any,any>)=>{
-    const imageUrl = response.data as string;
-    if(!imageUrl) return;
-    // ^ F12 키 후 Network preview에서의 정보인 http://localhost:4040/file/9576cef5-cef5-4ddd-87b8-2c481496ebb1.png 
-    // ^이게 imageUrl에 들어가서 setBoardImgUrl 에 인수로 들어가서 화면에 보이는 거 
-    setBoardImgUrl(imageUrl);
-  }
-
-  const imageUploadErrorHandler = (error:any)=>{
-    console.log(error.message);
-  }
-
   const onWriteHandler = () =>{ //Fab 눌러서 작성완료 할려 할때 
     //? 제목 및 내용 검증 
     if(!boardTitle.trim() || !boardContent.trim()){
@@ -95,6 +66,40 @@ export default function BoardWriteView() {
     
   }
 
+//          Response Handler        //
+  const postBoardResponseHandler = (response: AxiosResponse<any,any>) =>{
+    const {result,message,data} = response.data as ResponseDto<PostBoardResponseto>;
+    if(!result || !data){
+      alert(message);
+      return;
+    }
+
+    navigator('/myPage');
+
+
+
+  }
+
+  const imageUploadResponseHandler = (response:AxiosResponse<any,any>)=>{
+    const imageUrl = response.data as string;
+    if(!imageUrl) return;
+    // ^ F12 키 후 Network preview에서의 정보인 http://localhost:4040/file/9576cef5-cef5-4ddd-87b8-2c481496ebb1.png 
+    // ^이게 imageUrl에 들어가서 setBoardImgUrl 에 인수로 들어가서 화면에 보이는 거 
+    setBoardImgUrl(imageUrl);
+  }
+
+//          Error Handler           //
+  const postBoardErrorHandler= (error: any) =>{
+    console.log(error.message);
+  }
+
+
+  const imageUploadErrorHandler = (error:any)=>{
+    console.log(error.message);
+  }
+
+  
+//          Use Effect          //
   useEffect(()=>{
 
     if(!accessToken){

@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+
+import axios, { AxiosResponse } from 'axios';
 
 import { Box, Grid, Pagination, Stack, Typography } from '@mui/material'
-import PopularCard from 'src/components/PopularCard'
-import { useParams } from 'react-router-dom'
-import { IpreviewItem } from 'src/interfaces';
 
+
+import PopularCard from 'src/components/PopularCard'
+import { IpreviewItem } from 'src/interfaces';
 import { BOARD_LIST } from 'src/mock';
 import BoardListItem from 'src/components/BoardListItem';
 import { getPageCount } from 'src/utils';
 import { usePagingHook } from 'src/hooks';
-import axios, { AxiosResponse } from 'axios';
 import { GetSearchListResponseDto, GetTop15RelatedSearchWordResponseDto } from 'src/apis/response/board';
 import ResponseDto from 'src/apis/response';
 import { GET_SEARCH_LIST_URL, GET_TOP15_RELATED_SEARCH_WORD_LIST } from 'src/constants/api';
 
 export default function SearchView() {
 
+    //              Hook                //
+
     const { content } = useParams();
     const { viewList, pageNumber, boardList, setBoardList, onPageHandler, COUNT } = usePagingHook(5);
     const [popularList,setPopularList] = useState<string[]>([]);
-
+    //          Event Handler           //
    const getSearchList = ()=>{
      axios.get(GET_SEARCH_LIST_URL(content as string))
             .then((response)=>getSearchListResponseHandler(response))
@@ -31,28 +35,29 @@ export default function SearchView() {
         .then((response)=>getTop15RelatedSearchWordResponseHandler(response))
         .catch((error)=>getTop15RelatedSearchWordErrorHandler(error));
    }
-
+//        Response Handler            //
    const getSearchListResponseHandler = (response: AxiosResponse<any, any>) => {
     const { result, message, data } = response.data as ResponseDto<GetSearchListResponseDto[]>;
     if (!result || data == null) return;
     setBoardList(data);
 }
 
+const getTop15RelatedSearchWordResponseHandler = (response:AxiosResponse<any,any>)=>{
+    const {result,message,data} = response.data as ResponseDto<GetTop15RelatedSearchWordResponseDto>
+    if(!result || !data) return;
+    setPopularList(data.top15SearchWordList);
+}
+//              Error Handler               //
    const getSearchListErrorHandler = (error:any)=>{
     console.log(error.message);
-   }
-
-   const getTop15RelatedSearchWordResponseHandler = (response:AxiosResponse<any,any>)=>{
-        const {result,message,data} = response.data as ResponseDto<GetTop15RelatedSearchWordResponseDto>
-        if(!result || !data) return;
-        setPopularList(data.top15SearchWordList);
    }
 
    const getTop15RelatedSearchWordErrorHandler = (error:any) =>{
         console.log(error.message);
    }
 
-
+   
+//              Use Effect                 //        
     useEffect(() => {
         //# array.filter(요소 => 조건)
         //? 특정한 조건에 부합하는 요소만 모아서 새로운 배열로 만들어 반환하는 메서드

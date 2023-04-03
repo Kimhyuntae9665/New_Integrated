@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {useState} from 'react';
+
+
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,15 +14,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { red } from '@mui/material/colors';
 import { Button,FormControl,OutlinedInput,InputAdornment } from '@mui/material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {useState} from 'react';
+
 import { useUserStore } from 'src/stores';
 
 
 
 
 export default function NavigationBar() {
-
+  //          Hook          //
   // ^ useState 는 변수 값 초기화 필수 
   const [content,setContent] = useState<string>('');
 
@@ -27,7 +30,7 @@ export default function NavigationBar() {
   const navigator = useNavigate();
   const path = useLocation();
 
-
+//        Event Handler         //
   const onSearchHandler = () =>{
     // trim() 사용 해서 뛰어쓰기도 모두 제거
     if(!content.trim()) {

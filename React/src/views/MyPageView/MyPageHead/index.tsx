@@ -1,18 +1,24 @@
 import React, {useRef,ChangeEvent,useEffect}from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
 import {Box,Avatar} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+
+
 import { useUserStore } from 'src/stores';
 import { authorizationHeader, FILE_UPLOAD_URL, multipartHeader, PATCH_PROFILE_URL } from 'src/constants/api';
 import axios, { AxiosResponse } from 'axios';
 import { PatchProfileDto } from 'src/apis/request/user';
 import { PatchProfileResponseDto } from 'src/apis/response/user';
 import ResponseDto from 'src/apis/response';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
+
 
 export default function MyPageHead() {
+
+    //                  Hook                //
 
     const imageRef = useRef<HTMLInputElement | null>(null); 
 
@@ -21,7 +27,7 @@ export default function MyPageHead() {
     const navigator = useNavigate();
 
     const accessToken = cookies.accessToken;
-
+    //                  Event Handler               //
     const onProfileUploadButtonHandler =()=>{
         if(!imageRef.current) return;
         imageRef.current.click();
@@ -36,6 +42,14 @@ export default function MyPageHead() {
             .catch((error)=>imageUploadErrorHandler(error))
     }
 
+
+    const onLogoutHandler = ()=>{
+        //  TODO : 로그아웃 처리 안됨 해결 해야 한다 
+        setCookies('accessToken','',{expires: new Date()});
+        resetUser();
+        navigator('/')
+    }
+    //              Response Handler            //
     const imageUploadResponseHandler=(response:AxiosResponse<any,any>)=>{
         const profile = response.data as string;
         const data: PatchProfileDto = {profile};
@@ -44,10 +58,6 @@ export default function MyPageHead() {
         axios.patch(PATCH_PROFILE_URL,data,authorizationHeader(accessToken))
             .then((response)=>patchProfileResponseHandler(response))
             .catch((error)=>patchProfileErrorHandler(error))
-    }
-
-    const imageUploadErrorHandler=(error:any)=>{
-        console.log(error.message)
     }
 
     const patchProfileResponseHandler = (response:AxiosResponse<any,any>)=>{
@@ -59,17 +69,17 @@ export default function MyPageHead() {
         // ^ 여기가 프로필 User의 프로필 사진이 바뀌는 최종적인 핵심 코드 
         setUser(data);
     }
+    //              Error Handler               //
+    const imageUploadErrorHandler=(error:any)=>{
+        console.log(error.message)
+    }
 
     const patchProfileErrorHandler= (error:any) =>{
         console.log(error.message)
     }
 
-    const onLogoutHandler = ()=>{
-        setCookies('accessToken','',{expires: new Date()});
-        resetUser();
-        navigator('/')
-    }
-
+    
+    //          Use Effect                  //
     useEffect(()=>{
         
         if(!accessToken){

@@ -1,7 +1,10 @@
 import React, { useState ,useEffect} from 'react'
-import {Card,Typography,Box,Chip} from '@mui/material';
-import { POPULAR_LIST } from 'src/mock';
 import { useNavigate } from 'react-router-dom';
+
+import {Card,Typography,Box,Chip} from '@mui/material';
+
+import { POPULAR_LIST } from 'src/mock';
+
 
 interface Props{
     title : string;
@@ -12,7 +15,9 @@ interface Props{
     
 export default function PopularCard({title,popularList}:Props) {
 
-    
+
+
+    //          Hook            // 
     const navigator = useNavigate();
 
    

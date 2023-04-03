@@ -1,8 +1,11 @@
-import { Avatar, Typography, Card, CardActionArea } from '@mui/material';
 
-import { Box } from '@mui/system'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+
+import { Avatar, Typography, Card, CardActionArea } from '@mui/material';
+import { Box } from '@mui/system'
+
+
 import { GetListResponseDto, GetMyListResponseDto, GetSearchListResponseDto } from 'src/apis/response/board';
 import { IpreviewItem } from 'src/interfaces';
 
