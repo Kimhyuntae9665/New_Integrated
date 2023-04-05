@@ -156,8 +156,8 @@ export default function LoginCardView({ setLoginView }: Props) {
                     (loginError &&
                 
                 <Box sx={{margin:' 12px '}}>
-                    <Typography sx={{fontSize='12px',color:'red',opacity:'0.7'}}>이메일 주소 또는 비밀번호를 잘못 입력했습니다.</Typography>
-                    <Typography sx={{fontSize='12px',color:'red',opacity:'0.7'}}>입력하신 내용을 다시 확인 해 주세요.</Typography>
+                    <Typography sx={{fontSize:'12px',color:'red',opacity:'0.7'}}>이메일 주소 또는 비밀번호를 잘못 입력했습니다.</Typography>
+                    <Typography sx={{fontSize:'12px',color:'red',opacity:'0.7'}}>입력하신 내용을 다시 확인 해 주세요.</Typography>
                 </Box>
 
                     )}
