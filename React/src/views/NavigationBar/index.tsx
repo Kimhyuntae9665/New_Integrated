@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {useState} from 'react';
+import {useState,KeyboardEvent} from 'react';
 
 
 import { styled, alpha } from '@mui/material/styles';
@@ -30,7 +30,15 @@ export default function NavigationBar() {
   const navigator = useNavigate();
   const path = useLocation();
 
+  
+
 //        Event Handler         //
+
+  const onSearchKeyPressHandler = (event:KeyboardEvent<HTMLDivElement>) =>{
+    if(event.key !== 'Enter') return;
+    onSearchHandler();
+  }
+
   const onSearchHandler = () =>{
     // trim() 사용 해서 뛰어쓰기도 모두 제거
     if(!content.trim()) {
@@ -79,6 +87,7 @@ export default function NavigationBar() {
                   </InputAdornment>
                 }
                 onChange={(event)=>setContent(event.target.value)}
+                onKeyPress = {(event)=>onSearchKeyPressHandler(event)}
               />
             </FormControl>
             

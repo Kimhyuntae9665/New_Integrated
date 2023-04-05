@@ -1,4 +1,4 @@
-import { Box, Button, Typography, TextField, FormControl, InputLabel, Input, InputAdornment, IconButton, FormHelperText } from '@mui/material'
+import { Box, Button, Typography, TextField, FormControl, InputLabel, Input, InputAdornment, IconButton, FormHelperText, Checkbox } from '@mui/material'
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
@@ -156,6 +156,12 @@ function SecondPage({ signUpError }: SecondPageProps) {
             {/* onChange={(event)=>setaddressDetail(event.target.value)}: 텍스트 입력 필드의 값이 변경될 때마다 호출되는 콜백 함수입니다.
                                                                                                       이벤트 개체를 인수로 받은 다음 event.target.value 속성을 사용하여 텍스트 입력 필드의 현재 값을 가져옵니다. 
                                                                                                       마지막으로 setAddressDetail 함수가 event.target.value 인수와 함께 호출되어 텍스트 입력 필드의 새 값으로 구성 요소의 상태를 업데이트합니다. */}
+            
+            <Box sx={{display:'flex',alignItems:'center',mt:'24px'}}>
+                <Checkbox  color="default" />
+                <Typography sx={{mr:'4px',color:'red',fontWeight:400}}>개인정보동의</Typography>
+                <Typography sx={{fontWeight:500}}>더보기&gt;</Typography>
+            </Box>
         </Box>
     );
 }
