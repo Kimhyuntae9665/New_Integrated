@@ -45,7 +45,7 @@ export default function MyPageHead() {
 
     const onLogoutHandler = ()=>{
         //  TODO : 로그아웃 처리 안됨 해결 해야 한다 
-        setCookies('accessToken','',{expires: new Date()});
+        setCookies('accessToken','',{expires: new Date(),path:'/'});
         resetUser();
         navigator('/')
     }

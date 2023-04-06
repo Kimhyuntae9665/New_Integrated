@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useRef, ChangeEvent } from 'react'
+import React, { useState,useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react'
 import {Box,Divider,IconButton,Input,Fab} from '@mui/material'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CreateIcon from '@mui/icons-material/Create';
@@ -25,6 +25,17 @@ export default function BoardWriteView() {
 
   const accessToken = cookies.accessToken;
 //          Event Handler         //
+const onBoardContentChangeHandler = (event:ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>{
+  const value = event.target.value;
+  console.log(value);
+  setBoardContent(value);
+}
+
+const onBoardContentKeyPressHandler = (event:KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) =>{
+  if(event.key !='Enter') return;
+  setBoardContent(boardContent + '\n');
+}
+
   const postBoard = () =>{
     const data:PostBoardDto = { boardTitle,boardContent,boardImgUrl};
 
@@ -121,7 +132,7 @@ export default function BoardWriteView() {
            
            
           <Box sx={{width:'100%'}}>                                 {/*multiline으로 Enter가능 하게  minRows={최소 라인 수 처음부터 } */}
-            <Input fullWidth disableUnderline  multiline minRows={5} maxRows={50}  placeholder='본문을 작성해 주세요' sx={{fontSize:'18px',fontWeight:500,lineHeight:'150%'}} onChange={(event)=>setBoardContent(event?.target.value)}/>
+            <Input fullWidth disableUnderline  multiline minRows={5} maxRows={50}  placeholder='본문을 작성해 주세요' sx={{fontSize:'18px',fontWeight:500,lineHeight:'150%'}} onChange={(event)=>onBoardContentChangeHandler(event)} />
             <Box sx={{width:'100%'}} component='img' src ={boardImgUrl}/>
           </Box>  
 
