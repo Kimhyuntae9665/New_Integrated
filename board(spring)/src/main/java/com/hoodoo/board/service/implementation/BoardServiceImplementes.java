@@ -1,5 +1,10 @@
 package com.hoodoo.board.service.implementation;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.Temporal;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
@@ -283,6 +288,9 @@ public class BoardServiceImplementes implements BoardService{
             if(!isEqualWriter){
                 return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
             }
+            // ! 게시물을 삭제할때는 그 게시물을 참조하고 있는 댓글과 좋아요를 먼저 삭제해 줘야 한다 아니면 게시물 삭제시 에러가 뜬다 
+            commentRepository.deleteByBoardNumber(boardNumber);
+            likeyRepository.deleteByBoardNumber(boardNumber);
 
             boardRepository.delete(boardEntity);
             data = new DeleteBoardResponseDto(true);
@@ -342,10 +350,14 @@ public class BoardServiceImplementes implements BoardService{
 
     @Override
     public ResponseDto<List<GetTop3ListResponseDto>> getTop3List() {
+
         List<GetTop3ListResponseDto> data = null;
+        Date aWeekAgoDate = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd:mm:ss");
+        String aWeekAgo = simpleDateFormat.format(aWeekAgoDate);
 
         try{
-            List<BoardEntity> boardList = boardRepository.findTop3ByOrderByLikeCountDesc();
+            List<BoardEntity> boardList = boardRepository.findTop3ByBoardWriteDatetimeGreaterThanOrderByLikeCountDesc(aWeekAgo);
             data =  GetTop3ListResponseDto.copyList(boardList);
             
         }catch(Exception exception){

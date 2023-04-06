@@ -31,6 +31,7 @@ public class AuthServiceImplements implements AuthService {
         SignUpResponseDto data = null;
 
         String email = dto.getEmail();
+        String nickname = dto.getNickname();
         String telNumber = dto.getTelNumber();
         String password = dto.getPassword();
 
@@ -43,6 +44,11 @@ public class AuthServiceImplements implements AuthService {
             if(hasEmail){
                 return ResponseDto.setFailed(ResponseMessage.EXIST_EMAIL);
             }
+
+            boolean hasNickname = userRepository.existsByNickname(nickname);
+            if(hasNickname) return ResponseDto.setFailed(ResponseMessage.EXIST_NICKNAME);
+
+
             boolean hasTelNumber = userRepository.existsByTelNumber(telNumber);
             if(hasTelNumber){
                 return ResponseDto.setFailed(ResponseMessage.EXIST_TEL_NUMBER);

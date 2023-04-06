@@ -5,9 +5,15 @@ import org.springframework.stereotype.Service;
 
 import com.hoodoo.board.common.constant.ResponseMessage;
 import com.hoodoo.board.dto.request.user.PatchProfileDto;
+import com.hoodoo.board.dto.request.user.ValidateEmailDto;
+import com.hoodoo.board.dto.request.user.ValidateNicknameDto;
+import com.hoodoo.board.dto.request.user.ValidateTelNumberDto;
 import com.hoodoo.board.dto.response.ResponseDto;
 import com.hoodoo.board.dto.response.user.GetUserResponseDto;
 import com.hoodoo.board.dto.response.user.PatchProfileResponseDto;
+import com.hoodoo.board.dto.response.user.ValidateEmailResponseDto;
+import com.hoodoo.board.dto.response.user.ValidateNicknameResponseDto;
+import com.hoodoo.board.dto.response.user.ValidateTelNumberResponseDto;
 import com.hoodoo.board.entity.UserEntity;
 import com.hoodoo.board.repository.UserRepository;
 import com.hoodoo.board.service.UserService;
@@ -51,6 +57,8 @@ public class UserServiceImplements implements UserService {
 
     @Override
     public ResponseDto<GetUserResponseDto> getUser(String email) {
+
+
         
         GetUserResponseDto data = null;
 
@@ -73,4 +81,81 @@ public class UserServiceImplements implements UserService {
         return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
     }
     
+
+    public ResponseDto<ValidateEmailResponseDto> validateEmail(ValidateEmailDto dto) {
+        ValidateEmailResponseDto data = null;
+
+        String email = dto.getEmail();
+
+        try{
+
+            boolean hasEmail = userRepository.existsByEmail(email);
+            data = new ValidateEmailResponseDto(hasEmail);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+    }
+
+
+    public ResponseDto<ValidateNicknameResponseDto> validateNickname(ValidateNicknameDto dto) {
+
+    
+
+        ValidateNicknameResponseDto data = null;
+
+        String nickname = dto.getNickname();
+
+        try{
+
+            boolean hasNickname = userRepository.existsByNickname(nickname);
+            data = new ValidateNicknameResponseDto(hasNickname);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+
+
+
+    }
+
+   
+   
+    public ResponseDto<ValidateTelNumberResponseDto> validateTelNumber(ValidateTelNumberDto dto){
+
+        ValidateTelNumberResponseDto data = null;
+
+        String telNumber = dto.getTelNumber();
+
+
+        try{
+
+            boolean hasTelNumber = userRepository.existsByNickname(telNumber);
+            data = new ValidateTelNumberResponseDto(hasTelNumber);
+
+
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSucess(ResponseMessage.SUCCESS, data);
+
+    }
+
+
+
 }
+
+    
+
+    
+
+    

@@ -14,5 +14,6 @@ public interface ResponseMessage {
     public static final String NOT_EXIST_USER = "Does Not Exist User";  
     public static final String NOT_EXIST_BOARD = "Does Not Exist Board";
     public static final String NOT_PERMISSION = "Does not have Permission";
+    public static final String EXIST_NICKNAME = "Already Exist Nickname";
     
 }
